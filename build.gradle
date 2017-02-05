@@ -1,0 +1,133 @@
+buildscripts {
+    ext.kotlin_version = '1.0.5-2'
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'forge'
+
+version = "0.0.1"
+group = "pharaun.Gregtania"
+archivesBaseName = "Gregtania"
+
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
+
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java']
+        resources.srcDirs = ['src/main/resources']
+        resources.excludes = ['*']
+        kotlin.srcDirs = ['src/main/java']
+    }
+}
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
+}
+
+//configurations {
+//    external
+//    compile.extendsFrom external
+//}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "codechicken"
+        url = "http://chickenbones.net/maven"
+    }
+    maven {
+        name = "mobiusstrip"
+        url = "http://mobiusstrip.eu/maven/"
+    }
+}
+
+dependencies {
+    // Jars into ./libs or defined below
+    external "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+    external "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "mcp.mobius.waila:Waila:1.5.11-RC2-NONEI_1.7.10:dev"
+}
+
+jar {
+    manifest {
+        attributes 'Built-By': 'pharaun666'
+        attributes 'Build-Date': new Date().format("yyyy-MM-dd HH:mm:ss")
+        attributes 'Built-JDK': System.getProperty('java.version')
+        attributes 'Implementation-Title': project.name
+//        attributes 'Implementation-URL': 'https://github.com/Electrical-Age'
+//        attributes 'Implementation-Vendor': 'Electrical-Age Team'
+//        attributes 'Implementation-Vendor-Id': 'net.electricalage.eln'
+//        attributes 'Project-Url': 'https://electrical-age.net/'
+        attributes 'Source-Compatibility': project.sourceCompatibility
+        attributes 'Target-Compatibility': project.targetCompatibility
+    }
+
+    // Copy libs jar files
+    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude(['ic2/**', 'li/**', 'buildcraft/**'])
+
+    // Add README and LICENSE to the release jar
+    from(['README.md', 'LICENSE.md'])
+
+    // Asset whitelist to copy the required asset files into the release jar.
+    // Ignore files not used in Minecraft to reduce the release jar size.
+    // Copy main files
+    from('src/main/resources/assets/gregtania/') {
+        include 'logo.png'
+        into 'assets/gregtania/'
+    }
+
+    // Copy language files
+    from('src/main/resources/assets/gregtania/lang') {
+        include '*.lang'
+        into 'assets/gregtania/lang'
+    }
+
+    // Copy texture
+    from('src/main/resources/assets/gregtania/textures') {
+        include '**/*.png'
+        into 'assets/gregtania/textures'
+    }
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}

@@ -1,0 +1,12 @@
+[{
+    "modid": "Gregtania",
+    "name": "Gregtania Core",
+    "description": "Core mod adding few essential items to SkyGreg modpack",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authors": ["pharaun666"],
+    "credits": "GregoriousT for GregTech, Blood-Asp for GregTech Exp",
+    "logoFile": "assets/gregtania/logo.png",
+    "dependencies": ["gregtech_addon"],
+    "requiredMods": ["Forge"]
+}]
