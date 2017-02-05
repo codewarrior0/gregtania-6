@@ -1,11 +1,11 @@
 [{
     "modid": "Gregtania",
-    "name": "Gregtania Core",
-    "description": "Core mod adding few essential items to SkyGreg modpack",
+    "name": "Gregtania",
+    "description": "Adding gregtech ores to botania",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "authors": ["pharaun666"],
-    "credits": "GregoriousT for GregTech, Blood-Asp for GregTech Exp",
+    "credits": "GregoriousT for GregTech, Blood-Asp for GregTech Exp, Vakzii for Botania",
     "logoFile": "assets/gregtania/logo.png",
     "dependencies": ["gregtech_addon"],
     "requiredMods": ["Forge"]

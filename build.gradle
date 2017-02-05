@@ -1,4 +1,4 @@
-buildscripts {
+buildscript {
     ext.kotlin_version = '1.0.5-2'
     repositories {
         mavenCentral()
@@ -24,8 +24,8 @@ version = "0.0.1"
 group = "pharaun.Gregtania"
 archivesBaseName = "Gregtania"
 
-targetCompatibility = '1.8'
-sourceCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 sourceSets {
     main {
@@ -41,10 +41,10 @@ minecraft {
     runDir = "eclipse"
 }
 
-//configurations {
-//    external
-//    compile.extendsFrom external
-//}
+configurations {
+    external
+    compile.extendsFrom external
+}
 
 repositories {
     mavenCentral()
@@ -59,10 +59,17 @@ repositories {
 }
 
 dependencies {
-    // Jars into ./libs or defined below
+    // Kotlin
     external "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
     external "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Minecraft
     compile "mcp.mobius.waila:Waila:1.5.11-RC2-NONEI_1.7.10:dev"
+
+    // Chicken bones
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.138:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev"
 }
 
 jar {

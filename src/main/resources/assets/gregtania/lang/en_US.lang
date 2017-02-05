@@ -1,0 +1,56 @@
+tile.botania:flower.gregtania.evolvedOrechidI.name=Orechid I
+tile.botania:flower.gregtania.evolvedOrechidI.reference=Orechid: Gregged
+tile.botania:flower.gregtania.evolvedOrechidI.page.0=There is no mining of ores in this world. The &1Orechid I&0 will use &4Mana&0 to generate &4ores&0 in nearby &1Stone&0 blocks.<br>The ores it generates is random, biased toward more common ores rather than rarer ones.<br>The ores generated is tiered by mining level.
+tile.botania:flower.gregtania.evolvedOrechidI.page.1=&oStill not dragon poop though&r.
+
+tile.botania:flower.gregtania.evolvedOrechidII.name=Orechid II
+tile.botania:flower.gregtania.evolvedOrechidII.reference=Orechid: Gregged^2
+tile.botania:flower.gregtania.evolvedOrechidII.page.0=This &1Orechid II&0 is even stronger than the previous one.
+tile.botania:flower.gregtania.evolvedOrechidII.page.1=&oStill not dragon poop though&r.
+
+tile.botania:flower.gregtania.evolvedOrechidIII.name=Orechid III
+tile.botania:flower.gregtania.evolvedOrechidIII.reference=Orechid: Gregged^3
+tile.botania:flower.gregtania.evolvedOrechidIII.page.0=This &1Orechid III&0 is even stronger than the previous one.
+tile.botania:flower.gregtania.evolvedOrechidIII.page.1=&oStill not dragon poop though&r.
+
+tile.botania:flower.gregtania.evolvedOrechidIV.name=Orechid IV
+tile.botania:flower.gregtania.evolvedOrechidIV.reference=Orechid: Gregged^4
+tile.botania:flower.gregtania.evolvedOrechidIV.page.0=This &1Orechid IV&0 is the last answer in overworld ores!
+tile.botania:flower.gregtania.evolvedOrechidIV.page.1=&oStill not dragon poop though&r.
+
+
+tile.botania:flower.gregtania.evolvedOrechidIgnemI.name=Orechid Ignem I
+tile.botania:flower.gregtania.evolvedOrechidIgnemI.reference=Orechid Ignem: Burning
+tile.botania:flower.gregtania.evolvedOrechidIgnemI.page.0=There is no mining of ores in this world. The &1Orechid Ignem I&0 will use &4Mana&0 to generate &4ores&0 in nearby &1Netherrack&0 blocks.<br>The ores it generates is random, biased toward more common ores rather than rarer ones.<br>The ores generated is tiered by mining level.<br>This only works in the Nether.
+tile.botania:flower.gregtania.evolvedOrechidIgnemI.page.1=&oMaybe dragon poop&r.
+
+tile.botania:flower.gregtania.evolvedOrechidIgnemII.name=Orechid Ignem II
+tile.botania:flower.gregtania.evolvedOrechidIgnemII.reference=Orechid Ignem: Burning^2
+tile.botania:flower.gregtania.evolvedOrechidIgnemII.page.0=This &1Orechid Ignem II&0 is even stronger than the previous one.
+tile.botania:flower.gregtania.evolvedOrechidIgnemII.page.1=&oMaybe dragon poop&r.
+
+tile.botania:flower.gregtania.evolvedOrechidIgnemIII.name=Orechid Ignem III
+tile.botania:flower.gregtania.evolvedOrechidIgnemIII.reference=Orechid Ignem: Burning^3
+tile.botania:flower.gregtania.evolvedOrechidIgnemIII.page.0=This &1Orechid Ignem III&0 is the last answer in nether ores!
+tile.botania:flower.gregtania.evolvedOrechidIgnemIII.page.1=&oMaybe dragon poop&r.
+
+
+tile.botania:flower.gregtania.evolvedOrechidEndiumI.name=Orechid Endium I
+tile.botania:flower.gregtania.evolvedOrechidEndiumI.reference=Orechid Endium: Shady
+tile.botania:flower.gregtania.evolvedOrechidEndiumI.page.0=There is no mining of ores in this world. The &1Orechid Endium I&0 will use &4Mana&0 to generate &4ores&0 in nearby &1Endstone&0 blocks.<br>The ores it generates is random, biased toward more common ores rather than rarer ones.<br>The ores generated is tiered by mining level.<br>This only works in the End.
+tile.botania:flower.gregtania.evolvedOrechidEndiumI.page.1=&oPretty sure it is organic dragon poop&r.
+
+tile.botania:flower.gregtania.evolvedOrechidEndiumII.name=Orechid Endium II
+tile.botania:flower.gregtania.evolvedOrechidEndiumII.reference=Orechid Endium: Shady^2
+tile.botania:flower.gregtania.evolvedOrechidEndiumII.page.0=This &1Orechid Endium II&0 is even stronger than the previous one.
+tile.botania:flower.gregtania.evolvedOrechidEndiumII.page.1=&oPretty sure it is organic dragon poop&r.
+
+tile.botania:flower.gregtania.evolvedOrechidEndiumIII.name=Orechid Endium III
+tile.botania:flower.gregtania.evolvedOrechidEndiumIII.reference=Orechid Endium: Shady^3
+tile.botania:flower.gregtania.evolvedOrechidEndiumIII.page.0=This &1Orechid Endium III&0 is even stronger than the previous one.
+tile.botania:flower.gregtania.evolvedOrechidEndiumIII.page.1=&oPretty sure it is organic dragon poop&r.
+
+tile.botania:flower.gregtania.evolvedOrechidEndiumIV.name=Orechid Endium IV
+tile.botania:flower.gregtania.evolvedOrechidEndiumIV.reference=Orechid Endium: Shady^4
+tile.botania:flower.gregtania.evolvedOrechidEndiumIV.page.0=This &1Orechid Endium III&0 is the last answer in end ores!
+tile.botania:flower.gregtania.evolvedOrechidEndiumIV.page.1=&oPretty sure it is organic dragon poop&r.
