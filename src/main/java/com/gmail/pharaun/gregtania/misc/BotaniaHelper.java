@@ -2,10 +2,16 @@ package com.gmail.pharaun.gregtania.misc;
 
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
+import gregtech.common.blocks.GT_Block_Ores;
+import gregtech.common.blocks.GT_Block_Ores_Abstract;
+import gregtech.common.blocks.GT_TileEntity_Ores;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.UncheckedIOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 import static com.gmail.pharaun.gregtania.misc.Config.stackedOreInTiers;
@@ -19,6 +25,9 @@ public class BotaniaHelper {
     public static Map<Integer, Map<String, Integer>> tieredOreWeightOverworld;
     public static Map<Integer, Map<String, Integer>> tieredOreWeightNether;
     public static Map<Integer, Map<String, Integer>> tieredOreWeightEnd;
+
+    private static Boolean oldMethod = null;
+    private static Method cachedMethod = null;
 
     public static void initOreTables() {
         tieredOreWeightOverworld = initTieredOreWeight(oreWeightOverworld);
@@ -145,5 +154,37 @@ public class BotaniaHelper {
         Block block = Block.getBlockFromItem(stack.getItem());
         int meta = stack.getItemDamage();
         return block.getHarvestLevel(meta);
+    }
+
+    /**
+     * Since Gregtech 5.09.27(ish) and before used one way of handling this, and 5.09.27(ish) and after uses another way
+     * of handling this: https://github.com/Blood-Asp/GT5-Unofficial/commit/d51f43f97bfdda3bf7b024d141225e249cdc36bf#diff-c5b626909eed3bb83cf6340aadef8f1b
+     *
+     * This method is for handling... this
+     */
+    public static int acquireHarvestData(Block block, int meta) {
+        // getHarvestData(short) - or - getHarvestData(short, int)
+        if(oldMethod == null) {
+            // Identify which one to use
+            Class<?> c = GT_TileEntity_Ores.class;
+            try {
+                // Try new first
+                cachedMethod = c.getDeclaredMethod ("getHarvestData", short.class);
+                oldMethod = Boolean.TRUE;
+            } catch (NoSuchMethodException e) {
+                oldMethod = Boolean.FALSE;
+            }
+        }
+
+        if(oldMethod.booleanValue()) {
+            try {
+                Byte harvestData = (Byte)cachedMethod.invoke(GT_Block_Ores.class, (short)meta);
+                return harvestData.intValue();
+            } catch (Exception e) {
+                throw (new RuntimeException(e));
+            }
+        } else {
+            return GT_TileEntity_Ores.getHarvestData((short) meta, ((GT_Block_Ores_Abstract) block).getBaseBlockHarvestLevel(meta % 16000 / 1000));
+        }
     }
 }

@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.gmail.pharaun.gregtania.misc.BotaniaHelper.acquireHarvestData;
+
 public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 
 	private static final int RANGE = 5;
@@ -66,7 +68,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 					// Check if its a gregtech ore
 					String clname = stack.getItem().getClass().getName();
 					if (clname.startsWith("gregtech") || clname.startsWith("gregapi")) {
-						int harvestData = GT_TileEntity_Ores.getHarvestData((short) meta, ((GT_Block_Ores_Abstract) block).getBaseBlockHarvestLevel(meta % 16000 / 1000));
+						int harvestData = acquireHarvestData(block, meta);
 						supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, harvestData, 3);
 
 						GT_TileEntity_Ores tTileEntity = (GT_TileEntity_Ores) supertile.getWorldObj().getTileEntity(coords.posX, coords.posY, coords.posZ);
