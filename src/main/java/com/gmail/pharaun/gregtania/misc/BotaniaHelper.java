@@ -114,7 +114,8 @@ public class BotaniaHelper {
     }
 
     /**
-     * Sanity Check to prevent Crash, if there is missing ores in various tiers, insert oreCoal
+     * Sanity Check to prevent Crash, if there are missing ores in various tiers, insert oreCoal; if there are tiers
+     * without an orechid, merge with the nearest tier.
      */
     private static Map<Integer, Map<String, Integer>> sanityCheck(Map<Integer, Map<String, Integer>> tieredOreWeight, int lower, int upper) {
         Map<Integer, Map<String, Integer>> ret = new Hashtable<>();
@@ -124,6 +125,14 @@ public class BotaniaHelper {
 
         for (int i = lower; i <= upper; i++) {
             ret.put(i, tieredOreWeight.getOrDefault(i, dummy));
+        }
+        for (int i: tieredOreWeight.keySet()) {
+            if (i < lower) {
+                ret.get(lower).putAll(tieredOreWeight.get(i));
+            }
+            if (i > upper) {
+                ret.get(upper).putAll(tieredOreWeight.get(i));
+            }
         }
 
         return ret;
