@@ -12,7 +12,7 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 
 *With big thanks to:*
 
-- Pharaun666 - Original Gregtania
+- Pharaun666 - [Original Gregtania](https://github.com/pharaun/Gregtania)
 - Vazkii - Botania & Orechid Code + Artwork
 - Gregorius - Gregtech
 - BloodAsp - Gregtech 5u
