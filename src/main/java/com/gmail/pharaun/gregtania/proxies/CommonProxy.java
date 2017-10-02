@@ -11,7 +11,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.common.block.ModBlocks;
@@ -109,7 +112,15 @@ public class CommonProxy {
         Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
         SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
 
+        // Greg makes bone meal unobtainable before getting a Mortar, but no bone meal makes
+        // the GoG early game painful. Let's get one bone meal per bone from Botania's mortar.
 
+        CraftingManager.getInstance().getRecipeList().add(
+                new ShapelessOreRecipe(
+                        new ItemStack(Items.dye, 1, 15),
+                        new ItemStack(Items.bone, 1), "pestleAndMortar"
+                        )
+        );
     }
 
     public void postInit(FMLPostInitializationEvent event) {
