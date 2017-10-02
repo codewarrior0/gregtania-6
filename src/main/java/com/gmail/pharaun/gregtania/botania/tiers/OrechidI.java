@@ -73,10 +73,4 @@ public class OrechidI extends SubTileAbstractEvolvedOrechid {
 		return LexiconData.orechid;
 	}
 
-	// TODO: This is a workaround for getting a red rose cos i haven't been able to track down why
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon() {
-		return BotaniaAPI.getSignatureForName("evolvedOrechidI").getIconForStack(null);
-	}
 }

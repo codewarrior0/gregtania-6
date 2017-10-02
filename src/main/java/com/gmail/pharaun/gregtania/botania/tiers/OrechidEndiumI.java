@@ -68,11 +68,4 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	public LexiconEntry getEntry() {
 		return LexiconData.orechidIgnem;
 	}
-
-	// TODO: This is a workaround for getting a red rose cos i haven't been able to track down why
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon() {
-		return BotaniaAPI.getSignatureForName("evolvedOrechidEndiumI").getIconForStack(null);
-	}
 }

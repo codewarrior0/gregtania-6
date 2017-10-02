@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import vazkii.botania.api.subtile.signature.SubTileSignature;
+import vazkii.botania.common.block.BlockSpecialFlower;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class CustomSubTileSignature extends SubTileSignature {
     @Override
     public void registerIcons(IIconRegister register) {
         icon = register.registerIcon(Reference.MODID + ":" + this.name);
+        BlockSpecialFlower.icons.put(name, icon);
+        BlockSpecialFlower.iconsAlt.put(name, icon);
     }
 
     @Override
