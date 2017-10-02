@@ -10,10 +10,11 @@ New in Gregtania 6:
 
 
 With big thanks to:
-Pharaun666 - Original Gregtania
-Vazkii - Botania & Orechid Code + Artwork
-Gregorius - Gregtech
-BloodAsp - Gregtech 5u
-Magic Bees - How to make new botania flowers
-excompressium - how to optionally remove vanilla botania flowers
-pneumaticcraft - json config
+
+- Pharaun666 - Original Gregtania
+- Vazkii - Botania & Orechid Code + Artwork
+- Gregorius - Gregtech
+- BloodAsp - Gregtech 5u
+- Magic Bees - How to make new botania flowers
+- excompressium - how to optionally remove vanilla botania flowers
+- pneumaticcraft - json config
