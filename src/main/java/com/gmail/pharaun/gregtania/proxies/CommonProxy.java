@@ -10,7 +10,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.botania.common.block.ModBlocks;
+import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
 
 public class CommonProxy {
@@ -86,6 +88,12 @@ public class CommonProxy {
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", costTier4, flower, flower, flower, flower);
+
+        // This looks like it allows Botania pebbles to be used as GT pebbles
+        // But it actually makes GT pebbles drop instead of Botania pebbles from right-clicking dirt
+
+        OreDictionary.registerOre("rockGtStone", new ItemStack(ModItems.manaResource, 1, 21));
+        OreDictionary.registerOre("rockGtAnyStone", new ItemStack(ModItems.manaResource, 1, 21));
     }
 
     public void postInit(FMLPostInitializationEvent event) {
