@@ -6,6 +6,7 @@ import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import com.gmail.pharaun.gregtania.misc.Config;
 import com.gmail.pharaun.gregtania.misc.LogHelper;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -25,13 +26,6 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {}
 
     public void init(FMLInitializationEvent event) {
-        // We probably want ore tables to feed to the tiered Orechids
-        BotaniaHelper.initOreTables();
-
-        // Log the available levels
-        LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
-        LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet().toString());
-        LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet().toString());
 
         // Disable the two vanilla botania orechids
         if(Config.disableVanillaOrechid) {
@@ -92,5 +86,16 @@ public class CommonProxy {
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", costTier4, flower, flower, flower, flower);
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
+        // Init the ore tables in postInit so we can use the worldgen data GT creates in init
+        BotaniaHelper.initOreTables();
+
+        // Log the available levels
+        LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
+        LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet().toString());
+        LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet().toString());
+
     }
 }

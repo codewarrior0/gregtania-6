@@ -12,7 +12,6 @@ package com.gmail.pharaun.gregtania.botania.tiers;
 
 import com.gmail.pharaun.gregtania.botania.SubTileAbstractEvolvedOrechid;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
-import com.gmail.pharaun.gregtania.proxies.CommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -21,10 +20,9 @@ import net.minecraft.util.IIcon;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.common.Botania;
-import vazkii.botania.common.block.subtile.functional.SubTileOrechid;
 import vazkii.botania.common.lexicon.LexiconData;
 
-import java.util.Map;
+import java.util.*;
 
 public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 
@@ -34,11 +32,11 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	private static final int DELAY_GOG = 6;
 
 	private static final int ORE_TIER = 1;
+	private static final ArrayList<Block> sourceBlocks = new ArrayList<>(Collections.singletonList(Blocks.end_stone));
 
     @Override
 	public boolean canOperate() {
-		boolean isEndWorld = supertile.getWorldObj().provider.dimensionId == 1;
-		return isEndWorld;
+		return supertile.getWorldObj().provider.dimensionId == 1;
 	}
 
 	@Override
@@ -47,8 +45,8 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	}
 
 	@Override
-	public Block getSourceBlock() {
-		return Blocks.end_stone;
+	public List<Block> getSourceBlocks() {
+		return sourceBlocks;
 	}
 
 	@Override

@@ -8,10 +8,11 @@ import java.io.File;
 public class Config {
     public static Configuration config;
     public static OrechidYieldConfig orechidConfig;
+    public static File orechidConfigFile;
 
     public static boolean stackedOreInTiers;
     public static boolean disableVanillaOrechid;
-    private static boolean overrideOrechidWeight;
+    public static boolean overrideOrechidWeight;
 
     public static void preInit(File configFile) {
         if(configFile != null) {
@@ -37,13 +38,9 @@ public class Config {
         overrideOrechidWeight = property.getBoolean();
 
         if(overrideOrechidWeight) {
-            File orechidConfigFile = new File(configFile.getAbsolutePath().substring(0, configFile.getAbsolutePath().length() - 4) + ".json");
-            if (orechidConfigFile != null) {
-                if (orechidConfigFile.exists()) {
-                    orechidConfig.load(orechidConfigFile);
-                } else {
-                    orechidConfig.save(orechidConfigFile);
-                }
+            orechidConfigFile = new File(configFile.getAbsolutePath().substring(0, configFile.getAbsolutePath().length() - 4) + ".json");
+            if (orechidConfigFile.exists()) {
+                orechidConfig.load(orechidConfigFile);
             }
         }
 

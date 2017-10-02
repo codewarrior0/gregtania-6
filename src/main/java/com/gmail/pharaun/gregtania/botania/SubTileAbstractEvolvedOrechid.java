@@ -10,10 +10,10 @@
  */
 package com.gmail.pharaun.gregtania.botania;
 
-import gregtech.common.blocks.GT_Block_Ores_Abstract;
-import gregtech.common.blocks.GT_TileEntity_Ores;
+import gregapi.data.OP;
+import gregapi.oredict.OreDictMaterial;
+import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
@@ -23,12 +23,7 @@ import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
 import vazkii.botania.common.core.handler.ConfigHandler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import static com.gmail.pharaun.gregtania.misc.BotaniaHelper.acquireHarvestData;
+import java.util.*;
 
 public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 
@@ -45,7 +40,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 	public abstract LexiconEntry getEntry();
 	public abstract boolean canOperate();
 	public abstract Map<String, Integer> getOreMap();
-	public abstract Block getSourceBlock();
+	public abstract List<Block> getSourceBlocks();
 	public abstract int getCost();
 	public abstract int getDelay();
 
@@ -60,20 +55,17 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		if (!supertile.getWorldObj().isRemote && mana >= cost && ticksExisted % getDelay() == 0) {
 			ChunkCoordinates coords = getCoordsToPut();
 			if (coords != null) {
-				ItemStack stack = getOreToPut();
-				if (stack != null) {
+				String oreDictEntry = getOreDictToPut();
+				if (oreDictEntry != null) {
+					ItemStack stack = OreDictionary.getOres(oreDictEntry).get(0);
 					Block block = Block.getBlockFromItem(stack.getItem());
 					int meta = stack.getItemDamage();
 
-					// Check if its a gregtech ore
-					String clname = stack.getItem().getClass().getName();
-					if (clname.startsWith("gregtech") || clname.startsWith("gregapi")) {
-						int harvestData = acquireHarvestData(block, meta);
-						supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, harvestData, 3);
+					OreDictMaterial mat = OreDictMaterial.get(oreDictEntry.substring(3));
 
-						GT_TileEntity_Ores tTileEntity = (GT_TileEntity_Ores) supertile.getWorldObj().getTileEntity(coords.posX, coords.posY, coords.posZ);
-						tTileEntity.mMetaData = (short) meta;
-						tTileEntity.mNatural = true;
+					if (mat != null && OP.ore.mat(mat, 1) != null) {
+						WD.setOre(supertile.getWorldObj(), coords.posX, coords.posY, coords.posZ, mat);
+						supertile.getWorldObj().markBlockForUpdate(coords.posX, coords.posY, coords.posZ);
 					} else {
 						// Not gregtech, do a regular place
 						supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, meta, 1 | 2);
@@ -90,37 +82,19 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		}
 	}
 
-	public ItemStack getOreToPut() {
-		Collection<WeightedRandom.Item> values = new ArrayList();
+	public String getOreDictToPut() {
+		Collection<WeightedRandom.Item> values = new ArrayList<>();
 		Map<String, Integer> map = getOreMap();
 		for(String s : map.keySet())
 			values.add(new StringRandomItem(map.get(s), s));
 
-		String ore = ((StringRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, values)).s;
-
-		List<ItemStack> ores = OreDictionary.getOres(ore);
-
-		if(ores.isEmpty())
-			return getOreToPut();
-
-		// Specifically search for a gregtech ore first, then fallback
-		for(ItemStack stack : ores) {
-			Item item = stack.getItem();
-			String clname = item.getClass().getName();
-
-			if(clname.startsWith("gregtech") || clname.startsWith("gregapi"))
-				// Found, let's find out how to get the NBT tag and spawn it
-				return stack;
-		}
-
-		// Didn't find a gregtech ore, return first result
-		return ores.get(0);
+		return ((StringRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, values)).s;
 	}
 
 	public ChunkCoordinates getCoordsToPut() {
-		List<ChunkCoordinates> possibleCoords = new ArrayList();
+		List<ChunkCoordinates> possibleCoords = new ArrayList<>();
 
-		Block source = getSourceBlock();
+		List<Block> sources = getSourceBlocks();
 		for(int i = -RANGE; i < RANGE + 1; i++)
 			for(int j = -RANGE_Y; j < RANGE_Y; j++)
 				for(int k = -RANGE; k < RANGE + 1; k++) {
@@ -128,8 +102,10 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 					int y = supertile.yCoord + j;
 					int z = supertile.zCoord + k;
 					Block block = supertile.getWorldObj().getBlock(x, y, z);
-					if(block != null && block.isReplaceableOreGen(supertile.getWorldObj(), x, y, z, source))
-						possibleCoords.add(new ChunkCoordinates(x, y, z));
+					for (Block source: sources) {
+						if (block != null && block.isReplaceableOreGen(supertile.getWorldObj(), x, y, z, source))
+							possibleCoords.add(new ChunkCoordinates(x, y, z));
+					}
 				}
 
 		if(possibleCoords.isEmpty())

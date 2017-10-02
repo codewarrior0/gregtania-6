@@ -22,6 +22,9 @@ import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.lexicon.LexiconData;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
@@ -32,6 +35,7 @@ public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
 	private static final int DELAY_GOG = 4;
 
 	private static final int ORE_TIER = 1;
+	private static final ArrayList<Block> sourceBlocks = new ArrayList<>(Arrays.asList(Blocks.netherrack, Blocks.gravel));
 
 	@Override
 	public boolean canOperate() {
@@ -44,8 +48,8 @@ public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
 	}
 
 	@Override
-	public Block getSourceBlock() {
-		return Blocks.netherrack;
+	public List<Block> getSourceBlocks() {
+		return sourceBlocks;
 	}
 
 	@Override

@@ -2,23 +2,16 @@ package com.gmail.pharaun.gregtania.command;
 
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import com.gmail.pharaun.gregtania.misc.Config;
-import gregtech.common.blocks.GT_Block_Ores_Abstract;
-import gregtech.common.blocks.GT_TileEntity_Ores;
-import net.minecraft.block.Block;
+import gregapi.oredict.OreDictMaterial;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.gmail.pharaun.gregtania.misc.BotaniaHelper.acquireHarvestData;
 
 public class DebugSpawnListCommand implements ICommand {
     @Override
@@ -33,7 +26,7 @@ public class DebugSpawnListCommand implements ICommand {
 
     @Override
     public List getCommandAliases() {
-        ArrayList<String> alias = new ArrayList();
+        ArrayList<String> alias = new ArrayList<>();
         alias.add("debugOrechidSpawn");
         return alias;
     }
@@ -69,40 +62,15 @@ public class DebugSpawnListCommand implements ICommand {
                 }
 
                 for (String oredict : tier.keySet()) {
-                    // Grab a list of ores itemstack
-                    List<ItemStack> ores = OreDictionary.getOres(oredict);
+                    // Get the GT ore material for the oredict
 
-                    if(ores.isEmpty()) {
-                        sender.addChatMessage(new ChatComponentText("    " + oredict + " - Empty"));
-                        continue;
-                    }
+                    OreDictMaterial mat = OreDictMaterial.get(oredict.substring(3));
 
-                    // Search for gregtech ores and if one doesn't exist emit that it doesnt
-                    ItemStack match = null;
-
-                    for(ItemStack stack : ores) {
-                        Item item = stack.getItem();
-                        String clname = item.getClass().getName();
-
-                        if(clname.startsWith("gregtech") || clname.startsWith("gregapi")) {
-                            // Set match
-                            match = stack;
-                        }
-                    }
-
-                    if(match == null) {
+                    if(mat == null) {
                         sender.addChatMessage(new ChatComponentText("    " + oredict + " - No Gregtech Ore Equiv"));
                     } else {
-                        // Gregtech, let's validate it
-                        Block block = Block.getBlockFromItem(match.getItem());
-                        int meta = match.getItemDamage();
-
-                        try {
-                            int harvestData = acquireHarvestData(block, meta);
-                            sender.addChatMessage(new ChatComponentText("    " + oredict + " - HarvestLevel: " + harvestData));
-                        } catch (NoSuchMethodError e) {
-                            sender.addChatMessage(new ChatComponentText("    " + oredict + " - Missing getBaseBlockHarvestLevel(), - " + block.getClass().getTypeName()));
-                        }
+                        int harvestData = mat.mToolQuality;
+                        sender.addChatMessage(new ChatComponentText("    " + oredict + " - HarvestLevel: " + harvestData));
                     }
                 }
             }

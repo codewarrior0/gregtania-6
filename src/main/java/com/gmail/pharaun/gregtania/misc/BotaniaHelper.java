@@ -1,16 +1,15 @@
 package com.gmail.pharaun.gregtania.misc;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
-import gregtech.common.blocks.GT_Block_Ores;
-import gregtech.common.blocks.GT_Block_Ores_Abstract;
-import gregtech.common.blocks.GT_TileEntity_Ores;
+import gregapi.data.CS;
+import gregapi.data.MT;
+import gregapi.data.OP;
+
+import gregapi.oredict.OreDictMaterial;
+import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.io.UncheckedIOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -30,6 +29,8 @@ public class BotaniaHelper {
     private static Method cachedMethod = null;
 
     public static void initOreTables() {
+        initWorldgenWeights();
+
         tieredOreWeightOverworld = initTieredOreWeight(oreWeightOverworld);
         tieredOreWeightNether = initTieredOreWeight(oreWeightNether);
         tieredOreWeightEnd = initTieredOreWeight(oreWeightEnd);
@@ -46,6 +47,72 @@ public class BotaniaHelper {
         }
     }
 
+    public static void initWorldgenWeights() {
+        Map<String, Integer> wgWeightsOverworld = new HashMap<>();
+        Map<String, Integer> wgWeightsNether = new HashMap<>();
+        Map<String, Integer> wgWeightsEnd = new HashMap<>();
+
+        initWorldgenWeightsDim(CS.ORE_OVERWORLD, wgWeightsOverworld);
+        initWorldgenWeightsDim(CS.ORE_NETHER, wgWeightsNether);
+        initWorldgenWeightsDim(CS.ORE_END, wgWeightsEnd);
+
+        // Allow config weights to override worldgen weights, but default config to worldgen
+        wgWeightsOverworld.putAll(oreWeightOverworld);
+        oreWeightOverworld.putAll(wgWeightsOverworld);
+
+        wgWeightsNether.putAll(oreWeightNether);
+        oreWeightNether.putAll(wgWeightsNether);
+
+        wgWeightsEnd.putAll(oreWeightEnd);
+        oreWeightEnd.putAll(wgWeightsEnd);
+
+        if (Config.overrideOrechidWeight) {
+            Config.orechidConfig.save(Config.orechidConfigFile);
+        }
+    }
+
+
+    public static void initWorldgenWeightsDim(List<WorldgenOresLarge> dimLayers, Map<String, Integer> weights) {
+        for (WorldgenOresLarge layer: dimLayers) {
+            if (!layer.mEnabled) continue;
+
+            OreDictMaterial mat;
+            int weight = 16 + layer.mSize;
+            weight *= layer.mWeight;
+            weight *= layer.mDensity;
+            weight /= 80;
+
+            for (int i=0; i<4; i++) {
+                switch(i) {
+                    case 0:
+                        mat = layer.mTop;
+                        weight *= 3;
+                        break;
+                    case 1:
+                        mat = layer.mBottom;
+                        weight *= 3;
+                        break;
+                    case 2:
+                        mat = layer.mBetween;
+                        break;
+                    case 3:
+                        mat = layer.mSpread;
+                        break;
+                    default:
+                        continue;
+                }
+
+                if (mat == MT.NULL) continue;
+
+                String oreDictEntry = "ore" + mat.mNameInternal;
+
+                int oldWeight = weights.getOrDefault(oreDictEntry, 0);
+                weights.put(oreDictEntry, weight + oldWeight);
+
+            }
+        }
+    }
+
     /**
      * Sanity Check to prevent Crash, if there is missing ores in various tiers, insert oreCoal
      */
@@ -55,7 +122,7 @@ public class BotaniaHelper {
         Map<String, Integer> dummy = new Hashtable<>();
         dummy.put("oreCoal", 9999999);
 
-        for(int i = lower; i <= upper; i++) {
+        for (int i = lower; i <= upper; i++) {
             ret.put(i, tieredOreWeight.getOrDefault(i, dummy));
         }
 
@@ -68,7 +135,7 @@ public class BotaniaHelper {
     private static Map<Integer, Map<String, Integer>> stackTieredOreWeight(Map<Integer, Map<String, Integer>> tieredOreWeight) {
         Map<Integer, Map<String, Integer>> ret = new Hashtable<>();
 
-        ArrayList<Integer> tiers = new ArrayList(tieredOreWeight.keySet());
+        ArrayList<Integer> tiers = new ArrayList<>(tieredOreWeight.keySet());
         Collections.sort(tiers);
 
         // Put in the first one
@@ -78,7 +145,7 @@ public class BotaniaHelper {
             int first = tiers.get(i);
             int second = tiers.get(i + 1);
 
-            Map<String, Integer> melded = new HashMap();
+            Map<String, Integer> melded = new HashMap<>();
             melded.putAll(ret.get(first));
             melded.putAll(tieredOreWeight.get(second));
 
@@ -95,6 +162,22 @@ public class BotaniaHelper {
         Map<Integer, Map<String, Integer>> ret = new Hashtable<>();
 
         for (String oreDictEntry : oreWeight.keySet()) {
+            // Search by GT OreDictMaterial first, make sure the material can be an ore
+
+            OreDictMaterial mat = OreDictMaterial.get(oreDictEntry.substring(3));
+            if (mat != null) {
+                ItemStack stack = OP.ore.mat(mat, 1);
+                if (stack != null) {
+                    int harvestLevel = mat.mToolQuality;
+                    ret.putIfAbsent(harvestLevel, new HashMap<>());
+                    ret.get(harvestLevel).put(oreDictEntry, oreWeight.getOrDefault(oreDictEntry, 0));
+
+                    continue;
+                }
+            }
+
+            // Next, check the forge OreDictionary for non-GT ores
+
             List<ItemStack> ores = OreDictionary.getOres(oreDictEntry);
 
             if (ores.isEmpty()) {
@@ -102,89 +185,19 @@ public class BotaniaHelper {
                 continue;
             }
 
-            found : {
-                // Search specifically for a Gregtech ore first, then fallback
-                for (ItemStack stack : ores) {
-                    String className = stack.getItem().getClass().getName();
+            int harvestLevel = getHarvestLevel(ores.get(0));
 
-                    if (className.startsWith("gregtech") || className.startsWith("gregapi")) {
-                        // Found, let's process this entry
-                        int harvestLevel = getHarvestLevelGregtech(stack);
+            ret.putIfAbsent(harvestLevel, new HashMap<>());
+            ret.get(harvestLevel).put(oreDictEntry, oreWeight.getOrDefault(oreDictEntry, 0));
 
-                        ret.putIfAbsent(harvestLevel, new HashMap());
-                        ret.get(harvestLevel).put(oreDictEntry, oreWeight.getOrDefault(oreDictEntry, 0));
-
-                        break found;
-                    }
-                }
-
-                // Didn't find any, grab the first and go
-                int harvestLevel = getHarvestLevel(ores.get(0));
-
-                ret.putIfAbsent(harvestLevel, new HashMap());
-                ret.get(harvestLevel).put(oreDictEntry, oreWeight.getOrDefault(oreDictEntry, 0));
-            }
         }
 
         return ret;
-    }
-
-    private static int getHarvestLevelGregtech(ItemStack stack) {
-        // TODO: can we simplify this further?
-        // This is a little tricky cos its borrowed from gregtech code in: GT_TileEntity_Ores.java, GT_Item_Ores.java, GT_Block_Ores.java
-        int itemMeta = stack.getItemDamage();  // According to ItemBlock in minecraft itemMeta ~= itemDamage for blocks
-        Materials material = GregTech_API.sGeneratedMaterials[(itemMeta % 1000)];
-
-        int blockMeta = 0;
-
-        if (material != null) {
-            int tool = Math.min(7, material.mToolQuality - (itemMeta < 16000 ? 0 : 1));
-            // UBC and black or red granite
-            if ((itemMeta % 16000 / 1000 == 3) || (itemMeta % 16000 / 1000 == 4)) {
-                blockMeta = Math.max(3, tool);
-            } else {
-                blockMeta = Math.max(0, tool);
-            }
-        }
-
-        return blockMeta % 8;
     }
 
     private static int getHarvestLevel(ItemStack stack) {
         Block block = Block.getBlockFromItem(stack.getItem());
         int meta = stack.getItemDamage();
         return block.getHarvestLevel(meta);
-    }
-
-    /**
-     * Since Gregtech 5.09.27(ish) and before used one way of handling this, and 5.09.27(ish) and after uses another way
-     * of handling this: https://github.com/Blood-Asp/GT5-Unofficial/commit/d51f43f97bfdda3bf7b024d141225e249cdc36bf#diff-c5b626909eed3bb83cf6340aadef8f1b
-     *
-     * This method is for handling... this
-     */
-    public static int acquireHarvestData(Block block, int meta) {
-        // getHarvestData(short) - or - getHarvestData(short, int)
-        if(oldMethod == null) {
-            // Identify which one to use
-            Class<?> c = GT_TileEntity_Ores.class;
-            try {
-                // Try new first
-                cachedMethod = c.getDeclaredMethod ("getHarvestData", short.class);
-                oldMethod = Boolean.TRUE;
-            } catch (NoSuchMethodException e) {
-                oldMethod = Boolean.FALSE;
-            }
-        }
-
-        if(oldMethod.booleanValue()) {
-            try {
-                Byte harvestData = (Byte)cachedMethod.invoke(GT_Block_Ores.class, (short)meta);
-                return harvestData.intValue();
-            } catch (Exception e) {
-                throw (new RuntimeException(e));
-            }
-        } else {
-            return GT_TileEntity_Ores.getHarvestData((short) meta, ((GT_Block_Ores_Abstract) block).getBaseBlockHarvestLevel(meta % 16000 / 1000));
-        }
     }
 }

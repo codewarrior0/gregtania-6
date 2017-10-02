@@ -27,6 +27,11 @@ public class Gregtania {
     }
 
     @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
+    @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new DebugSpawnListCommand());
     }
