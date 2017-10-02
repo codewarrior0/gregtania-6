@@ -1,5 +1,6 @@
 package com.gmail.pharaun.gregtania.proxies;
 
+import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.botania.tiers.*;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
@@ -11,11 +12,17 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.common.block.ModBlocks;
+import vazkii.botania.common.crafting.ModPetalRecipes;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
 
+import java.util.List;
+
 public class CommonProxy {
+    public static final String SUBTILE_CLAYCONIA_ALLUVIA = "clayconiaAlluvia";
     public static final String SUBTILE_EVOLVED_ORECHID = "evolvedOrechid";
     public static final String SUBTILE_EVOLVED_ORECHID_IGNEM = "evolvedOrechidIgnem";
     public static final String SUBTILE_EVOLVED_ORECHID_ENDIUM = "evolvedOrechidEndium";
@@ -94,6 +101,15 @@ public class CommonProxy {
 
         OreDictionary.registerOre("rockGtStone", new ItemStack(ModItems.manaResource, 1, 21));
         OreDictionary.registerOre("rockGtAnyStone", new ItemStack(ModItems.manaResource, 1, 21));
+
+        // Gravel Clayconia - because:
+        // sand needs an alchemy catalyst, which needs gold, which needs a crucible
+        // and Clayconia needs an earth rune, which needs iron, which needs a clay crucible
+
+        Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
+        SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
+
+
     }
 
     public void postInit(FMLPostInitializationEvent event) {

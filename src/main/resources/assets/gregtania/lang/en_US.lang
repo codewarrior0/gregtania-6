@@ -54,3 +54,8 @@ tile.botania:flower.gregtania.evolvedOrechidEndiumIV.name=Orechid Endium IV
 tile.botania:flower.gregtania.evolvedOrechidEndiumIV.reference=Orechid Endium: Shady^4
 tile.botania:flower.gregtania.evolvedOrechidEndiumIV.page.0=This &1Orechid Endium III&0 is the last answer in end ores!
 tile.botania:flower.gregtania.evolvedOrechidEndiumIV.page.1=&oPretty sure it is organic dragon poop&r.
+
+tile.botania:flower.gregtania.clayconiaAlluvia.name=Clayconia Alluvia
+tile.botania:flower.gregtania.clayconiaAlluvia.reference=Perfectly Balanced
+tile.botania:flower.gregtania.clayconiaAlluvia.page.0=Obtaining Clay without access to any metals would prove impossible without the &1Clayconia Alluvia&0. This flower will turn your Gravel to Clay, but at a greater mana cost than the standard Clayconia.
+tile.botania:flower.gregtania.clayconiaAlluvia.page.1=&oWhere have I Bentonite? At the Clay Bar!&r.
