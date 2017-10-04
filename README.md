@@ -11,6 +11,7 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 - Botania pebbles are now replaced by GregTech pebbles, which can be used to craft stone tools
 - Clayconia Alluvia added to get early clay from gravel
 - Added 1:1 Bonemeal recipe using Botania mortar
+- Added 1:4 Blaze Lamp recipe (since Greg replaces the 1:9 with his own Blaze Powder block, and iron is a bit more scarce)
 
 *With big thanks to:*
 

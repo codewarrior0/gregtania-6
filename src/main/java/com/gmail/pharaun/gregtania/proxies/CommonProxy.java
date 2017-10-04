@@ -121,6 +121,18 @@ public class CommonProxy {
                         new ItemStack(Items.bone, 1), "pestleAndMortar"
                         )
         );
+
+        // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
+        // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
+
+        CraftingManager.getInstance().addShapelessRecipe(
+                        new ItemStack(ModBlocks.blazeBlock),
+                        new ItemStack(Items.blaze_powder, 1),
+                        new ItemStack(Items.blaze_powder, 1),
+                        new ItemStack(Items.blaze_powder, 1),
+                        new ItemStack(Items.blaze_powder, 1)
+        );
+
     }
 
     public void postInit(FMLPostInitializationEvent event) {
