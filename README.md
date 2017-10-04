@@ -12,6 +12,7 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 - Clayconia Alluvia added to get early clay from gravel
 - Added 1:1 Bonemeal recipe using Botania mortar
 - Added 1:4 Blaze Lamp recipe (since Greg replaces the 1:9 with his own Blaze Powder block, and iron is a bit more scarce)
+- Manasteel may be made from Wrought Iron or Steel, with a Mana discount for Steel
 
 *With big thanks to:*
 

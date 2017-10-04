@@ -133,6 +133,13 @@ public class CommonProxy {
                         new ItemStack(Items.blaze_powder, 1)
         );
 
+        // Wrought Iron -> Manasteel
+        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIron", 3000);
+
+        // Steel -> Manasteel (with discount)
+        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
+
+
     }
 
     public void postInit(FMLPostInitializationEvent event) {
