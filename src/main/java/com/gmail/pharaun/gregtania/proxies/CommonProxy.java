@@ -113,16 +113,6 @@ public class CommonProxy {
             Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
             SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
 
-            // Greg makes bone meal unobtainable before getting a Mortar, but no bone meal makes
-            // the GoG early game painful. Let's get one bone meal per bone from Botania's mortar.
-
-            CraftingManager.getInstance().getRecipeList().add(
-                    new ShapelessOreRecipe(
-                            new ItemStack(Items.dye, 1, 15),
-                            new ItemStack(Items.bone, 1), "pestleAndMortar"
-                    )
-            );
-
             // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
             // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
             ItemStack blazeBlock = new ItemStack(ModBlocks.blazeBlock);
