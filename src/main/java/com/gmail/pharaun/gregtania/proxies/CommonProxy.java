@@ -12,13 +12,13 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
-import vazkii.botania.api.recipe.RecipePetals;
+import vazkii.botania.common.Botania;
 import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.crafting.ModPetalRecipes;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
 
@@ -99,46 +99,62 @@ public class CommonProxy {
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", costTier4, flower, flower, flower, flower);
 
-        // This looks like it allows Botania pebbles to be used as GT pebbles
-        // But it actually makes GT pebbles drop instead of Botania pebbles from right-clicking dirt
+        if (Botania.gardenOfGlassLoaded) {
+            // This looks like it allows Botania pebbles to be used as GT pebbles
+            // But it actually makes GT pebbles drop instead of Botania pebbles from right-clicking dirt
 
-        OreDictionary.registerOre("rockGtStone", new ItemStack(ModItems.manaResource, 1, 21));
-        OreDictionary.registerOre("rockGtAnyStone", new ItemStack(ModItems.manaResource, 1, 21));
+            OreDictionary.registerOre("rockGtStone", new ItemStack(ModItems.manaResource, 1, 21));
+            OreDictionary.registerOre("rockGtAnyStone", new ItemStack(ModItems.manaResource, 1, 21));
 
-        // Gravel Clayconia - because:
-        // sand needs an alchemy catalyst, which needs gold, which needs a crucible
-        // and Clayconia needs an earth rune, which needs iron, which needs a clay crucible
+            // Gravel Clayconia - because:
+            // sand needs an alchemy catalyst, which needs gold, which needs a crucible
+            // and Clayconia needs an earth rune, which needs iron, which needs a clay crucible
 
-        Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
-        SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
+            Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
+            SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
 
-        // Greg makes bone meal unobtainable before getting a Mortar, but no bone meal makes
-        // the GoG early game painful. Let's get one bone meal per bone from Botania's mortar.
+            // Greg makes bone meal unobtainable before getting a Mortar, but no bone meal makes
+            // the GoG early game painful. Let's get one bone meal per bone from Botania's mortar.
 
-        CraftingManager.getInstance().getRecipeList().add(
-                new ShapelessOreRecipe(
-                        new ItemStack(Items.dye, 1, 15),
-                        new ItemStack(Items.bone, 1), "pestleAndMortar"
-                        )
-        );
+            CraftingManager.getInstance().getRecipeList().add(
+                    new ShapelessOreRecipe(
+                            new ItemStack(Items.dye, 1, 15),
+                            new ItemStack(Items.bone, 1), "pestleAndMortar"
+                    )
+            );
 
-        // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
-        // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
+            // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
+            // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
+            ItemStack blazeBlock = new ItemStack(ModBlocks.blazeBlock);
 
-        CraftingManager.getInstance().addShapelessRecipe(
-                        new ItemStack(ModBlocks.blazeBlock),
-                        new ItemStack(Items.blaze_powder, 1),
-                        new ItemStack(Items.blaze_powder, 1),
-                        new ItemStack(Items.blaze_powder, 1),
-                        new ItemStack(Items.blaze_powder, 1)
-        );
+            CraftingManager.getInstance().addShapelessRecipe(
+                    blazeBlock,
+                    new ItemStack(Items.blaze_powder, 1),
+                    new ItemStack(Items.blaze_powder, 1),
+                    new ItemStack(Items.blaze_powder, 1),
+                    new ItemStack(Items.blaze_powder, 1)
+            );
+
+            // Also change the reverse recipe.
+
+            for (IRecipe recipe: (List<IRecipe>)CraftingManager.getInstance().getRecipeList()) {
+                ItemStack output = recipe.getRecipeOutput();
+                if (recipe instanceof ShapelessRecipes && output.getItem() == Items.blaze_powder && output.stackSize == 9) {
+                    ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
+                    if (sRecipe.recipeItems.size() == 1
+                            && ((ItemStack) sRecipe.recipeItems.get(0)).isItemEqual(blazeBlock)) {
+                        output.stackSize = 4;
+                        break;
+                    }
+                }
+            }
+        }
 
         // Wrought Iron -> Manasteel
         BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIron", 3000);
 
         // Steel -> Manasteel (with discount)
         BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
-
 
     }
 
