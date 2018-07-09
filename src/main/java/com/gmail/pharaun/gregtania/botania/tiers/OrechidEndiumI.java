@@ -12,12 +12,8 @@ package com.gmail.pharaun.gregtania.botania.tiers;
 
 import com.gmail.pharaun.gregtania.botania.SubTileAbstractEvolvedOrechid;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.lexicon.LexiconData;
@@ -40,7 +36,7 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	}
 
 	@Override
-	public Map<String, Integer> getOreMap() {
+	public Collection<BotaniaHelper.StringRandomItem> getOreWeights() {
     	return BotaniaHelper.tieredOreWeightEnd.get(ORE_TIER);
 	}
 

@@ -1,6 +1,7 @@
 package com.gmail.pharaun.gregtania.proxies;
 
 import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
+import com.gmail.pharaun.gregtania.botania.SubTileStratodendron;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.botania.tiers.*;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class CommonProxy {
     public static final String SUBTILE_CLAYCONIA_ALLUVIA = "clayconiaAlluvia";
+    public static final String SUBTILE_STRATODENDRON = "stratodendron";
     public static final String SUBTILE_EVOLVED_ORECHID = "evolvedOrechid";
     public static final String SUBTILE_EVOLVED_ORECHID_IGNEM = "evolvedOrechidIgnem";
     public static final String SUBTILE_EVOLVED_ORECHID_ENDIUM = "evolvedOrechidEndium";
@@ -99,6 +101,12 @@ public class CommonProxy {
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", costTier4, flower, flower, flower, flower);
 
+        // Register the Layered Stone creator
+
+        Util.registerFlower(SUBTILE_STRATODENDRON, SubTileStratodendron.class);
+        SubTileStratodendron.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_STRATODENDRON, "petalGray", "petalYellow", "petalGreen", "petalRed");
+
+
         if (Botania.gardenOfGlassLoaded) {
             // This looks like it allows Botania pebbles to be used as GT pebbles
             // But it actually makes GT pebbles drop instead of Botania pebbles from right-clicking dirt
@@ -153,7 +161,7 @@ public class CommonProxy {
         BotaniaHelper.initOreTables();
 
         // Log the available levels
-        LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
+        //LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
         LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet().toString());
         LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet().toString());
 

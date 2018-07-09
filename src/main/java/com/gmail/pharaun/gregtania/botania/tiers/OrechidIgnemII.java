@@ -12,19 +12,15 @@ package com.gmail.pharaun.gregtania.botania.tiers;
 
 
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.util.IIcon;
-import vazkii.botania.api.BotaniaAPI;
 
-import java.util.Map;
+import java.util.Collection;
 
 public class OrechidIgnemII extends OrechidIgnemI {
 
 	private static final int ORE_TIER = 2;
 
 	@Override
-	public Map<String, Integer> getOreMap() {
+	public Collection<BotaniaHelper.StringRandomItem> getOreWeights() {
     	return BotaniaHelper.tieredOreWeightNether.get(ORE_TIER);
 	}
 

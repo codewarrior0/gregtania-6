@@ -10,6 +10,10 @@
  */
 package com.gmail.pharaun.gregtania.botania;
 
+import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
+import gregapi.block.IBlockPlacable;
+import gregapi.code.ItemStackContainer;
+import gregapi.data.CS;
 import gregapi.data.OP;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.WD;
@@ -17,6 +21,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
@@ -39,7 +44,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 	@Override
 	public abstract LexiconEntry getEntry();
 	public abstract boolean canOperate();
-	public abstract Map<String, Integer> getOreMap();
+	public abstract Collection<BotaniaHelper.StringRandomItem> getOreWeights();
 	public abstract List<Block> getSourceBlocks();
 	public abstract int getCost();
 	public abstract int getDelay();
@@ -55,18 +60,32 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		if (!supertile.getWorldObj().isRemote && mana >= cost && ticksExisted % getDelay() == 0) {
 			ChunkCoordinates coords = getCoordsToPut();
 			if (coords != null) {
-				String oreDictEntry = getOreDictToPut();
+				String oreDictEntry = getOreDictToPut(coords.posX, coords.posY, coords.posZ);
 				if (oreDictEntry != null) {
-					ItemStack stack = OreDictionary.getOres(oreDictEntry).get(0);
-					Block block = Block.getBlockFromItem(stack.getItem());
-					int meta = stack.getItemDamage();
-
 					OreDictMaterial mat = OreDictMaterial.get(oreDictEntry.substring(3));
+					Block block = null;
+					int meta = 0;
 
-					if (mat != null && OP.ore.mat(mat, 1) != null) {
-						WD.setOre(supertile.getWorldObj(), coords.posX, coords.posY, coords.posZ, mat);
-						supertile.getWorldObj().markBlockForUpdate(coords.posX, coords.posY, coords.posZ);
+					if (mat != null) {
+						Block oldBlock = supertile.getWorldObj().getBlock(coords.posX, coords.posY, coords.posZ);
+						int oldMeta = supertile.getWorldObj().getBlockMetadata(coords.posX, coords.posY, coords.posZ);
+						IBlockPlacable oreBlock = CS.BlocksGT.stoneToNormalOres.get(new ItemStackContainer(oldBlock, 1, oldMeta));
+						if (oreBlock != null)
+							oreBlock.placeBlock(supertile.getWorldObj(), coords.posX, coords.posY, coords.posZ, (byte)6 , mat.mID, null, true, false);
+
+						block = oldBlock;
+						meta = oldMeta;
+						//WD.setOre(supertile.getWorldObj(), coords.posX, coords.posY, coords.posZ, mat);
+						//supertile.getWorldObj().markBlockForUpdate(coords.posX, coords.posY, coords.posZ);
 					} else {
+						ArrayList<ItemStack> ores = OreDictionary.getOres(oreDictEntry);
+						if (ores.size() == 0) return;
+						ItemStack stack = ores.get(0);
+
+						block = Block.getBlockFromItem(stack.getItem());
+						meta = stack.getItemDamage();
+
+
 						// Not gregtech, do a regular place
 						supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, meta, 1 | 2);
 					}
@@ -82,13 +101,10 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		}
 	}
 
-	public String getOreDictToPut() {
-		Collection<WeightedRandom.Item> values = new ArrayList<>();
-		Map<String, Integer> map = getOreMap();
-		for(String s : map.keySet())
-			values.add(new StringRandomItem(map.get(s), s));
+	public String getOreDictToPut(int x, int y, int z) {
+		Collection<BotaniaHelper.StringRandomItem> weights = getOreWeights();
 
-		return ((StringRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, values)).s;
+		return ((BotaniaHelper.StringRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, weights)).s;
 	}
 
 	public ChunkCoordinates getCoordsToPut() {
@@ -128,14 +144,4 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		return getCost();
 	}
 
-	private static class StringRandomItem extends WeightedRandom.Item {
-
-		public String s;
-
-		public StringRandomItem(int par1, String s) {
-			super(par1);
-			this.s = s;
-		}
-
-	}
 }

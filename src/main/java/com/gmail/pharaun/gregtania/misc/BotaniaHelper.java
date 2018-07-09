@@ -5,60 +5,62 @@ import gregapi.data.MT;
 import gregapi.data.OP;
 
 import gregapi.oredict.OreDictMaterial;
+import gregapi.worldgen.StoneLayer;
+import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenOresLarge;
+import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.gmail.pharaun.gregtania.misc.Config.stackedOreInTiers;
 import static com.gmail.pharaun.gregtania.misc.OrechidYieldConfig.oreWeightEnd;
 import static com.gmail.pharaun.gregtania.misc.OrechidYieldConfig.oreWeightNether;
-import static com.gmail.pharaun.gregtania.misc.OrechidYieldConfig.oreWeightOverworld;
 
 // Credit - Botania - BotaniaAPI
 public class BotaniaHelper {
     // The ore weights sorted by tiers and dimensions
-    public static Map<Integer, Map<String, Integer>> tieredOreWeightOverworld;
-    public static Map<Integer, Map<String, Integer>> tieredOreWeightNether;
-    public static Map<Integer, Map<String, Integer>> tieredOreWeightEnd;
-
-    private static Boolean oldMethod = null;
-    private static Method cachedMethod = null;
+    //public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightOverworld;
+    public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightNether;
+    public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightEnd;
+    public static Map<Pair<Block, Byte>, List<StringRandomItem>> wgLayerOres;
+    public static Collection<BlockRandomItem> wgWeightsStones;
 
     public static void initOreTables() {
         initWorldgenWeights();
 
-        tieredOreWeightOverworld = initTieredOreWeight(oreWeightOverworld);
-        tieredOreWeightNether = initTieredOreWeight(oreWeightNether);
-        tieredOreWeightEnd = initTieredOreWeight(oreWeightEnd);
+        //Map<Integer, Map<String, Integer>> rawTieredOreWeightOverworld = initTieredOreWeight(oreWeightOverworld);
+        Map<Integer, Map<String, Integer>> rawTieredOreWeightNether = initTieredOreWeight(oreWeightNether);
+        Map<Integer, Map<String, Integer>> rawTieredOreWeightEnd = initTieredOreWeight(oreWeightEnd);
 
         // Sanity check
-        tieredOreWeightOverworld = sanityCheck(tieredOreWeightOverworld, 0, 3);
-        tieredOreWeightNether = sanityCheck(tieredOreWeightNether, 1, 3);
-        tieredOreWeightEnd = sanityCheck(tieredOreWeightEnd, 1, 4);
+        //rawTieredOreWeightOverworld = sanityCheck(rawTieredOreWeightOverworld, 0, 3);
+        rawTieredOreWeightNether = sanityCheck(rawTieredOreWeightNether, 1, 3);
+        rawTieredOreWeightEnd = sanityCheck(rawTieredOreWeightEnd, 1, 4);
 
         if (stackedOreInTiers) {
-            tieredOreWeightOverworld = stackTieredOreWeight(tieredOreWeightOverworld);
-            tieredOreWeightNether = stackTieredOreWeight(tieredOreWeightNether);
-            tieredOreWeightEnd = stackTieredOreWeight(tieredOreWeightEnd);
+            //rawTieredOreWeightOverworld = stackTieredOreWeight(rawTieredOreWeightOverworld);
+            rawTieredOreWeightNether = stackTieredOreWeight(rawTieredOreWeightNether);
+            rawTieredOreWeightEnd = stackTieredOreWeight(rawTieredOreWeightEnd);
         }
+
+        //tieredOreWeightOverworld = cookTieredOreWeight(rawTieredOreWeightOverworld);
+        tieredOreWeightNether = cookTieredOreWeight(rawTieredOreWeightNether);
+        tieredOreWeightEnd = cookTieredOreWeight(rawTieredOreWeightEnd);
+
     }
 
     public static void initWorldgenWeights() {
-        Map<String, Integer> wgWeightsOverworld = new HashMap<>();
         Map<String, Integer> wgWeightsNether = new HashMap<>();
         Map<String, Integer> wgWeightsEnd = new HashMap<>();
 
-        initWorldgenWeightsDim(CS.ORE_OVERWORLD, wgWeightsOverworld);
+        initWorldgenLayerWeights();
         initWorldgenWeightsDim(CS.ORE_NETHER, wgWeightsNether);
         initWorldgenWeightsDim(CS.ORE_END, wgWeightsEnd);
-
-        // Allow config weights to override worldgen weights, but default config to worldgen
-        wgWeightsOverworld.putAll(oreWeightOverworld);
-        oreWeightOverworld.putAll(wgWeightsOverworld);
 
         wgWeightsNether.putAll(oreWeightNether);
         oreWeightNether.putAll(wgWeightsNether);
@@ -71,9 +73,35 @@ public class BotaniaHelper {
         }
     }
 
+    public static void initWorldgenLayerWeights() {
 
-    public static void initWorldgenWeightsDim(List<WorldgenOresLarge> dimLayers, Map<String, Integer> weights) {
-        for (WorldgenOresLarge layer: dimLayers) {
+        Map<Pair<Block, Byte>, List<StringRandomItem>> oresByLayer = new HashMap<>();
+        Map<Pair<Block, Byte>, Integer> stoneWeights = new HashMap<>();
+
+        for (StoneLayer layer: StoneLayer.LAYERS) {
+            Pair<Block, Byte> stone = new Pair<>(layer.mStone, layer.mMetaStone);
+            int weight = stoneWeights.getOrDefault(stone, 0);
+            stoneWeights.put(stone, weight + 1);
+
+            List<StringRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
+
+            for (StoneLayerOres layerOres: layer.mOres) {
+                layerOreNames.add(new StringRandomItem((int)(layerOres.mChance / 384), "ore" + layerOres.mMaterial.mNameInternal));
+            }
+        }
+
+        wgWeightsStones = stoneWeights.entrySet().stream()
+                .map(e -> new BlockRandomItem(e.getValue(), e.getKey()))
+                .collect(Collectors.toList());
+        wgLayerOres = oresByLayer;
+    }
+
+
+    public static void initWorldgenWeightsDim(List dimLayers, Map<String, Integer> weights) {
+        for (Object _layer: dimLayers) {
+            if (!(_layer instanceof WorldgenOresLarge)) continue;
+            WorldgenOresLarge layer = (WorldgenOresLarge)_layer;
+
             if (!layer.mEnabled) continue;
 
             OreDictMaterial mat;
@@ -163,6 +191,19 @@ public class BotaniaHelper {
         return ret;
     }
 
+    private static Map<Integer, Collection<StringRandomItem>>
+    cookTieredOreWeight(Map<Integer, Map<String, Integer>> tieredOreWeight) {
+        return tieredOreWeight.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().entrySet().stream()
+                                .map(we -> new StringRandomItem(we.getValue(), we.getKey()))
+                                .collect(
+                                Collectors.toList()
+                        )
+                ));
+    }
+
     /**
      * Iterates through the weighted ore maps and attempt to find the hardness of each entry to populate
      * the tiered weighted ore maps.
@@ -175,7 +216,7 @@ public class BotaniaHelper {
 
             OreDictMaterial mat = OreDictMaterial.get(oreDictEntry.substring(3));
             if (mat != null) {
-                ItemStack stack = OP.ore.mat(mat, 1);
+                ItemStack stack = OP.oreVanillastone.mat(mat, 1);
                 if (stack != null) {
                     int harvestLevel = mat.mToolQuality;
                     ret.putIfAbsent(harvestLevel, new HashMap<>());
@@ -209,4 +250,27 @@ public class BotaniaHelper {
         int meta = stack.getItemDamage();
         return block.getHarvestLevel(meta);
     }
+
+    public static class StringRandomItem extends WeightedRandom.Item {
+
+        public String s;
+
+        public StringRandomItem(int par1, String s) {
+            super(par1);
+            this.s = s;
+        }
+
+    }
+
+    public static class BlockRandomItem extends WeightedRandom.Item {
+
+        public Pair<Block, Byte> b;
+
+        public BlockRandomItem(int par1, Pair<Block, Byte> b) {
+            super(par1);
+            this.b = b;
+        }
+
+    }
+
 }

@@ -11,19 +11,15 @@
 package com.gmail.pharaun.gregtania.botania.tiers;
 
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.util.IIcon;
-import vazkii.botania.api.BotaniaAPI;
 
-import java.util.Map;
+import java.util.Collection;
 
 public class OrechidEndiumIII extends OrechidEndiumI {
 
 	private static final int ORE_TIER = 3;
 
 	@Override
-	public Map<String, Integer> getOreMap() {
+	public Collection<BotaniaHelper.StringRandomItem> getOreWeights() {
     	return BotaniaHelper.tieredOreWeightEnd.get(ORE_TIER);
 	}
 

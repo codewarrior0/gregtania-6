@@ -9,6 +9,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,30 +38,31 @@ public class DebugSpawnListCommand implements ICommand {
         if (!world.isRemote) {
             if(Config.stackedOreInTiers) {
                 // Just need to test the last tier of the 3 orechids
-                processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 3, 3);
+                //processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 3, 3);
                 processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 3, 3);
                 processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End",4, 4);
 
             } else {
                 // Test stuff in each tier for each orechid
-                processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 0, 3);
+                //processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 0, 3);
                 processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 1, 3);
                 processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End", 1, 4);
             }
         }
     }
 
-    private void processOrechid(ICommandSender sender, Map<Integer, Map<String, Integer>> tieredOreWeight, String dimension, int lower, int upper) {
+    private void processOrechid(ICommandSender sender, Map<Integer, Collection<BotaniaHelper.StringRandomItem>> tieredOreWeight, String dimension, int lower, int upper) {
         sender.addChatMessage(new ChatComponentText("Orechid: " + dimension));
         for(int i = lower; i <= upper; i++) {
-            Map<String, Integer> tier = tieredOreWeight.get(i);
+            Collection<BotaniaHelper.StringRandomItem> tier = tieredOreWeight.get(i);
 
             if(tier != null) {
                 if(lower != upper) {
                     sender.addChatMessage(new ChatComponentText("  Tier: " + i));
                 }
 
-                for (String oredict : tier.keySet()) {
+                for (BotaniaHelper.StringRandomItem item : tier) {
+                    String oredict = item.s;
                     // Get the GT ore material for the oredict
 
                     OreDictMaterial mat = OreDictMaterial.get(oredict.substring(3));
