@@ -3,8 +3,12 @@ package com.gmail.pharaun.gregtania.command;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import com.gmail.pharaun.gregtania.misc.Config;
 import gregapi.oredict.OreDictMaterial;
+import javafx.util.Pair;
+import net.minecraft.block.Block;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -36,6 +40,18 @@ public class DebugSpawnListCommand implements ICommand {
         World world = sender.getEntityWorld();
 
         if (!world.isRemote) {
+            for (BotaniaHelper.BlockRandomItem b: BotaniaHelper.wgWeightsStones) {
+                sender.addChatMessage(new ChatComponentText(b.itemWeight + ": " + new ItemStack(b.b.getKey(), 1, b.b.getValue()).getDisplayName() +
+                        " (" + b.b.getKey().getHarvestLevel(b.b.getValue()) + "): "));
+            }
+            for (Map.Entry<Pair<Block, Byte>, List<BotaniaHelper.StringRandomItem>> e: BotaniaHelper.wgLayerOres.entrySet()) {
+                Pair<Block, Byte> b = e.getKey();
+                String name = new ItemStack(b.getKey(), 1, b.getValue()).getDisplayName();
+                List<BotaniaHelper.StringRandomItem> ores = e.getValue();
+                for(BotaniaHelper.StringRandomItem o: ores) {
+                    sender.addChatMessage(new ChatComponentText(name + "(" + b.getKey().getHarvestLevel(b.getValue()) + "): " + o.s));
+                }
+            }
             if(Config.stackedOreInTiers) {
                 // Just need to test the last tier of the 3 orechids
                 //processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 3, 3);
@@ -50,6 +66,7 @@ public class DebugSpawnListCommand implements ICommand {
             }
         }
     }
+
 
     private void processOrechid(ICommandSender sender, Map<Integer, Collection<BotaniaHelper.StringRandomItem>> tieredOreWeight, String dimension, int lower, int upper) {
         sender.addChatMessage(new ChatComponentText("Orechid: " + dimension));
