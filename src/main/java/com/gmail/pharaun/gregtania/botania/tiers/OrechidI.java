@@ -10,9 +10,7 @@
  */
 package com.gmail.pharaun.gregtania.botania.tiers;
 
-import com.gmail.pharaun.gregtania.botania.SubTileAbstractEvolvedOrechid;
 import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
-import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import vazkii.botania.api.lexicon.LexiconEntry;
@@ -21,8 +19,8 @@ import vazkii.botania.common.lexicon.LexiconData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OrechidI extends SubTileLayeredOrechid {
 
@@ -31,7 +29,7 @@ public class OrechidI extends SubTileLayeredOrechid {
 	private static final int DELAY = 100;
 	private static final int DELAY_GOG = 2;
 
-	private static final ArrayList<Block> sourceBlocks = new ArrayList<>(Arrays.asList(Blocks.stone, Blocks.gravel, Blocks.sand));
+	public static final Set<Block> sourceBlocks = new HashSet<>();
 
 	@Override
 	public int getOreTier() {
@@ -44,7 +42,7 @@ public class OrechidI extends SubTileLayeredOrechid {
 	}
 
 	@Override
-	public List<Block> getSourceBlocks() {
+	public Set<Block> getSourceBlocks() {
 		return sourceBlocks;
 	}
 

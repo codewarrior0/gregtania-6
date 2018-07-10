@@ -45,7 +45,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 	public abstract LexiconEntry getEntry();
 	public abstract boolean canOperate();
 	public abstract Collection<BotaniaHelper.StringRandomItem> getOreWeights();
-	public abstract List<Block> getSourceBlocks();
+	public abstract Set<Block> getSourceBlocks();
 	public abstract int getCost();
 	public abstract int getDelay();
 
@@ -110,7 +110,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 	public ChunkCoordinates getCoordsToPut() {
 		List<ChunkCoordinates> possibleCoords = new ArrayList<>();
 
-		List<Block> sources = getSourceBlocks();
+		Set<Block> sources = getSourceBlocks();
 		for(int i = -RANGE; i < RANGE + 1; i++)
 			for(int j = -RANGE_Y; j < RANGE_Y; j++)
 				for(int k = -RANGE; k < RANGE + 1; k++) {

@@ -21,7 +21,8 @@ import vazkii.botania.common.lexicon.LexiconData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
 
@@ -31,7 +32,7 @@ public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
 	private static final int DELAY_GOG = 4;
 
 	private static final int ORE_TIER = 1;
-	private static final ArrayList<Block> sourceBlocks = new ArrayList<>(Arrays.asList(Blocks.netherrack, Blocks.gravel));
+	private static final Set<Block> sourceBlocks = new HashSet<>(Arrays.asList(Blocks.netherrack, Blocks.gravel));
 
 	@Override
 	public boolean canOperate() {
@@ -44,7 +45,7 @@ public class OrechidIgnemI extends SubTileAbstractEvolvedOrechid {
 	}
 
 	@Override
-	public List<Block> getSourceBlocks() {
+	public Set<Block> getSourceBlocks() {
 		return sourceBlocks;
 	}
 

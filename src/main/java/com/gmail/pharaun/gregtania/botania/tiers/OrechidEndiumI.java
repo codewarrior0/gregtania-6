@@ -28,7 +28,7 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	private static final int DELAY_GOG = 6;
 
 	private static final int ORE_TIER = 1;
-	private static final ArrayList<Block> sourceBlocks = new ArrayList<>(Collections.singletonList(Blocks.end_stone));
+	private static final Set<Block> sourceBlocks = new HashSet<>(Collections.singletonList(Blocks.end_stone));
 
     @Override
 	public boolean canOperate() {
@@ -41,7 +41,7 @@ public class OrechidEndiumI extends SubTileAbstractEvolvedOrechid {
 	}
 
 	@Override
-	public List<Block> getSourceBlocks() {
+	public Set<Block> getSourceBlocks() {
 		return sourceBlocks;
 	}
 

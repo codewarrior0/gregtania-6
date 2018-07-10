@@ -1,5 +1,7 @@
 package com.gmail.pharaun.gregtania.misc;
 
+import com.gmail.pharaun.gregtania.botania.tiers.OrechidI;
+import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -10,6 +12,7 @@ import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenOresLarge;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
@@ -82,6 +85,11 @@ public class BotaniaHelper {
             Pair<Block, Byte> stone = new Pair<>(layer.mStone, layer.mMetaStone);
             int weight = stoneWeights.getOrDefault(stone, 0);
             stoneWeights.put(stone, weight + 1);
+
+            if (CS.BlocksGT.stoneToNormalOres.get(new ItemStackContainer(layer.mStone, 1, layer.mMetaStone)) != null) {
+                OrechidI.sourceBlocks.add(layer.mStone);
+            }
+
 
             List<StringRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
 
