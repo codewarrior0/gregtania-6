@@ -14,14 +14,11 @@ import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
-import gregapi.data.OP;
 import gregapi.oredict.OreDictMaterial;
-import gregapi.util.WD;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
@@ -49,6 +46,8 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 	public abstract int getCost();
 	public abstract int getDelay();
 
+	static final String BLACK_SANDS = "###GREGTECH:BLACK_SANDS###";
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -60,13 +59,16 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		if (!supertile.getWorldObj().isRemote && mana >= cost && ticksExisted % getDelay() == 0) {
 			ChunkCoordinates coords = getCoordsToPut();
 			if (coords != null) {
-				String oreDictEntry = getOreDictToPut(coords.posX, coords.posY, coords.posZ);
+				String oreDictEntry = getOredictToPut(coords.posX, coords.posY, coords.posZ);
 				if (oreDictEntry != null) {
 					OreDictMaterial mat = OreDictMaterial.get(oreDictEntry.substring(3));
 					Block block = null;
 					int meta = 0;
 
-					if (mat != null) {
+					if(oreDictEntry.equals(BLACK_SANDS)) {
+						block = CS.BlocksGT.Sands;
+						meta = 0;
+					} else if (mat != null) {
 						Block oldBlock = supertile.getWorldObj().getBlock(coords.posX, coords.posY, coords.posZ);
 						int oldMeta = supertile.getWorldObj().getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 						IBlockPlacable oreBlock = CS.BlocksGT.stoneToNormalOres.get(new ItemStackContainer(oldBlock, 1, oldMeta));
@@ -101,7 +103,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 		}
 	}
 
-	public String getOreDictToPut(int x, int y, int z) {
+	public String getOredictToPut(int x, int y, int z) {
 		Collection<BotaniaHelper.StringRandomItem> weights = getOreWeights();
 
 		return ((BotaniaHelper.StringRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, weights)).s;

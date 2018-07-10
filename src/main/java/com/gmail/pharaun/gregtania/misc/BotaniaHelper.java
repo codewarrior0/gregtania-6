@@ -1,6 +1,7 @@
 package com.gmail.pharaun.gregtania.misc;
 
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidI;
+import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
+import com.gmail.pharaun.gregtania.botania.Util;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
 import gregapi.data.MT;
@@ -12,7 +13,6 @@ import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenOresLarge;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.oredict.OreDictionary;
@@ -30,8 +30,8 @@ public class BotaniaHelper {
     //public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightOverworld;
     public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightNether;
     public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightEnd;
-    public static Map<Pair<Block, Byte>, List<StringRandomItem>> wgLayerOres;
-    public static Collection<BlockRandomItem> wgWeightsStones;
+    public static Map<Util.BlockType, List<StringRandomItem>> wgLayerOres;
+    public static Map<Integer, List<BlockRandomItem>> wgWeightsStones;
 
     public static void initOreTables() {
         initWorldgenWeights();
@@ -78,16 +78,16 @@ public class BotaniaHelper {
 
     public static void initWorldgenLayerWeights() {
 
-        Map<Pair<Block, Byte>, List<StringRandomItem>> oresByLayer = new HashMap<>();
-        Map<Pair<Block, Byte>, Integer> stoneWeights = new HashMap<>();
+        Map<Util.BlockType, List<StringRandomItem>> oresByLayer = new HashMap<>();
+        Map<Util.BlockType, Integer> stoneWeights = new HashMap<>();
 
         for (StoneLayer layer: StoneLayer.LAYERS) {
-            Pair<Block, Byte> stone = new Pair<>(layer.mStone, layer.mMetaStone);
+            Util.BlockType stone = new Util.BlockType(layer.mStone, layer.mMetaStone);
             int weight = stoneWeights.getOrDefault(stone, 0);
             stoneWeights.put(stone, weight + 1);
 
             if (CS.BlocksGT.stoneToNormalOres.get(new ItemStackContainer(layer.mStone, 1, layer.mMetaStone)) != null) {
-                OrechidI.sourceBlocks.add(layer.mStone);
+                SubTileLayeredOrechid.sourceBlocks.add(layer.mStone);
             }
 
 
@@ -100,7 +100,13 @@ public class BotaniaHelper {
 
         wgWeightsStones = stoneWeights.entrySet().stream()
                 .map(e -> new BlockRandomItem(e.getValue(), e.getKey()))
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(b -> b.b.block.getHarvestLevel(b.b.meta)));
+        wgWeightsStones.forEach((k, v) -> {
+            if (k==0) return;
+            for (int i=0; i<k; i++) {
+                v.addAll(wgWeightsStones.get(i));
+            }
+        });
         wgLayerOres = oresByLayer;
     }
 
@@ -272,9 +278,9 @@ public class BotaniaHelper {
 
     public static class BlockRandomItem extends WeightedRandom.Item {
 
-        public Pair<Block, Byte> b;
+        public Util.BlockType b;
 
-        public BlockRandomItem(int par1, Pair<Block, Byte> b) {
+        public BlockRandomItem(int par1, Util.BlockType b) {
             super(par1);
             this.b = b;
         }

@@ -14,8 +14,10 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DebugSpawnListCommand implements ICommand {
     @Override
@@ -38,38 +40,53 @@ public class DebugSpawnListCommand implements ICommand {
     @Override
     public void processCommand(ICommandSender sender, String[] argString) {
         World world = sender.getEntityWorld();
-
+        Set<String> layerOres = new HashSet<>();
+        Set<String> veinOres = new HashSet<>();
         if (!world.isRemote) {
-            for (BotaniaHelper.BlockRandomItem b: BotaniaHelper.wgWeightsStones) {
-                sender.addChatMessage(new ChatComponentText(b.itemWeight + ": " + new ItemStack(b.b.getKey(), 1, b.b.getValue()).getDisplayName() +
-                        " (" + b.b.getKey().getHarvestLevel(b.b.getValue()) + "): "));
-            }
-            for (Map.Entry<Pair<Block, Byte>, List<BotaniaHelper.StringRandomItem>> e: BotaniaHelper.wgLayerOres.entrySet()) {
-                Pair<Block, Byte> b = e.getKey();
-                String name = new ItemStack(b.getKey(), 1, b.getValue()).getDisplayName();
-                List<BotaniaHelper.StringRandomItem> ores = e.getValue();
-                for(BotaniaHelper.StringRandomItem o: ores) {
-                    sender.addChatMessage(new ChatComponentText(name + "(" + b.getKey().getHarvestLevel(b.getValue()) + "): " + o.s));
+            BotaniaHelper.wgWeightsStones.forEach((k, v) -> {
+                v.forEach(b -> sender.addChatMessage(new ChatComponentText(
+                        b.itemWeight + ": " +
+                        new ItemStack(b.b.block, 1, b.b.meta).getDisplayName() +
+                        " (" + k + "): ")));
+            });
+
+            BotaniaHelper.wgLayerOres.forEach((k, v) -> {
+                String name = new ItemStack(k.block, 1, k.meta).getDisplayName();
+                for (BotaniaHelper.StringRandomItem o : v) {
+                    sender.addChatMessage(new ChatComponentText(name + "(" + k.block.getHarvestLevel(k.meta) + "): " + o.s));
+                    layerOres.add(o.s);
                 }
-            }
+            });
+
             if(Config.stackedOreInTiers) {
                 // Just need to test the last tier of the 3 orechids
                 //processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 3, 3);
-                processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 3, 3);
-                processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End",4, 4);
-
+                veinOres.addAll(
+                        processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 3, 3)
+                );
+                veinOres.addAll(
+                        processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End",4, 4)
+                );
             } else {
                 // Test stuff in each tier for each orechid
                 //processOrechid(sender, BotaniaHelper.tieredOreWeightOverworld, "Overworld", 0, 3);
-                processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 1, 3);
-                processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End", 1, 4);
+                veinOres.addAll(
+                        processOrechid(sender, BotaniaHelper.tieredOreWeightNether, "Nether", 1, 3)
+                );
+                veinOres.addAll(
+                        processOrechid(sender, BotaniaHelper.tieredOreWeightEnd, "End", 1, 4)
+                );
             }
         }
+        veinOres.removeAll(layerOres);
+        sender.addChatMessage(new ChatComponentText("Ores not found in layers: "));
+        veinOres.forEach(s->sender.addChatMessage(new ChatComponentText("    " + s)) );
     }
 
 
-    private void processOrechid(ICommandSender sender, Map<Integer, Collection<BotaniaHelper.StringRandomItem>> tieredOreWeight, String dimension, int lower, int upper) {
+    private Set<String> processOrechid(ICommandSender sender, Map<Integer, Collection<BotaniaHelper.StringRandomItem>> tieredOreWeight, String dimension, int lower, int upper) {
         sender.addChatMessage(new ChatComponentText("Orechid: " + dimension));
+        Set<String> allOres = new HashSet<>();
         for(int i = lower; i <= upper; i++) {
             Collection<BotaniaHelper.StringRandomItem> tier = tieredOreWeight.get(i);
 
@@ -80,6 +97,7 @@ public class DebugSpawnListCommand implements ICommand {
 
                 for (BotaniaHelper.StringRandomItem item : tier) {
                     String oredict = item.s;
+                    allOres.add(oredict);
                     // Get the GT ore material for the oredict
 
                     OreDictMaterial mat = OreDictMaterial.get(oredict.substring(3));
@@ -93,6 +111,7 @@ public class DebugSpawnListCommand implements ICommand {
                 }
             }
         }
+        return allOres;
     }
 
     @Override

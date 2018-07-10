@@ -1,6 +1,7 @@
 package com.gmail.pharaun.gregtania.botania;
 
 import com.gmail.pharaun.gregtania.Reference;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
@@ -17,6 +18,27 @@ import java.util.Iterator;
 
 // Thanks Magical Beees and ExCompressium for various hints on how to disable a flower/add a new flower
 public class Util {
+    public static class BlockType {
+        public Block block;
+        public int meta;
+        public BlockType(Block _block, int _meta) {
+            block = _block;
+            meta = _meta;
+        }
+
+        @Override
+        public int hashCode() {
+            return Block.getIdFromBlock(block) + (meta << 12);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(!(obj instanceof BlockType)) return false;
+            BlockType rhs = (BlockType) obj;
+            return block == rhs.block && meta == rhs.meta;
+        }
+    }
+
     public static void registerFlower(String name, Class<? extends SubTileEntity> klass) {
         BotaniaAPI.registerSubTile(name, klass);
         BotaniaAPI.registerSubTileSignature(klass, new CustomSubTileSignature(name));
@@ -27,11 +49,7 @@ public class Util {
         return registerFunctionalPetalRecipeTier(name, false, petals);
     }
 
-    public static LexiconEntry registerFunctionalPetalRecipeElven(String name, Object... petals) {
-        return registerFunctionalPetalRecipeTier(name, true, petals);
-    }
-
-    private static LexiconEntry registerFunctionalPetalRecipeTier(String name, boolean elven, Object... petals) {
+    public static LexiconEntry registerFunctionalPetalRecipeTier(String name, boolean elven, Object... petals) {
         ItemStack flower = ItemBlockSpecialFlower.ofType(name);
         RecipePetals recipeFlowerEvolved = BotaniaAPI.registerPetalRecipe(flower, petals);
 
@@ -49,7 +67,7 @@ public class Util {
         return registerFunctionalRunicRecipe(name,true, mana, petals);
     }
 
-    private static LexiconEntry registerFunctionalRunicRecipe(String name, boolean elven, int mana, Object... petals) {
+    public static LexiconEntry registerFunctionalRunicRecipe(String name, boolean elven, int mana, Object... petals) {
         ItemStack flower = ItemBlockSpecialFlower.ofType(name);
         RecipeRuneAltar recipeFlowerEvolved = BotaniaAPI.registerRuneAltarRecipe(flower, mana, petals);
 
@@ -59,7 +77,7 @@ public class Util {
         return registerLexicon(name, elven, new PageText(lexiconLangPage + ".0"), lexiconRecipe);
     }
 
-    private static LexiconEntry registerLexicon(String name, boolean elven, LexiconPage... pages) {
+    public static LexiconEntry registerLexicon(String name, boolean elven, LexiconPage... pages) {
         String lexiconLangName = "tile.botania:flower." + Reference.MODID + "." + name + ".name";
         LexiconEntry lexicon = new LexiconEntry(lexiconLangName, BotaniaAPI.categoryFunctionalFlowers) {
             @Override

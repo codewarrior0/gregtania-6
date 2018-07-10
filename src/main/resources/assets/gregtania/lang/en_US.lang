@@ -1,23 +1,7 @@
-tile.botania:flower.gregtania.evolvedOrechidI.name=Orechid I
-tile.botania:flower.gregtania.evolvedOrechidI.reference=Orechid: Gregged
-tile.botania:flower.gregtania.evolvedOrechidI.page.0=There is no mining of ores in this world. The &1Orechid I&0 will use &4Mana&0 to generate &4ores&0 in nearby &1Stone&0 blocks.<br>The ores it generates is random, biased toward more common ores rather than rarer ones.<br>The ores generated is tiered by mining level.
-tile.botania:flower.gregtania.evolvedOrechidI.page.1=&oStill not dragon poop though&r.
-
-tile.botania:flower.gregtania.evolvedOrechidII.name=Orechid II
-tile.botania:flower.gregtania.evolvedOrechidII.reference=Orechid: Gregged^2
-tile.botania:flower.gregtania.evolvedOrechidII.page.0=This &1Orechid II&0 is even stronger than the previous one.
-tile.botania:flower.gregtania.evolvedOrechidII.page.1=&oStill not dragon poop though&r.
-
-tile.botania:flower.gregtania.evolvedOrechidIII.name=Orechid III
-tile.botania:flower.gregtania.evolvedOrechidIII.reference=Orechid: Gregged^3
-tile.botania:flower.gregtania.evolvedOrechidIII.page.0=This &1Orechid III&0 is even stronger than the previous one.
-tile.botania:flower.gregtania.evolvedOrechidIII.page.1=&oStill not dragon poop though&r.
-
-tile.botania:flower.gregtania.evolvedOrechidIV.name=Orechid IV
-tile.botania:flower.gregtania.evolvedOrechidIV.reference=Orechid: Gregged^4
-tile.botania:flower.gregtania.evolvedOrechidIV.page.0=This &1Orechid IV&0 is the last answer in overworld ores!
-tile.botania:flower.gregtania.evolvedOrechidIV.page.1=&oStill not dragon poop though&r.
-
+tile.botania:flower.gregtania.evolvedOrechid.name=Orechid Techniticiei
+tile.botania:flower.gregtania.evolvedOrechid.reference=Orechid: Gregged
+tile.botania:flower.gregtania.evolvedOrechid.page.0=In a world where &1Stone&0 is not the only ore-bearing rock, an Orechid has evolved in harmony with Schists, Granites, and Limestones. The &1Orechid Techniticiei&0 will use &4Mana&0 to generate &4ores&0 in nearby geological strata. The ores it generates are specific to each stratum; for example, Copper-bearing ores are generated in Limestone, Tin-bearing ores in Marble, and Iron-bearing ores in ordinary Stone. The &1Stratodendron&0 makes an ideal companion to this flower.
+tile.botania:flower.gregtania.evolvedOrechid.page.1=&oOres are like onions&r
 
 tile.botania:flower.gregtania.evolvedOrechidIgnemI.name=Orechid Ignem I
 tile.botania:flower.gregtania.evolvedOrechidIgnemI.reference=Orechid Ignem: Burning
@@ -60,7 +44,22 @@ tile.botania:flower.gregtania.clayconiaAlluvia.reference=Perfectly Balanced
 tile.botania:flower.gregtania.clayconiaAlluvia.page.0=Obtaining Clay without access to any metals would prove impossible without the &1Clayconia Alluvia&0. This flower will turn your Gravel to Clay, but at a greater mana cost than the standard Clayconia.
 tile.botania:flower.gregtania.clayconiaAlluvia.page.1=&oWhere have I Bentonite? At the Clay Bar!&r.
 
-tile.botania:flower.gregtania.stratodendron.name=Stratodendron
-tile.botania:flower.gregtania.stratodendron.reference=Creating stone from other stone
-tile.botania:flower.gregtania.stratodendron.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the Orechid.
-tile.botania:flower.gregtania.stratodendron.page.1=&oDon't take me for Granite&r.
+tile.botania:flower.gregtania.stratodendronI.name=Stratodendron I
+tile.botania:flower.gregtania.stratodendronI.reference=Creating stone from other stone
+tile.botania:flower.gregtania.stratodendronI.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the &1Orechid Techniticiei&0.
+tile.botania:flower.gregtania.stratodendronI.page.1=&oDon't take me for Granite&r.
+
+tile.botania:flower.gregtania.stratodendronII.name=Stratodendron II
+tile.botania:flower.gregtania.stratodendronII.reference=Creating stone from other stone
+tile.botania:flower.gregtania.stratodendronII.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the &1Orechid Techniticiei&0.
+tile.botania:flower.gregtania.stratodendronII.page.1=&oDon't take me for Granite&r.
+
+tile.botania:flower.gregtania.stratodendronIII.name=Stratodendron III
+tile.botania:flower.gregtania.stratodendronIII.reference=Creating stone from other stone
+tile.botania:flower.gregtania.stratodendronIII.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the &1Orechid Techniticiei&0.
+tile.botania:flower.gregtania.stratodendronIII.page.1=&oDon't take me for Granite&r.
+
+tile.botania:flower.gregtania.stratodendronIV.name=Stratodendron IV
+tile.botania:flower.gregtania.stratodendronIV.reference=Creating stone from other stone
+tile.botania:flower.gregtania.stratodendronIV.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the &1Orechid Techniticiei&0.
+tile.botania:flower.gregtania.stratodendronIV.page.1=&oDon't take me for Granite&r.

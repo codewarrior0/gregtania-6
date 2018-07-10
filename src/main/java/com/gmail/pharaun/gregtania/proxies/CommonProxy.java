@@ -1,7 +1,7 @@
 package com.gmail.pharaun.gregtania.proxies;
 
 import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
-import com.gmail.pharaun.gregtania.botania.SubTileStratodendron;
+import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.botania.tiers.*;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
@@ -10,20 +10,35 @@ import com.gmail.pharaun.gregtania.misc.LogHelper;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import gregapi.data.CS;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.StringTranslate;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.recipe.RecipeManaInfusion;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.block.ModBlocks;
+import vazkii.botania.common.block.ModFluffBlocks;
+import vazkii.botania.common.crafting.ModManaAlchemyRecipes;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
+import vazkii.botania.common.lexicon.page.PageText;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommonProxy {
     public static final String SUBTILE_CLAYCONIA_ALLUVIA = "clayconiaAlluvia";
@@ -37,21 +52,19 @@ public class CommonProxy {
     private final int costTier3 = 12000;
     private final int costTier4 = 16000;
 
-    public void preInit(FMLPreInitializationEvent event) {}
+    public void preInit(FMLPreInitializationEvent event) {
+//        CS.GT.mAfterPostInit.add(this::afterGregPostInit);
+    }
 
     public void init(FMLInitializationEvent event) {
 
         // Disable the two vanilla botania orechids
-        if(Config.disableVanillaOrechid) {
+        if (Config.disableVanillaOrechid) {
             Util.disableBotaniaFunctionalFlower("orechid");
             Util.disableBotaniaFunctionalFlower("orechidIgnem");
         }
 
-        // Register The tiered orechid
-        Util.registerFlower(SUBTILE_EVOLVED_ORECHID + "I", OrechidI.class);
-        Util.registerFlower(SUBTILE_EVOLVED_ORECHID + "II", OrechidII.class);
-        Util.registerFlower(SUBTILE_EVOLVED_ORECHID + "III", OrechidIII.class);
-        Util.registerFlower(SUBTILE_EVOLVED_ORECHID + "IV", OrechidIV.class);
+        Util.registerFlower(SUBTILE_EVOLVED_ORECHID, SubTileLayeredOrechid.class);
 
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID_IGNEM + "I", OrechidIgnemI.class);
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID_IGNEM + "II", OrechidIgnemII.class);
@@ -62,22 +75,19 @@ public class CommonProxy {
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III", OrechidEndiumIII.class);
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", OrechidEndiumIV.class);
 
+        Util.registerFlower(SUBTILE_STRATODENDRON + "I", StratodendronI.class);
+        Util.registerFlower(SUBTILE_STRATODENDRON + "II", StratodendronII.class);
+        Util.registerFlower(SUBTILE_STRATODENDRON + "III", StratodendronIII.class);
+        Util.registerFlower(SUBTILE_STRATODENDRON + "IV", StratodendronIV.class);
+
         // Overworld Orechid recipes
-        Util.registerFunctionalPetalRecipe(SUBTILE_EVOLVED_ORECHID + "I", "petalGray", "petalGray", "petalYellow", "petalYellow", "petalGreen", "petalGreen", "petalRed", "petalRed");
-
-        ItemStack flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID + "I");
-        ItemStack livingRockBlock = new ItemStack(ModBlocks.livingrock, 1, 1);
-        ItemStack livingWoodBlock = new ItemStack(ModBlocks.livingwood, 1, 3);
-        Util.registerFunctionalRunicRecipe(SUBTILE_EVOLVED_ORECHID + "II", costTier1, flower, flower, livingRockBlock, livingRockBlock, livingWoodBlock, livingWoodBlock);
-
-        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID + "II");
-        Util.registerFunctionalRunicRecipe(SUBTILE_EVOLVED_ORECHID + "III", costTier1, flower, flower, "ingotManasteel", "ingotManasteel", "runeEarthB", "runeEarthB");
-
-        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID + "III");
-        Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID + "IV", costTier2, flower, flower, "ingotElvenElementium", "ingotElvenElementium", "runeSlothB", "runeSlothB");
+        SubTileLayeredOrechid.lexiconEntry =
+                Util.registerFunctionalPetalRecipe(SUBTILE_EVOLVED_ORECHID,
+                        "petalGray", "petalGray", "petalYellow", "petalYellow", "petalGreen", "petalGreen", "petalRed", "petalRed");
 
         // Nether Functional recipes
-        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID + "II");
+        ItemStack flower;
+        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID);
         Util.registerFunctionalRunicRecipe(SUBTILE_EVOLVED_ORECHID_IGNEM + "I", costTier1, flower, flower, "ingotManasteel", "ingotManasteel", "runeFireB", "runeFireB");
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_IGNEM + "I");
@@ -87,7 +97,7 @@ public class CommonProxy {
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_IGNEM + "III", costTier3, flower, flower, "ingotTerrasteel", "ingotTerrasteel", "runeGreedB", "runeGreedB");
 
         // End Functional recipes
-        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID + "IV");
+        flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID);
         ItemStack flower2 = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_IGNEM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "I", costTier3, flower, flower2, "ingotTerrasteel", "ingotTerrasteel", "runeGreedB", "runeSlothB");
 
@@ -101,11 +111,29 @@ public class CommonProxy {
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "III");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "IV", costTier4, flower, flower, flower, flower);
 
-        // Register the Layered Stone creator
+        // Register the Layered Stone creators
 
-        Util.registerFlower(SUBTILE_STRATODENDRON, SubTileStratodendron.class);
-        SubTileStratodendron.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_STRATODENDRON, "petalGray", "petalYellow", "petalGreen", "petalRed");
 
+        StratodendronI.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_STRATODENDRON + "I", "petalGray", "petalYellow", "petalGreen", "petalRed");
+
+        flower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "I");
+        ItemStack livingRockBlock = new ItemStack(ModBlocks.livingrock, 1, 1);
+        ItemStack livingWoodBlock = new ItemStack(ModBlocks.livingwood, 1, 3);
+        StratodendronII.lexiconEntry = Util.registerFunctionalRunicRecipe(SUBTILE_STRATODENDRON + "II", costTier1,
+                flower, flower, livingRockBlock, livingRockBlock, livingWoodBlock, livingWoodBlock);
+
+        flower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "II");
+        StratodendronIII.lexiconEntry = Util.registerFunctionalRunicRecipe(SUBTILE_STRATODENDRON + "III", costTier1,
+                flower, flower, "ingotManasteel", "ingotManasteel", "runeEarthB", "runeEarthB");
+
+        flower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "III");
+        StratodendronIV.lexiconEntry = Util.registerFunctionalRunicRecipeElven(SUBTILE_STRATODENDRON + "IV", costTier2,
+                flower, flower, "ingotElvenElementium", "ingotElvenElementium", "runeSlothB", "runeSlothB");
+
+//        StratodendronI.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronI.page"));
+//        StratodendronII.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronII.page"));
+//        StratodendronIII.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronIII.page"));
+//        StratodendronIV.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronIV.page"));
 
         if (Botania.gardenOfGlassLoaded) {
             // This looks like it allows Botania pebbles to be used as GT pebbles
@@ -129,9 +157,53 @@ public class CommonProxy {
         // Steel -> Manasteel (with discount)
         BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
 
+        // Replace mana catalyst recipes for 1.8 stones with greg stones (Granite, Diorite, Andesite, Basalt only)
+        List<RecipeManaInfusion> newRecipes = new ArrayList<>();
+        for (RecipeManaInfusion recipe : ModManaAlchemyRecipes.stoneRecipes) {
+            Object input = recipe.getInput();
+            if ((input instanceof ItemStack)) {
+                input = convertStoneToGreg((ItemStack)input);
+            } else if (input == "stone") {
+                input = new ItemStack(Blocks.stone);
+            }
+            ItemStack output = convertStoneToGreg(recipe.getOutput());
+
+            RecipeManaInfusion newRecipe = new RecipeManaInfusion(
+                    output, input, recipe.getManaToConsume()
+            );
+            newRecipe.setAlchemy(true);
+            newRecipes.add(newRecipe);
+        }
+        BotaniaAPI.manaInfusionRecipes.removeAll(ModManaAlchemyRecipes.stoneRecipes);
+        ModManaAlchemyRecipes.stoneRecipes.clear();
+        ModManaAlchemyRecipes.stoneRecipes.addAll(newRecipes);
+        BotaniaAPI.manaInfusionRecipes.addAll(newRecipes);
+    }
+
+    private static ItemStack convertStoneToGreg(ItemStack stack) {
+        if (stack.getItem() instanceof ItemBlock && ((ItemBlock)stack.getItem()).field_150939_a == ModFluffBlocks.stone) {
+            int meta = stack.getItemDamage();
+            Block block;
+            switch(meta) {
+                case 0:
+                    block = CS.BlocksGT.Andesite; break;
+                case 1:
+                    block = CS.BlocksGT.Basalt; break;
+                case 2:
+                    block = CS.BlocksGT.Diorite; break;
+                case 3:
+                    block = CS.BlocksGT.Granite; break;
+                default:
+                    return stack;
+            }
+            return new ItemStack(block);
+        }
+        return stack;
     }
 
     public void postInit(FMLPostInitializationEvent event) {
+        BotaniaHelper.initOreTables();
+
         if (Botania.gardenOfGlassLoaded) {
             // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
             // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
@@ -163,13 +235,31 @@ public class CommonProxy {
                 }
             }
         }
-        // Init the ore tables in postInit so we can use the worldgen data GT creates in init
-        BotaniaHelper.initOreTables();
+
 
         // Log the available levels
         //LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
         LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet().toString());
         LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet().toString());
-
     }
+
+//    public void afterGregPostInit() {
+//        // Inject dynamic lexicon pages into language registry
+//        HashMap<String, String> langMap = new HashMap<>();
+//
+//        String[] eyes = {"I", "II", "III", "IV"};
+//        for(int i=0; i<4; i++) {
+//            if (!BotaniaHelper.wgWeightsStones.containsKey(i)) continue;
+//
+//            List<BotaniaHelper.BlockRandomItem> stones = BotaniaHelper.wgWeightsStones.get(i);
+//            String stoneNames = stones.stream()
+//                    .map(b -> new ItemStack(b.b.getKey(), 1, b.b.getValue()).getDisplayName())
+//                    .collect(Collectors.joining(""));
+//            langMap.put("gregtania.dynamic:stratodendron" + eyes[i] + ".page",
+//                    "The following stones are created by this tier of Stratodendron:<br><br>" + stoneNames + "\n");
+//
+//        }
+//        LanguageRegistry.instance().injectLanguage("en_US", langMap);
+//
+//    }
 }

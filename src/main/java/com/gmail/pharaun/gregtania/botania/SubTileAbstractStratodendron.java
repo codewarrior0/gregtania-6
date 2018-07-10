@@ -13,20 +13,13 @@ import net.minecraft.util.WeightedRandom;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
-import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.handler.ConfigHandler;
-import vazkii.botania.common.lexicon.LexiconData;
 
-public class SubTileStratodendron extends SubTileFunctional {
+public abstract class SubTileAbstractStratodendron extends SubTileFunctional {
 
     private static final int COST = 12;
     private static final int RANGE = 8;
     private static final int RANGE_Y = 5;
-
-    private static final int RANGE_MINI = 2;
-    private static final int RANGE_Y_MINI = 1;
-
-    public static LexiconEntry lexiconEntry;
 
     @Override
     public void onUpdate() {
@@ -37,13 +30,11 @@ public class SubTileStratodendron extends SubTileFunctional {
         if(!supertile.getWorldObj().isRemote && mana >= COST && ticksExisted % 2 == 0) {
             ChunkCoordinates coords = getCoordsToPut();
             if(coords != null) {
-                Pair<Block, Byte> blockType = getStoneToPut(coords);
+                Util.BlockType blockType = getStoneToPut(coords);
                 if(blockType != null) {
-                    Block block = blockType.getKey();
-                    byte meta = blockType.getValue();
-                    supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, meta, 1 | 2);
+                    supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, blockType.block, blockType.meta, 1 | 2);
                     if(ConfigHandler.blockBreakParticles)
-                        supertile.getWorldObj().playAuxSFX(2001, coords.posX, coords.posY, coords.posZ, Block.getIdFromBlock(block) + (meta << 12));
+                        supertile.getWorldObj().playAuxSFX(2001, coords.posX, coords.posY, coords.posZ, Block.getIdFromBlock(blockType.block) + (blockType.meta << 12));
 
                     mana -= COST;
                     sync();
@@ -52,8 +43,10 @@ public class SubTileStratodendron extends SubTileFunctional {
         }
     }
 
-    public Pair<Block, Byte> getStoneToPut(ChunkCoordinates coords) {
-        return ((BotaniaHelper.BlockRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, BotaniaHelper.wgWeightsStones)).b;
+    abstract public int getStoneTier();
+
+    public Util.BlockType getStoneToPut(ChunkCoordinates coords) {
+        return ((BotaniaHelper.BlockRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, BotaniaHelper.wgWeightsStones.get(getStoneTier()))).b;
     }
 
     public ChunkCoordinates getCoordsToPut() {
@@ -104,16 +97,6 @@ public class SubTileStratodendron extends SubTileFunctional {
     @Override
     public int getMaxMana() {
         return 1000;
-    }
-
-    @Override
-    public LexiconEntry getEntry() {
-        return lexiconEntry;
-    }
-
-    public static class Mini extends SubTileStratodendron {
-        @Override public int getRange() { return RANGE_MINI; }
-        @Override public int getRangeY() { return RANGE_Y_MINI; }
     }
 
 }
