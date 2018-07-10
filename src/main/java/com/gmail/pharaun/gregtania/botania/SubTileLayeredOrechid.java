@@ -3,6 +3,7 @@ package com.gmail.pharaun.gregtania.botania;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.WeightedRandom;
 import vazkii.botania.api.lexicon.LexiconEntry;
 
@@ -20,7 +21,7 @@ public abstract class SubTileLayeredOrechid extends SubTileAbstractEvolvedOrechi
         if (block.getHarvestLevel(meta) > getOreTier()) return null;
 
         List<BotaniaHelper.StringRandomItem> oreDicts = BotaniaHelper.wgLayerOres.get(new Pair<Block, Byte>(block, (byte)meta));
-        if (oreDicts != null) {
+        if (oreDicts != null && oreDicts.size() > 0) {
             return ((BotaniaHelper.StringRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, oreDicts)).s;
         }
         return null;
