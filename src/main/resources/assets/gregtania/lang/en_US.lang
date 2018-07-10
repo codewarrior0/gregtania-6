@@ -60,8 +60,7 @@ tile.botania:flower.gregtania.clayconiaAlluvia.reference=Perfectly Balanced
 tile.botania:flower.gregtania.clayconiaAlluvia.page.0=Obtaining Clay without access to any metals would prove impossible without the &1Clayconia Alluvia&0. This flower will turn your Gravel to Clay, but at a greater mana cost than the standard Clayconia.
 tile.botania:flower.gregtania.clayconiaAlluvia.page.1=&oWhere have I Bentonite? At the Clay Bar!&r.
 
-
-tile.botania:flower.gregtania.clayconiaAlluvia.name=Stratodendron
-tile.botania:flower.gregtania.clayconiaAlluvia.reference=Creating stone from other stone
-tile.botania:flower.gregtania.clayconiaAlluvia.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the Orechid.
-tile.botania:flower.gregtania.clayconiaAlluvia.page.1=&oDon't take me for Granite&r.
+tile.botania:flower.gregtania.stratodendron.name=Stratodendron
+tile.botania:flower.gregtania.stratodendron.reference=Creating stone from other stone
+tile.botania:flower.gregtania.stratodendron.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the Orechid.
+tile.botania:flower.gregtania.stratodendron.page.1=&oDon't take me for Granite&r.
