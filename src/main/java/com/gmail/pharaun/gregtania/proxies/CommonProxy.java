@@ -121,6 +121,18 @@ public class CommonProxy {
             Util.registerFlower(SUBTILE_CLAYCONIA_ALLUVIA, SubTileClayconiaAlluvia.class);
             SubTileClayconiaAlluvia.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_CLAYCONIA_ALLUVIA, "petalGray", "petalLightGray", "petalLightGray", "petalCyan");
 
+        }
+
+        // Wrought Iron -> Manasteel
+        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIron", 3000);
+
+        // Steel -> Manasteel (with discount)
+        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
+
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
+        if (Botania.gardenOfGlassLoaded) {
             // Greg takes over the Blaze Lamp recipe, replacing it with Blaze Powder Block
             // Add a cheaper Blaze Lamp recipe since the Iron for Iron Bars is harder to get
             ItemStack blazeBlock = new ItemStack(ModBlocks.blazeBlock);
@@ -133,30 +145,24 @@ public class CommonProxy {
                     new ItemStack(Items.blaze_powder, 1)
             );
 
+
             // Also change the reverse recipe.
 
-            for (IRecipe recipe: (List<IRecipe>)CraftingManager.getInstance().getRecipeList()) {
+            for (IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
                 ItemStack output = recipe.getRecipeOutput();
-                if (recipe instanceof ShapelessRecipes && output.getItem() == Items.blaze_powder && output.stackSize == 9) {
-                    ShapelessRecipes sRecipe = (ShapelessRecipes) recipe;
-                    if (sRecipe.recipeItems.size() == 1
-                            && ((ItemStack) sRecipe.recipeItems.get(0)).isItemEqual(blazeBlock)) {
-                        output.stackSize = 4;
-                        break;
+                if (recipe instanceof ShapelessOreRecipe
+                        && output.getItem() == Items.blaze_powder
+                        && output.stackSize == 9) {
+                    ShapelessOreRecipe sRecipe = (ShapelessOreRecipe) recipe;
+                    if (sRecipe.getInput().size() == 1) {
+                        if (sRecipe.getInput().get(0) == OreDictionary.getOres("blockBlaze")) {
+                            output.stackSize = 4;
+                            break;
+                        }
                     }
                 }
             }
         }
-
-        // Wrought Iron -> Manasteel
-        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIron", 3000);
-
-        // Steel -> Manasteel (with discount)
-        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
-
-    }
-
-    public void postInit(FMLPostInitializationEvent event) {
         // Init the ore tables in postInit so we can use the worldgen data GT creates in init
         BotaniaHelper.initOreTables();
 
