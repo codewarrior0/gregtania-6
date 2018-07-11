@@ -68,6 +68,7 @@ public abstract class SubTileAbstractEvolvedOrechid extends SubTileFunctional {
 					if(oreDictEntry.equals(BLACK_SANDS)) {
 						block = CS.BlocksGT.Sands;
 						meta = 0;
+						supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, block, meta, 1 | 2);
 					} else if (mat != null) {
 						Block oldBlock = supertile.getWorldObj().getBlock(coords.posX, coords.posY, coords.posZ);
 						int oldMeta = supertile.getWorldObj().getBlockMetadata(coords.posX, coords.posY, coords.posZ);
