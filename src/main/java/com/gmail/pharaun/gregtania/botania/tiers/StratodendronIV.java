@@ -16,6 +16,6 @@ public class StratodendronIV extends SubTileAbstractStratodendron {
 
     @Override
     public int getStoneTier() {
-        return 999;
+        return 3;
     }
 }

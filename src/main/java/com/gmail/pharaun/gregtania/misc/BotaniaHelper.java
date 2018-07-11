@@ -102,6 +102,11 @@ public class BotaniaHelper {
                 .collect(Collectors.groupingBy(b -> b.b.block.getHarvestLevel(b.b.meta)));
         wgWeightsStones.forEach((k, v) -> {
             if (k==0) return;
+            if (k > 3) return;
+            if (k == 3) {
+                wgWeightsStones.forEach((kk, vv) -> v.addAll(vv));
+                return;
+            }
             for (int i=0; i<k; i++) {
                 v.addAll(wgWeightsStones.get(i));
             }
