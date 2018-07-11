@@ -52,9 +52,9 @@ public class DebugSpawnListCommand implements ICommand {
 
             BotaniaHelper.wgLayerOres.forEach((k, v) -> {
                 String name = new ItemStack(k.block, 1, k.meta).getDisplayName();
-                for (BotaniaHelper.StringRandomItem o : v) {
-                    sender.addChatMessage(new ChatComponentText(name + "(" + k.block.getHarvestLevel(k.meta) + "): " + o.s));
-                    layerOres.add(o.s);
+                for (BotaniaHelper.MaterialRandomItem o : v) {
+                    sender.addChatMessage(new ChatComponentText(name + "(" + k.block.getHarvestLevel(k.meta) + "): " + o.m.mNameInternal));
+                    layerOres.add("ore" + o.m.mNameInternal);
                 }
             });
 

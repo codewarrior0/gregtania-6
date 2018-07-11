@@ -30,7 +30,7 @@ public abstract class SubTileAbstractStratodendron extends SubTileFunctional {
         if(!supertile.getWorldObj().isRemote && mana >= COST && ticksExisted % 2 == 0) {
             ChunkCoordinates coords = getCoordsToPut();
             if(coords != null) {
-                Util.BlockType blockType = getStoneToPut(coords);
+                Util.BlockType blockType = getStoneToPut();
                 if(blockType != null) {
                     supertile.getWorldObj().setBlock(coords.posX, coords.posY, coords.posZ, blockType.block, blockType.meta, 1 | 2);
                     if(ConfigHandler.blockBreakParticles)
@@ -45,7 +45,7 @@ public abstract class SubTileAbstractStratodendron extends SubTileFunctional {
 
     abstract public int getStoneTier();
 
-    public Util.BlockType getStoneToPut(ChunkCoordinates coords) {
+    public Util.BlockType getStoneToPut() {
         return ((BotaniaHelper.BlockRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, BotaniaHelper.wgWeightsStones.get(getStoneTier()))).b;
     }
 

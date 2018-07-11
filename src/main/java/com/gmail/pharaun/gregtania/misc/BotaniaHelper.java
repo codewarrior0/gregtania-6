@@ -30,7 +30,7 @@ public class BotaniaHelper {
     //public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightOverworld;
     public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightNether;
     public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightEnd;
-    public static Map<Util.BlockType, List<StringRandomItem>> wgLayerOres;
+    public static Map<Util.BlockType, List<MaterialRandomItem>> wgLayerOres;
     public static Map<Integer, List<BlockRandomItem>> wgWeightsStones;
 
     public static void initOreTables() {
@@ -78,7 +78,7 @@ public class BotaniaHelper {
 
     public static void initWorldgenLayerWeights() {
 
-        Map<Util.BlockType, List<StringRandomItem>> oresByLayer = new HashMap<>();
+        Map<Util.BlockType, List<MaterialRandomItem>> oresByLayer = new HashMap<>();
         Map<Util.BlockType, Integer> stoneWeights = new HashMap<>();
 
         for (StoneLayer layer: StoneLayer.LAYERS) {
@@ -91,10 +91,10 @@ public class BotaniaHelper {
             }
 
 
-            List<StringRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
+            List<MaterialRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
 
             for (StoneLayerOres layerOres: layer.mOres) {
-                layerOreNames.add(new StringRandomItem((int)(layerOres.mChance / 384), "ore" + layerOres.mMaterial.mNameInternal));
+                layerOreNames.add(new MaterialRandomItem((int)(layerOres.mChance / 384), layerOres.mMaterial));
             }
         }
 
@@ -265,6 +265,16 @@ public class BotaniaHelper {
         return block.getHarvestLevel(meta);
     }
 
+    public static class MaterialRandomItem extends WeightedRandom.Item {
+
+        public OreDictMaterial m;
+
+        public MaterialRandomItem(int par1, OreDictMaterial m) {
+            super(par1);
+            this.m = m;
+        }
+
+    }
     public static class StringRandomItem extends WeightedRandom.Item {
 
         public String s;

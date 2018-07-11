@@ -28,14 +28,14 @@ public class Util {
 
         @Override
         public int hashCode() {
-            return Block.getIdFromBlock(block) + (meta << 12);
+            return block.hashCode() ^ (meta << 12);
         }
 
         @Override
         public boolean equals(Object obj) {
             if(!(obj instanceof BlockType)) return false;
             BlockType rhs = (BlockType) obj;
-            return block == rhs.block && meta == rhs.meta;
+            return block.equals(rhs.block) && meta == rhs.meta;
         }
     }
 
