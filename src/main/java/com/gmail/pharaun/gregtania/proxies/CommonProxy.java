@@ -178,6 +178,21 @@ public class CommonProxy {
         ModManaAlchemyRecipes.stoneRecipes.clear();
         ModManaAlchemyRecipes.stoneRecipes.addAll(newRecipes);
         BotaniaAPI.manaInfusionRecipes.addAll(newRecipes);
+
+        int saplingMana = ModManaAlchemyRecipes.saplingRecipes.get(5).getManaToConsume();
+        BotaniaAPI.manaInfusionRecipes.remove(ModManaAlchemyRecipes.saplingRecipes.get(5));
+        ModManaAlchemyRecipes.saplingRecipes.remove(5);
+
+        for (int i=0; i<8; i++) {
+            ItemStack output = i<7 ? new ItemStack(CS.BlocksGT.Sapling, 1, i+1) : new ItemStack(Blocks.sapling, 1, 0);
+            ItemStack input = i>0 ? new ItemStack(CS.BlocksGT.Sapling, 1, i) : new ItemStack(Blocks.sapling, 1, 5);
+            RecipeManaInfusion newRecipe = new RecipeManaInfusion(
+                    output, input, saplingMana
+            );
+            newRecipe.setAlchemy(true);
+            ModManaAlchemyRecipes.saplingRecipes.add(newRecipe);
+            BotaniaAPI.manaInfusionRecipes.add(newRecipe);
+        }
     }
 
     private static ItemStack convertStoneToGreg(ItemStack stack) {
