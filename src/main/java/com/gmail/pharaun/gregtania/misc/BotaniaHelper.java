@@ -90,11 +90,10 @@ public class BotaniaHelper {
                 SubTileLayeredOrechid.sourceBlocks.add(layer.mStone);
             }
 
-
             List<MaterialRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
 
             for (StoneLayerOres layerOres: layer.mOres) {
-                layerOreNames.add(new MaterialRandomItem((int)(layerOres.mChance / 384), layerOres.mMaterial));
+                layerOreNames.add(new MaterialRandomItem((int)(layerOres.mChance / CS.U1440), layerOres.mMaterial));
             }
         }
 
@@ -107,6 +106,9 @@ public class BotaniaHelper {
                 v.addAll(wgWeightsStones.get(i));
             }
         });
+
+        // Concession to Botania: make Lapis spawn rarely in Marble so it is available without Black Granite
+        oresByLayer.computeIfAbsent(new Util.BlockType(CS.BlocksGT.Marble, 0), k -> new ArrayList<>()).add(new MaterialRandomItem(60, MT.Lapis));
         wgLayerOres = oresByLayer;
     }
 
