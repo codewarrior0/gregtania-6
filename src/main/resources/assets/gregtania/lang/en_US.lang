@@ -63,3 +63,8 @@ tile.botania:flower.gregtania.stratodendronIV.name=Stratodendron IV
 tile.botania:flower.gregtania.stratodendronIV.reference=Creating stone from other stone
 tile.botania:flower.gregtania.stratodendronIV.page.0=This flower will alter the geology of any nearby Stone, producing a variety of other rocks and minerals. Some of these minerals can be infused with unique ores by the &1Orechid Techniticiei&0.
 tile.botania:flower.gregtania.stratodendronIV.page.1=&oDon't take me for Granite&r.
+
+tile.botania:flower.gregtania.bumblebiscus.name=Bumblebiscus
+tile.botania:flower.gregtania.bumblebiscus.reference=What little bumbles are made of
+tile.botania:flower.gregtania.bumblebiscus.page.0=Can't find any bumblebee hives? No problem! This big flower will turn any nearby Dry Grass Bales into random Bumble Hives, at a hefty mana cost.
+tile.botania:flower.gregtania.bumblebiscus.page.1=&Made by breeding HTNYCAEVIH with SUCSEEBIH&r.

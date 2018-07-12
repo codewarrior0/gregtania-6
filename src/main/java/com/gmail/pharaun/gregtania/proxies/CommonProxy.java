@@ -1,5 +1,6 @@
 package com.gmail.pharaun.gregtania.proxies;
 
+import com.gmail.pharaun.gregtania.botania.SubTileBumblebiscus;
 import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
 import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
 import com.gmail.pharaun.gregtania.botania.Util;
@@ -38,6 +39,7 @@ public class CommonProxy {
     public static final String SUBTILE_EVOLVED_ORECHID = "evolvedOrechid";
     public static final String SUBTILE_EVOLVED_ORECHID_IGNEM = "evolvedOrechidIgnem";
     public static final String SUBTILE_EVOLVED_ORECHID_ENDIUM = "evolvedOrechidEndium";
+    public static final String SUBTILE_BUMBLEBISCUS = "bumblebiscus";
 
     private static final int costTier1 = 5200;
     private static final int costTier2 = 8000;
@@ -71,6 +73,8 @@ public class CommonProxy {
         Util.registerFlower(SUBTILE_STRATODENDRON + "II", StratodendronII.class);
         Util.registerFlower(SUBTILE_STRATODENDRON + "III", StratodendronIII.class);
         Util.registerFlower(SUBTILE_STRATODENDRON + "IV", StratodendronIV.class);
+
+        Util.registerFlower(SUBTILE_BUMBLEBISCUS, SubTileBumblebiscus.class);
 
         // Overworld Orechid recipes
         SubTileLayeredOrechid.lexiconEntry =
@@ -106,7 +110,6 @@ public class CommonProxy {
 
         // Register the Layered Stone creators
 
-
         StratodendronI.lexiconEntry = Util.registerFunctionalPetalRecipe(SUBTILE_STRATODENDRON + "I", "petalGray", "petalYellow", "petalGreen", "petalRed");
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "I");
@@ -122,6 +125,12 @@ public class CommonProxy {
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "III");
         StratodendronIV.lexiconEntry = Util.registerFunctionalRunicRecipeElven(SUBTILE_STRATODENDRON + "IV", costTier2,
                 flower, flower, "ingotElvenElementium", "ingotElvenElementium", "runeSlothB", "runeSlothB");
+
+
+        SubTileBumblebiscus.lexiconEntry =
+                Util.registerFunctionalPetalRecipe(SUBTILE_BUMBLEBISCUS,
+                        "petalBlack", "petalYellow", "petalBlack", "petalYellow", "petalBlack", "petalYellow", "petalBlack", "petalYellow");
+
 
 //        StratodendronI.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronI.page"));
 //        StratodendronII.lexiconEntry.pages.add(1, new PageText("gregtania.dynamic:stratodendronII.page"));
