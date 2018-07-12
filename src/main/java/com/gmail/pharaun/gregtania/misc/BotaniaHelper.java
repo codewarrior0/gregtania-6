@@ -100,11 +100,15 @@ public class BotaniaHelper {
         wgWeightsStones = stoneWeights.entrySet().stream()
                 .map(e -> new BlockRandomItem(e.getValue(), e.getKey()))
                 .collect(Collectors.groupingBy(b -> b.b.block.getHarvestLevel(b.b.meta)));
+
+        // Stack low tier stones into higher tiers, and stack all tiers above 3 into T3.
         wgWeightsStones.forEach((k, v) -> {
             if (k==0) return;
             if (k > 3) return;
             if (k == 3) {
-                wgWeightsStones.forEach((kk, vv) -> v.addAll(vv));
+                wgWeightsStones.forEach((kk, vv) -> {
+                    if (kk != 3) v.addAll(vv);
+                });
                 return;
             }
             for (int i=0; i<k; i++) {
