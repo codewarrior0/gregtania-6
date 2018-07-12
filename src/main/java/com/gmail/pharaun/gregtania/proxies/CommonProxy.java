@@ -10,7 +10,6 @@ import com.gmail.pharaun.gregtania.misc.LogHelper;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import gregapi.data.CS;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -19,7 +18,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.StringTranslate;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
@@ -30,15 +28,9 @@ import vazkii.botania.common.block.ModFluffBlocks;
 import vazkii.botania.common.crafting.ModManaAlchemyRecipes;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
-import vazkii.botania.common.lexicon.page.PageText;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CommonProxy {
     public static final String SUBTILE_CLAYCONIA_ALLUVIA = "clayconiaAlluvia";
@@ -47,10 +39,10 @@ public class CommonProxy {
     public static final String SUBTILE_EVOLVED_ORECHID_IGNEM = "evolvedOrechidIgnem";
     public static final String SUBTILE_EVOLVED_ORECHID_ENDIUM = "evolvedOrechidEndium";
 
-    private final int costTier1 = 5200;
-    private final int costTier2 = 8000;
-    private final int costTier3 = 12000;
-    private final int costTier4 = 16000;
+    private static final int costTier1 = 5200;
+    private static final int costTier2 = 8000;
+    private static final int costTier3 = 12000;
+    private static final int costTier4 = 16000;
 
     public void preInit(FMLPreInitializationEvent event) {
 //        CS.GT.mAfterPostInit.add(this::afterGregPostInit);
@@ -86,9 +78,10 @@ public class CommonProxy {
                         "petalGray", "petalGray", "petalYellow", "petalYellow", "petalGreen", "petalGreen", "petalRed", "petalRed");
 
         // Nether Functional recipes
+        ItemStack stratoflower = ItemBlockSpecialFlower.ofType(SUBTILE_STRATODENDRON + "IV");
         ItemStack flower;
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID);
-        Util.registerFunctionalRunicRecipe(SUBTILE_EVOLVED_ORECHID_IGNEM + "I", costTier1, flower, flower, "ingotManasteel", "ingotManasteel", "runeFireB", "runeFireB");
+        Util.registerFunctionalRunicRecipe(SUBTILE_EVOLVED_ORECHID_IGNEM + "I", costTier1, flower, flower, stratoflower, stratoflower, "ingotManasteel", "ingotManasteel", "runeFireB", "runeFireB");
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_IGNEM + "I");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_IGNEM + "II", costTier2, flower, flower, "ingotElvenElementium", "ingotElvenElementium", "runeFireB", "runeFireB");
@@ -99,7 +92,7 @@ public class CommonProxy {
         // End Functional recipes
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID);
         ItemStack flower2 = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_IGNEM + "III");
-        Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "I", costTier3, flower, flower2, "ingotTerrasteel", "ingotTerrasteel", "runeGreedB", "runeSlothB");
+        Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "I", costTier3, flower, flower2, stratoflower, stratoflower, "ingotTerrasteel", "ingotTerrasteel", "runeGreedB", "runeSlothB");
 
         flower = ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_ENDIUM + "I");
         Util.registerFunctionalRunicRecipeElven(SUBTILE_EVOLVED_ORECHID_ENDIUM + "II", costTier4, flower, flower, "gaiaIngot", "gaiaIngot", "runePrideB", "runePrideB");
