@@ -1,6 +1,6 @@
 tile.botania:flower.gregtania.evolvedOrechid.name=Orechid Techniticiei
 tile.botania:flower.gregtania.evolvedOrechid.reference=Orechid: Gregged
-tile.botania:flower.gregtania.evolvedOrechid.page.0=In a world where &1Stone&0 is not the only ore-bearing rock, an Orechid has evolved in harmony with Schists, Granites, and Limestones. The &1Orechid Techniticiei&0 will use &4Mana&0 to generate &4ores&0 in nearby geological strata. The ores it generates are specific to each stratum; for example, Copper-bearing ores are generated in Limestone, Tin-bearing ores in Marble, and Iron-bearing ores in ordinary Stone. The &1Stratodendron&0 makes an ideal companion to this flower.
+tile.botania:flower.gregtania.evolvedOrechid.page.0=In a world where &1Stone&0 is not the only ore-bearing rock, an Orechid has evolved in harmony with Schists, Granites, and Limestones. The &1Orechid Techniticiei&0 will use &4Mana&0 to generate &4ores&0 in nearby geological strata. The ores it generates are specific to each stratum; Copper-bearing ores are generated in Limestone, for example. The &1Stratodendron&0 makes an ideal companion to this flower.
 tile.botania:flower.gregtania.evolvedOrechid.page.1=&oOres are like onions&r
 
 tile.botania:flower.gregtania.evolvedOrechidIgnemI.name=Orechid Ignem I
