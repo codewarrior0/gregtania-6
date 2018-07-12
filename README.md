@@ -5,7 +5,10 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 
 **New in Gregtania 6:**
 
-- Sand and Gravel can be turned to ores by overworld Orechids
+- Stratodendron flowers can turn plain Stone into GregTech layered stone types
+- Evolved Orechid now turns layered stones into ores according to natural worldgen (including the over-under ores)
+- Evolved Orechid turns sand into magnetite-bearing Black Sand
+- GregTech tree saplings can be crafted using the Alchemy Catalyst
 - Gravel can be turned to ores by Orechids Ignem.
 - Ore weights are no longer hardcoded, but instead computed from the GregTech world gen parameters. Additional ores may still be added via the JSON weights config.
 - Botania pebbles are now replaced by GregTech pebbles, which can be used to craft stone tools
