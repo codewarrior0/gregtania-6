@@ -61,12 +61,6 @@ public class CommonProxy {
 
         }
 
-        // Wrought Iron -> Manasteel
-        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIron", 3000);
-
-        // Steel -> Manasteel (with discount)
-        BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.manaResource, 1, 0), "ingotAnyIronSteel", 1500);
-
         // Replace mana catalyst recipes for 1.8 stones with greg stones (Granite, Diorite, Andesite, Basalt only)
         List<RecipeManaInfusion> newRecipes = new ArrayList<>();
         for (RecipeManaInfusion recipe : ModManaAlchemyRecipes.stoneRecipes) {
