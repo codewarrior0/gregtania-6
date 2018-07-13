@@ -1,5 +1,6 @@
 package com.gmail.pharaun.gregtania.botania;
 
+import com.gmail.pharaun.gregtania.lexicon.GTLexiconData;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
@@ -44,7 +45,6 @@ public class SubTileLayeredOrechid extends SubTileFunctional {
     private static final int RANGE_Y = 3;
 
     public static final Set<Block> sourceBlocks = new HashSet<>(Collections.singletonList(Blocks.sand));
-    public static LexiconEntry lexiconEntry = null;
 
     public Set<Block> getSourceBlocks() {
         return sourceBlocks;
@@ -65,7 +65,7 @@ public class SubTileLayeredOrechid extends SubTileFunctional {
 
     @Override
     public LexiconEntry getEntry() {
-        return lexiconEntry;
+        return GTLexiconData.entryEvolvedOrechid;
     }
 
     public ChunkCoordinates getCoordsToPut() {

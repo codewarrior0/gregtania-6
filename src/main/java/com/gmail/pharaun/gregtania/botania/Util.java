@@ -45,57 +45,6 @@ public class Util {
         BotaniaAPI.addSubTileToCreativeMenu(name);
     }
 
-    public static LexiconEntry registerFunctionalPetalRecipe(String name, Object... petals) {
-        return registerFunctionalPetalRecipeTier(name, false, petals);
-    }
-
-    public static LexiconEntry registerFunctionalPetalRecipeTier(String name, boolean elven, Object... petals) {
-        ItemStack flower = ItemBlockSpecialFlower.ofType(name);
-        RecipePetals recipeFlowerEvolved = BotaniaAPI.registerPetalRecipe(flower, petals);
-
-        String lexiconLangPage = "tile.botania:flower." + Reference.MODID + "." + name + ".page";
-        LexiconPage lexiconRecipe = new PagePetalRecipe<>(lexiconLangPage + ".1", recipeFlowerEvolved);
-
-        return registerLexicon(name, elven, new PageText(lexiconLangPage + ".0"), lexiconRecipe);
-    }
-
-    public static LexiconEntry registerFunctionalRunicRecipe(String name, int mana, Object... petals) {
-        return registerFunctionalRunicRecipe(name, false, mana, petals);
-    }
-
-    public static LexiconEntry registerFunctionalRunicRecipeElven(String name, int mana, Object... petals) {
-        return registerFunctionalRunicRecipe(name,true, mana, petals);
-    }
-
-    public static LexiconEntry registerFunctionalRunicRecipe(String name, boolean elven, int mana, Object... petals) {
-        ItemStack flower = ItemBlockSpecialFlower.ofType(name);
-        RecipeRuneAltar recipeFlowerEvolved = BotaniaAPI.registerRuneAltarRecipe(flower, mana, petals);
-
-        String lexiconLangPage = "tile.botania:flower." + Reference.MODID + "." + name + ".page";
-        PageRuneRecipe lexiconRecipe = new PageRuneRecipe(lexiconLangPage + ".1", recipeFlowerEvolved);
-
-        return registerLexicon(name, elven, new PageText(lexiconLangPage + ".0"), lexiconRecipe);
-    }
-
-    public static LexiconEntry registerLexicon(String name, boolean elven, LexiconPage... pages) {
-        String lexiconLangName = "tile.botania:flower." + Reference.MODID + "." + name + ".name";
-        LexiconEntry lexicon = new LexiconEntry(lexiconLangName, BotaniaAPI.categoryFunctionalFlowers) {
-            @Override
-            public String getTagline() {
-                // TODO: is this the right one or is there another one?
-                return "tile.botania:flower." + Reference.MODID + "." + name + ".reference";
-            }
-        };
-        lexicon.setLexiconPages(pages);
-        lexicon.setPriority();
-        if (elven) {
-            lexicon.setKnowledgeType(BotaniaAPI.elvenKnowledge);
-        }
-
-        BotaniaAPI.addEntry(lexicon, lexicon.category);
-        return lexicon;
-    }
-
     /*
      * TODO: doesn't remove the flower from nei or creative panel, still need to mark em as disabled with minetweaker
      */

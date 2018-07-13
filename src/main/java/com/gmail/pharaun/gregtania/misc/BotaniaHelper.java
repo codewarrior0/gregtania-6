@@ -97,22 +97,21 @@ public class BotaniaHelper {
             }
         }
 
-        wgWeightsStones = stoneWeights.entrySet().stream()
+        Map<Integer, List<BlockRandomItem>> rawWeightsStones = stoneWeights.entrySet().stream()
                 .map(e -> new BlockRandomItem(e.getValue(), e.getKey()))
                 .collect(Collectors.groupingBy(b -> b.b.block.getHarvestLevel(b.b.meta)));
 
         // Stack low tier stones into higher tiers, and stack all tiers above 3 into T3.
-        wgWeightsStones.forEach((k, v) -> {
-            if (k==0) return;
-            if (k > 3) return;
-            if (k == 3) {
-                wgWeightsStones.forEach((kk, vv) -> {
-                    if (kk != 3) v.addAll(vv);
-                });
-                return;
-            }
-            for (int i=0; i<k; i++) {
-                v.addAll(wgWeightsStones.get(i));
+        wgWeightsStones = new HashMap<>();
+        for(int i=0; i<4; i++ ) {
+            wgWeightsStones.put(i, new ArrayList<>());
+        }
+
+        rawWeightsStones.forEach((k, v) -> {
+            if (k > 3) k = 3;
+            if (k < 0) k = 0;
+            for (int i = k; i < 4; i++) {
+                wgWeightsStones.get(i).addAll(v);
             }
         });
 
