@@ -72,3 +72,10 @@ gregtania.entry.bumblebiscus=Bumblebiscus
 gregtania.tagline.bumblebiscus=Bumble Hives from Silage
 gregtania.page.bumblebiscus0=Can't find any bumblebee hives? No problem! The &1Bumblebiscus&0 will turn any nearby &4Dry Grass Bales&0 into random &4Bumble Hives&0, at a hefty mana cost.
 gregtania.page.bumblebiscus1=&oMade by breeding HTNYCAEVIH with SUCSEEBIH&r.
+
+item.lensIridiumBore.name=Iridium-Plated Bore Lens
+
+gregtania.entry.lensIridiumBore=Iridium-Plated Bore Lens
+gregtania.tagline.lensIridiumBore=Improved Bore Lens
+gregtania.page.lensIridiumBore0=Some rare materials are simply too robust for an ordinary &1Bore Lens&0 to break. To that end, a more powerful Bore can be made by reinforcing it with Iridium. The &1Iridium-Plated Bore Lens&0 is mighty enough to break through almost any block, including Obsidian. However, it cannot be combined with any other lenses.
+gregtania.page.lensIridiumBore1=Iridium-Plated Bore Lens

@@ -2,16 +2,21 @@ package com.gmail.pharaun.gregtania.misc;
 
 import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
 import com.gmail.pharaun.gregtania.botania.Util;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.api.recipe.RecipeRuneAltar;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.block.ModBlocks;
+import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
+import vazkii.botania.common.item.lens.ItemLens;
 
 import static com.gmail.pharaun.gregtania.misc.ModFlowers.*;
+import static com.gmail.pharaun.gregtania.proxies.CommonProxy.iridiumBoreLens;
 
 /**
  * Created by Rio on 7/12/2018.
@@ -36,6 +41,8 @@ public class ModCraftingRecipes {
 
     public static RecipePetals recipeBumbleiscus;
     public static RecipePetals recipeClayconiaAlluvia;
+
+    public static ShapedOreRecipe recipeIridiumBoreLens;
 
     private static final int costTier1 = 5200;
     private static final int costTier2 = 8000;
@@ -145,5 +152,13 @@ public class ModCraftingRecipes {
                     "petalGray", "petalLightGray", "petalLightGray", "petalCyan"
             );
         }
+
+        recipeIridiumBoreLens = new ShapedOreRecipe(iridiumBoreLens,
+                "SPS", "PBP", "SPS",
+                'P', "plateIridium",
+                'S', "screwIridium",
+                'B', new ItemStack(ModItems.lens, 1, ItemLens.MINE)
+                );
+        GameRegistry.addRecipe(recipeIridiumBoreLens);
     }
 }

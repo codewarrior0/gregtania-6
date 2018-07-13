@@ -1,5 +1,6 @@
 package com.gmail.pharaun.gregtania.proxies;
 
+import com.gmail.pharaun.gregtania.botania.GTItemLens;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.lexicon.GTLexiconData;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
@@ -33,8 +34,11 @@ import java.util.List;
 
 public class CommonProxy {
 
+    public static GTItemLens iridiumBoreLens;
+
     public void preInit(FMLPreInitializationEvent event) {
         CS.GT.mAfterPostInit.add(this::afterGregPostInit);
+        iridiumBoreLens = new GTItemLens();
     }
 
     public void init(FMLInitializationEvent event) {

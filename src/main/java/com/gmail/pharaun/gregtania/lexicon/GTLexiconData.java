@@ -3,6 +3,7 @@ package com.gmail.pharaun.gregtania.lexicon;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.lexicon.LexiconPage;
+import vazkii.botania.common.lexicon.page.PageCraftingRecipe;
 import vazkii.botania.common.lexicon.page.PagePetalRecipe;
 import vazkii.botania.common.lexicon.page.PageRuneRecipe;
 import vazkii.botania.common.lexicon.page.PageText;
@@ -24,6 +25,7 @@ public class GTLexiconData {
     public static LexiconEntry entryEvolvedOrechidIgnem;
     public static LexiconEntry entryEvolvedOrechidEndium;
     public static LexiconEntry entryStratodendron;
+    private static GTLexiconEntry entryIridiumBore;
 
     public static void init() {
         BotaniaAPI.addCategory(gtLexiconCategory = new GTLexiconCategory("gregtania.category.gregtania"));
@@ -59,7 +61,12 @@ public class GTLexiconData {
 
         entryStratodendron = new GTLexiconEntry(SUBTILE_STRATODENDRON, gtLexiconCategory);
 
+        entryIridiumBore = new GTLexiconEntry("lensIridiumBore", gtLexiconCategory);
 
+        entryIridiumBore.setLexiconPages(
+                new PageText("0"),
+                new PageCraftingRecipe("1", recipeIridiumBoreLens)
+        );
     }
 
     public static void postInit() {
