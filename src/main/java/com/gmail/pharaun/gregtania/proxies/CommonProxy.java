@@ -8,6 +8,7 @@ import com.gmail.pharaun.gregtania.misc.Config;
 import com.gmail.pharaun.gregtania.misc.LogHelper;
 import com.gmail.pharaun.gregtania.misc.ModCraftingRecipes;
 import com.gmail.pharaun.gregtania.misc.ModFlowers;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -21,6 +22,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import team.chisel.carving.Carving;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipeManaInfusion;
 import vazkii.botania.common.Botania;
@@ -96,6 +98,13 @@ public class CommonProxy {
             newRecipe.setAlchemy(true);
             ModManaAlchemyRecipes.saplingRecipes.add(newRecipe);
             BotaniaAPI.manaInfusionRecipes.add(newRecipe);
+        }
+
+        // Chisel thinks all cobblestone is equal, but it is important that all GregTech cobblestone be distinct.
+        // Disable oredict equivalence for chiseling cobblestone.
+        if (Loader.isModLoaded("chisel")) {
+            Carving c = (Carving) Carving.chisel;
+            c.getGroup("cobblestone").setOreName(null);
         }
     }
 
