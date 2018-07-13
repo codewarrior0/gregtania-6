@@ -1,8 +1,12 @@
 package com.gmail.pharaun.gregtania.lexicon;
 
+import gregapi.data.MT;
+import gregapi.data.OP;
+import net.minecraft.item.ItemStack;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.lexicon.LexiconPage;
+import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.lexicon.page.PageCraftingRecipe;
 import vazkii.botania.common.lexicon.page.PagePetalRecipe;
 import vazkii.botania.common.lexicon.page.PageRuneRecipe;
@@ -26,9 +30,23 @@ public class GTLexiconData {
     public static LexiconEntry entryEvolvedOrechidEndium;
     public static LexiconEntry entryStratodendron;
     private static GTLexiconEntry entryIridiumBore;
+    private static GTLexiconEntry entryGarden;
 
     public static void init() {
         BotaniaAPI.addCategory(gtLexiconCategory = new GTLexiconCategory("gregtania.category.gregtania"));
+
+        entryGarden = new GTLexiconEntry("gregtania", gtLexiconCategory);
+        entryGarden.setLexiconPages(
+                new PageText("0"),
+                new PageText("1"),
+                new PageText("2"),
+                new PageText("3"),
+                new PageText("4"),
+                new PageText("5"),
+                new PageText("6")
+        );
+        entryGarden.setPriority();
+        entryGarden.setIcon(OP.rockGt.mat(MT.Stone, 1));
 
         entryBumbleiscus = new GTLexiconEntry(SUBTILE_BUMBLEBISCUS, gtLexiconCategory);
 
