@@ -93,7 +93,12 @@ public class BotaniaHelper {
             List<MaterialRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
 
             for (StoneLayerOres layerOres: layer.mOres) {
-                layerOreNames.add(new MaterialRandomItem((int)(layerOres.mChance / CS.U1440), layerOres.mMaterial));
+                int chance = (int)(layerOres.mChance / CS.U1440);
+                if (!layerOres.mBiomes.isEmpty()) {
+                    chance /= 10;
+                    if (chance == 0) chance = 1;
+                }
+                layerOreNames.add(new MaterialRandomItem(chance, layerOres.mMaterial));
             }
         }
 
