@@ -73,7 +73,7 @@ public class CommonProxy {
             Object input = recipe.getInput();
             if ((input instanceof ItemStack)) {
                 input = convertStoneToGreg((ItemStack) input);
-            } else if (input == "stone") {
+            } else if (input.equals("stone")) {
                 input = new ItemStack(Blocks.stone);
             }
             ItemStack output = convertStoneToGreg(recipe.getOutput());
