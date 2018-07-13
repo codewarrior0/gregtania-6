@@ -5,6 +5,7 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 
 **New in Gregtania 6:**
 
+- The Iridium-Plated Bore Lens can break almost any block
 - Bumblebiscus flowers turn Dry Grass Bales into random Bumble Hives
 - Stratodendron flowers can turn plain Stone into GregTech layered stone types
 - Evolved Orechid now turns layered stones into ores according to natural worldgen (including the over-under ores)
