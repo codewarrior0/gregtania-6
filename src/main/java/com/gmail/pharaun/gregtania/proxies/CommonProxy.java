@@ -103,8 +103,12 @@ public class CommonProxy {
         // Chisel thinks all cobblestone is equal, but it is important that all GregTech cobblestone be distinct.
         // Disable oredict equivalence for chiseling cobblestone.
         if (Loader.isModLoaded("chisel")) {
-            Carving c = (Carving) Carving.chisel;
-            c.getGroup("cobblestone").setOreName(null);
+            try {
+                Carving c = (Carving) Carving.chisel;
+                c.getGroup("cobblestone").setOreName(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
