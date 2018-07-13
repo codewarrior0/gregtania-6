@@ -64,7 +64,7 @@ public class PageOreTables extends LexiconPage {
         List<String> stoneNames = BotaniaHelper.wgLayerOres.entrySet().stream()
                 .flatMap(e -> {
                     String stoneName = new ItemStack(e.getKey().block, 1, e.getKey().meta).getDisplayName();
-                    return e.getValue().stream().map(item -> String.format("%s in %s", item.m.mNameLocal, stoneName));
+                    return e.getValue().stream().map(item -> String.format("%s in %s (%d)", item.m.mNameLocal, stoneName, item.itemWeight));
                 })
                 .skip(startLine)
                 .limit(limit)
