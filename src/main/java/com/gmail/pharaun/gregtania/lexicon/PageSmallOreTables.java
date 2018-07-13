@@ -17,32 +17,30 @@ import java.util.stream.Collectors;
 /**
  * Created by Rio on 7/12/2018.
  */
-public class PageStoneTables extends LexiconPage {
+public class PageSmallOreTables extends LexiconPage {
 
     static int count = 0;
-    private int startLine, tier;
+    private int startLine;
     private String flowerName;
 
-    public static List<PageStoneTables> createPages(int tier, String flowerName) {
-        List<PageStoneTables> pages = new ArrayList<>();
-        if (!BotaniaHelper.wgWeightsStones.containsKey(tier)) return pages;
+    public static List<PageSmallOreTables> createPages(String flowerName) {
+        List<PageSmallOreTables> pages = new ArrayList<>();
 
-        int stoneCount = BotaniaHelper.wgWeightsStones.get(tier).size();
+        int stoneCount = BotaniaHelper.wgSmallOres.size();
 
         int i = 14;
-        pages.add(new PageStoneTables(tier, flowerName, 0));
+        pages.add(new PageSmallOreTables(flowerName, 0));
         while (i < stoneCount) {
-            pages.add(new PageStoneTables(tier, flowerName, i));
+            pages.add(new PageSmallOreTables(flowerName, i));
             i += 16;
         }
         return pages;
     }
 
-    public PageStoneTables(int tier, String flowerName, int startLine) {
-        super("gregtania:stoneTables" + count);
+    public PageSmallOreTables(String flowerName, int startLine) {
+        super("gregtania:smallOreTables" + count);
         count++;
         this.startLine = startLine;
-        this.tier = tier;
         this.flowerName = flowerName;
     }
 
@@ -55,7 +53,7 @@ public class PageStoneTables extends LexiconPage {
         List<String> lines = new ArrayList<>();
         int limit;
 
-        if(startLine == 0) {
+        if (startLine == 0) {
             lines.add(StatCollector.translateToLocal("tile.botania:flower.gregtania." + flowerName + ".name") + " will generate:");
             lines.add("");
             limit = 14;
@@ -63,9 +61,8 @@ public class PageStoneTables extends LexiconPage {
             limit = 16;
         }
 
-        List<BotaniaHelper.BlockRandomItem> stones = BotaniaHelper.wgWeightsStones.get(tier);
-        List<String> stoneNames = stones.stream()
-                .map(b -> new ItemStack(b.b.block, 1, b.b.meta).getDisplayName() + " (" + b.itemWeight + ")")
+        List<String> stoneNames = BotaniaHelper.wgSmallOres.stream()
+                .map(item -> String.format("%s (%d)", item.m.mNameLocal, item.itemWeight))
                 .skip(startLine)
                 .limit(limit)
                 .collect(Collectors.toList());

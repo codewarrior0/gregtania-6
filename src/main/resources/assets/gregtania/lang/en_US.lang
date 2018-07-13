@@ -8,6 +8,15 @@ gregtania.tagline.evolvedOrechid=Ores from Strata
 gregtania.page.evolvedOrechid0=In a world where &1Stone&0 is not the only ore-bearing rock, an Orechid has evolved in harmony with Schists, Granites, and Limestones. The &1Evolved Orechid&0 will use &4Mana&0 to generate &4ores&0 in nearby geological strata. The ores it generates are specific to each stratum; Copper-bearing ores are generated in Limestone, for example. The &1Stratodendron&0 makes an ideal companion to this flower.
 gregtania.page.evolvedOrechid1=&oOres are like onions&r
 
+
+tile.botania:flower.gregtania.evolvedOrechidSmall.name=Small Evolved Orechid
+tile.botania:flower.gregtania.evolvedOrechidSmall.reference=Orechid: Petite
+
+gregtania.entry.evolvedOrechidSmall=Small Evolved Orechid
+gregtania.tagline.evolvedOrechidSmall=Small Ores
+gregtania.page.evolvedOrechidSmall0=The &1Evolved Orechid&0 creates a wide variety of ores, but not all of them are immediately useful. When only a small number of basic ores are needed, the &1Small Evolved Orechid&0 will help you by generating Small Ores in any suitable stone.<br>This flower is not suitable for prolonged ore generation and will wither and die within the hour.
+gregtania.page.evolvedOrechidSmall1=&oA smidgen of ores&r
+
 tile.botania:flower.gregtania.evolvedOrechidIgnemI.name=Orechid Ignem I
 tile.botania:flower.gregtania.evolvedOrechidIgnemI.reference=Orechid Ignem: Burning
 tile.botania:flower.gregtania.evolvedOrechidIgnemII.name=Orechid Ignem II

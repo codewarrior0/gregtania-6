@@ -1,12 +1,11 @@
 package com.gmail.pharaun.gregtania.misc;
 
-import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
-import com.gmail.pharaun.gregtania.botania.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.recipe.RecipeManaInfusion;
 import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.api.recipe.RecipeRuneAltar;
 import vazkii.botania.common.Botania;
@@ -23,6 +22,7 @@ import static com.gmail.pharaun.gregtania.proxies.CommonProxy.iridiumBoreLens;
  */
 public class ModCraftingRecipes {
     public static RecipePetals recipeOrechidEvolved;
+    public static RecipeManaInfusion recipeOrechidEvolvedSmall;
 
     public static RecipeRuneAltar recipeOrechidIgnemI;
     public static RecipeRuneAltar recipeOrechidIgnemII;
@@ -53,6 +53,12 @@ public class ModCraftingRecipes {
         recipeOrechidEvolved = BotaniaAPI.registerPetalRecipe(
                 ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID),
                 "petalGray", "petalGray", "petalYellow", "petalYellow", "petalGreen", "petalGreen", "petalRed", "petalRed"
+        );
+
+        recipeOrechidEvolvedSmall = BotaniaAPI.registerManaInfusionRecipe(
+                ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_SMALL),
+                ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID),
+                50
         );
 
         recipeOrechidIgnemI = BotaniaAPI.registerRuneAltarRecipe(

@@ -11,6 +11,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenOresLarge;
+import gregapi.worldgen.WorldgenOresSmall;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,8 @@ public class BotaniaHelper {
     public static Map<Integer, Collection<StringRandomItem>> tieredOreWeightEnd;
     public static Map<Util.BlockType, List<MaterialRandomItem>> wgLayerOres;
     public static Map<Integer, List<BlockRandomItem>> wgWeightsStones;
+
+    public static List<MaterialRandomItem> wgSmallOres;
 
     public static void initOreTables() {
         initWorldgenWeights();
@@ -62,6 +65,7 @@ public class BotaniaHelper {
         Map<String, Integer> wgWeightsEnd = new HashMap<>();
 
         initWorldgenLayerWeights();
+        initWorldgenSmallOreWeights();
         initWorldgenWeightsDim(CS.ORE_NETHER, wgWeightsNether);
         initWorldgenWeightsDim(CS.ORE_END, wgWeightsEnd);
 
@@ -125,6 +129,24 @@ public class BotaniaHelper {
         wgLayerOres = oresByLayer;
     }
 
+    public static void initWorldgenSmallOreWeights() {
+        wgSmallOres = new ArrayList<>();
+
+        for (Object o:CS.GEN_GT) {
+            if (!(o instanceof WorldgenOresSmall)) continue;
+
+            WorldgenOresSmall wg = (WorldgenOresSmall) o;
+            if (wg.mAmount == 1) continue; // Skip small gem ores
+            if (wg.mMaterial.mToolQuality > 2) continue; // Skip ores unbreakable with Livingrock tools
+            if (wg.mMaxY <= 40) continue; // Skip deep ores
+
+            int weight = wg.mAmount * (Math.min(wg.mMaxY, 80) - Math.max(wg.mMinY, 40));
+            if (weight == 0) continue;
+
+            wgSmallOres.add(new MaterialRandomItem(weight, wg.mMaterial));
+
+        }
+    }
 
     public static void initWorldgenWeightsDim(List dimLayers, Map<String, Integer> weights) {
         for (Object _layer: dimLayers) {

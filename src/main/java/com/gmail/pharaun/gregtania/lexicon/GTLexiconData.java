@@ -2,12 +2,11 @@ package com.gmail.pharaun.gregtania.lexicon;
 
 import gregapi.data.MT;
 import gregapi.data.OP;
-import net.minecraft.item.ItemStack;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.lexicon.LexiconPage;
-import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.lexicon.page.PageCraftingRecipe;
+import vazkii.botania.common.lexicon.page.PageManaInfusionRecipe;
 import vazkii.botania.common.lexicon.page.PagePetalRecipe;
 import vazkii.botania.common.lexicon.page.PageRuneRecipe;
 import vazkii.botania.common.lexicon.page.PageText;
@@ -25,6 +24,7 @@ public class GTLexiconData {
 
     public static GTLexiconCategory gtLexiconCategory;
     public static LexiconEntry entryBumbleiscus;
+    public static LexiconEntry entryEvolvedOrechidSmall;
     public static LexiconEntry entryEvolvedOrechid;
     public static LexiconEntry entryEvolvedOrechidIgnem;
     public static LexiconEntry entryEvolvedOrechidEndium;
@@ -56,7 +56,7 @@ public class GTLexiconData {
         );
 
         entryEvolvedOrechid = new GTLexiconEntry(SUBTILE_EVOLVED_ORECHID, gtLexiconCategory);
-
+        entryEvolvedOrechidSmall = new GTLexiconEntry(SUBTILE_EVOLVED_ORECHID_SMALL, gtLexiconCategory);
 
         entryEvolvedOrechidIgnem = new GTLexiconEntry(SUBTILE_EVOLVED_ORECHID_IGNEM, gtLexiconCategory);
 
@@ -111,5 +111,13 @@ public class GTLexiconData {
         pages.add(new PagePetalRecipe<>("1", recipeOrechidEvolved));
 
         entryEvolvedOrechid.setLexiconPages(pages.toArray(new LexiconPage[]{}));
+
+        pages = new ArrayList<>();
+
+        pages.add(new PageText("0"));
+        pages.addAll(PageSmallOreTables.createPages(SUBTILE_EVOLVED_ORECHID_SMALL));
+        pages.add(new PageManaInfusionRecipe("1", recipeOrechidEvolvedSmall));
+
+        entryEvolvedOrechidSmall.setLexiconPages(pages.toArray(new LexiconPage[]{}));
     }
 }

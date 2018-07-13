@@ -3,6 +3,7 @@ package com.gmail.pharaun.gregtania.misc;
 import com.gmail.pharaun.gregtania.botania.SubTileBumblebiscus;
 import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
 import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
+import com.gmail.pharaun.gregtania.botania.SubTileSmallOrechid;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumI;
 import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumII;
@@ -15,10 +16,7 @@ import com.gmail.pharaun.gregtania.botania.tiers.StratodendronI;
 import com.gmail.pharaun.gregtania.botania.tiers.StratodendronII;
 import com.gmail.pharaun.gregtania.botania.tiers.StratodendronIII;
 import com.gmail.pharaun.gregtania.botania.tiers.StratodendronIV;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.botania.common.Botania;
-import vazkii.botania.common.item.ModItems;
 
 /**
  * Created by Rio on 7/12/2018.
@@ -26,6 +24,7 @@ import vazkii.botania.common.item.ModItems;
 public class ModFlowers {
     public static final String SUBTILE_CLAYCONIA_ALLUVIA = "clayconiaAlluvia";
     public static final String SUBTILE_STRATODENDRON = "stratodendron";
+    public static final String SUBTILE_EVOLVED_ORECHID_SMALL = "evolvedOrechidSmall";
     public static final String SUBTILE_EVOLVED_ORECHID = "evolvedOrechid";
     public static final String SUBTILE_EVOLVED_ORECHID_IGNEM = "evolvedOrechidIgnem";
     public static final String SUBTILE_EVOLVED_ORECHID_ENDIUM = "evolvedOrechidEndium";
@@ -34,6 +33,7 @@ public class ModFlowers {
     public static void init() {
 
 
+        Util.registerFlower(SUBTILE_EVOLVED_ORECHID_SMALL, SubTileSmallOrechid.class);
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID, SubTileLayeredOrechid.class);
 
         Util.registerFlower(SUBTILE_EVOLVED_ORECHID_IGNEM + "I", OrechidIgnemI.class);
