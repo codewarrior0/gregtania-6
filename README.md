@@ -1,7 +1,7 @@
 Gregtania 6
 -----------
 
-Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orechids to support Gregtech ores.
+Compatibility mod for Botania, Garden of Glass, and Gregtech 6. Adds special Orechids and other flowers to produce GregTech ores and resources, and to enable progression in the Garden of Glass game mode.
 
 **New in Gregtania 6:**
 
@@ -16,9 +16,7 @@ Super simple addon for Botania and Gregtech 6. Adds in a few more tiers of orech
 - Ore weights are no longer hardcoded, but instead computed from the GregTech world gen parameters. Additional ores may still be added via the JSON weights config.
 - Botania pebbles are now replaced by GregTech pebbles, which can be used to craft stone tools
 - Clayconia Alluvia added to get early clay from gravel
-- Added 1:1 Bonemeal recipe using Botania mortar
 - Added 1:4 Blaze Lamp recipe (since Greg replaces the 1:9 with his own Blaze Powder block, and iron is a bit more scarce)
-- Manasteel may be made from Wrought Iron or Steel, with a Mana discount for Steel
 
 *With big thanks to:*
 
