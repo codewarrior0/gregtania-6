@@ -6,8 +6,6 @@ import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
 import gregapi.oredict.OreDictMaterial;
-import gregapi.worldgen.StoneLayer;
-import gregapi.worldgen.StoneLayerOres;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
@@ -20,8 +18,6 @@ import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.handler.ConfigHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -85,6 +81,8 @@ public class SubTileSmallOrechid extends SubTileFunctional {
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if(supertile.getWorldObj().isRemote) return;
+
         if(ticksExisted > LIFESPAN) {
             this.supertile.getWorldObj().playAuxSFX(2001, this.supertile.xCoord, this.supertile.yCoord, this.supertile.zCoord, Block.getIdFromBlock(this.supertile.getBlockType()));
             if(this.supertile.getWorldObj().getBlock(this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord).isSideSolid(this.supertile.getWorldObj(), this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord, ForgeDirection.UP)) {
@@ -96,7 +94,8 @@ public class SubTileSmallOrechid extends SubTileFunctional {
         }
 
         int cost = getCost();
-        if (!(!supertile.getWorldObj().isRemote && mana >= cost && ticksExisted % getDelay() == 0)) return;
+        if (!(mana >= cost && ticksExisted % getDelay() == 0)) return;
+
 
         ChunkCoordinates coords = getCoordsToPut();
         if (coords == null) return;
