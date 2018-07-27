@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipeManaInfusion;
+import vazkii.botania.api.recipe.RecipeMiniFlower;
 import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.api.recipe.RecipeRuneAltar;
 import vazkii.botania.common.Botania;
@@ -22,7 +23,7 @@ import static com.gmail.pharaun.gregtania.proxies.CommonProxy.iridiumBoreLens;
  */
 public class ModCraftingRecipes {
     public static RecipePetals recipeOrechidEvolved;
-    public static RecipeManaInfusion recipeOrechidEvolvedSmall;
+    public static RecipeMiniFlower recipeOrechidEvolvedSmall;
 
     public static RecipeRuneAltar recipeOrechidIgnemI;
     public static RecipeRuneAltar recipeOrechidIgnemII;
@@ -55,11 +56,10 @@ public class ModCraftingRecipes {
                 "petalGray", "petalGray", "petalYellow", "petalYellow", "petalGreen", "petalGreen", "petalRed", "petalRed"
         );
 
-        recipeOrechidEvolvedSmall = BotaniaAPI.registerManaInfusionRecipe(
-                ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_SMALL),
-                ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID),
-                50
-        );
+        recipeOrechidEvolvedSmall = new RecipeMiniFlower(SUBTILE_EVOLVED_ORECHID_SMALL, SUBTILE_EVOLVED_ORECHID, 50);
+        recipeOrechidEvolvedSmall.setAlchemy(false);
+        BotaniaAPI.manaInfusionRecipes.add(recipeOrechidEvolvedSmall);
+        BotaniaAPI.miniFlowerRecipes.add(recipeOrechidEvolvedSmall);
 
         recipeOrechidIgnemI = BotaniaAPI.registerRuneAltarRecipe(
                 ItemBlockSpecialFlower.ofType(SUBTILE_EVOLVED_ORECHID_IGNEM + "I"), costTier1,
