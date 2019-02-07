@@ -89,9 +89,9 @@ public class CommonProxy {
         BotaniaAPI.manaInfusionRecipes.remove(ModManaAlchemyRecipes.saplingRecipes.get(5));
         ModManaAlchemyRecipes.saplingRecipes.remove(5);
 
-        for (int i = 0; i < 8; i++) {
-            ItemStack output = i < 7 ? new ItemStack(CS.BlocksGT.Sapling, 1, i + 1) : new ItemStack(Blocks.sapling, 1, 0);
-            ItemStack input = i > 0 ? new ItemStack(CS.BlocksGT.Sapling, 1, i) : new ItemStack(Blocks.sapling, 1, 5);
+        for (int i = 0; i <= 8; i++) {
+            ItemStack input = i > 0 ? new ItemStack(CS.BlocksGT.Sapling, 1, i - 1) : new ItemStack(Blocks.sapling, 1, 5);
+            ItemStack output = i < 8 ? new ItemStack(CS.BlocksGT.Sapling, 1, i) : new ItemStack(Blocks.sapling, 1, 0);
             RecipeManaInfusion newRecipe = new RecipeManaInfusion(
                     output, input, saplingMana
             );
