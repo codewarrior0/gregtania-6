@@ -108,6 +108,7 @@ public class GTLexiconData {
 
         pages.add(new PageText("0"));
         pages.addAll(PageOreTables.createPages(SUBTILE_EVOLVED_ORECHID));
+        pages.addAll(PageStackedOres.createPages(SUBTILE_EVOLVED_ORECHID));
         pages.add(new PagePetalRecipe<>("1", recipeOrechidEvolved));
 
         entryEvolvedOrechid.setLexiconPages(pages.toArray(new LexiconPage[]{}));
