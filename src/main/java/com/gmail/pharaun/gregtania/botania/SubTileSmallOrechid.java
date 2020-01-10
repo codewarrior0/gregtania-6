@@ -7,10 +7,15 @@ import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
 import gregapi.oredict.OreDictMaterial;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
@@ -142,4 +147,33 @@ public class SubTileSmallOrechid extends SubTileFunctional {
     public int getMaxMana() {
         return getCost();
     }
+
+    public ArrayList<ItemStack> getDrops(ArrayList<ItemStack> list) {
+        ArrayList<ItemStack> drops = super.getDrops(list);
+        this.populateDropStackNBTs(drops);
+        return drops;
+    }
+
+    public void populateDropStackNBTs(List<ItemStack> drops) {
+        if (this.ticksExisted > 0) {
+            ItemStack drop = drops.get(0);
+            if (drop != null) {
+                if (!drop.hasTagCompound()) {
+                    drop.setTagCompound(new NBTTagCompound());
+                }
+
+                NBTTagCompound cmp = drop.getTagCompound();
+                cmp.setInteger("ticksExisted", this.ticksExisted);
+            }
+        }
+
+    }
+
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+        super.onBlockPlacedBy(world, x, y, z, entity, stack);
+        NBTTagCompound cmp = stack.getTagCompound();
+        this.ticksExisted = cmp.getInteger("ticksExisted");
+
+    }
+
 }
