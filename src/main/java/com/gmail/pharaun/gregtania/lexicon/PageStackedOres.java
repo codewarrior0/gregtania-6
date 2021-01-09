@@ -30,10 +30,8 @@ public class PageStackedOres extends LexiconPage {
     public static List<PageStackedOres> createPages(String flowerName) {
         List<PageStackedOres> pages = new ArrayList<>();
 
-
-
         StoneLayer.MAP.forEach((above, belows) -> belows.forEach((below, stones) -> {
-            stacks.add(above.toStack().getDisplayName() + " over " + below.toStack().getDisplayName());
+            stacks.add(above.mNameLocal + " over " + below.mNameLocal);
             stones.forEach(layer -> stacks.add("  " + layer.mMaterial.mNameLocal));
         }));
         int i = 0;
@@ -63,7 +61,7 @@ public class PageStackedOres extends LexiconPage {
         lines.add("");
 
         StoneLayer.MAP.forEach((above, belows) -> belows.forEach((below, stones) -> {
-            lines.add(above.toStack().getDisplayName() + " over " + below.toStack().getDisplayName());
+            lines.add(above.mNameLocal + " over " + below.mNameLocal);
             stones.forEach(layer -> lines.add("  " + layer.mMaterial.mNameLocal));
         }));
 

@@ -9,6 +9,7 @@ import gregapi.data.CS;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.util.ST;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
 import javafx.util.Pair;
@@ -173,17 +174,20 @@ public class SubTileLayeredOrechid extends SubTileFunctional {
 
     public OreDictMaterial getStackedMaterialToPut(int x, int y, int z) {
         if (y < supertile.getWorldObj().getHeight() - 1) {
-            ItemStackContainer above = new ItemStackContainer(
-                    supertile.getWorldObj().getBlock(x, y+1, z), 1,
-                    supertile.getWorldObj().getBlockMetadata(x, y+1, z));
-            ItemStackContainer below = new ItemStackContainer(
+            OreDictItemData above = OreDictManager.INSTANCE.getItemData(ST.make(
+                    supertile.getWorldObj().getBlock(x, y + 1, z), 1,
+                    supertile.getWorldObj().getBlockMetadata(x, y + 1, z)));
+            OreDictItemData below = OreDictManager.INSTANCE.getItemData(ST.make(
                     supertile.getWorldObj().getBlock(x, y, z), 1,
-                    supertile.getWorldObj().getBlockMetadata(x, y, z));
+                    supertile.getWorldObj().getBlockMetadata(x, y, z)));
 
-            List<StoneLayerOres> ores = StoneLayer.get(above, below);
-            if (ores.size() > 0) {
-                StoneLayerOres ore = ores.get(supertile.getWorldObj().rand.nextInt(ores.size()));
-                return ore.mMaterial;
+            if (above != null && below != null) {
+                List<StoneLayerOres> ores = StoneLayer.get(above.mMaterial.mMaterial, below.mMaterial.mMaterial);
+
+                if (ores.size() > 0) {
+                    StoneLayerOres ore = ores.get(supertile.getWorldObj().rand.nextInt(ores.size()));
+                    return ore.mMaterial;
+                }
             }
         }
         return null;
