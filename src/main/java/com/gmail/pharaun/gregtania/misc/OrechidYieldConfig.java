@@ -1,6 +1,9 @@
 package com.gmail.pharaun.gregtania.misc;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.FileUtils;
 
@@ -44,7 +47,8 @@ public class OrechidYieldConfig {
 
                 // TypeTokens
                 Gson gson = new Gson();
-                Type StringStringIntegerMap = new TypeToken<Map<String, Map<String, Integer>>>(){}.getType();
+                Type StringStringIntegerMap = new TypeToken<Map<String, Map<String, Integer>>>() {
+                }.getType();
                 Map<String, Map<String, Integer>> loads = gson.fromJson(root, StringStringIntegerMap);
 
                 oreWeightOverworld = loads.get("oreWeightOverworld");

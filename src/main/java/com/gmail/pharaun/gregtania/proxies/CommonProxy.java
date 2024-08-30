@@ -3,11 +3,7 @@ package com.gmail.pharaun.gregtania.proxies;
 import com.gmail.pharaun.gregtania.botania.GTItemLens;
 import com.gmail.pharaun.gregtania.botania.Util;
 import com.gmail.pharaun.gregtania.lexicon.GTLexiconData;
-import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
-import com.gmail.pharaun.gregtania.misc.Config;
-import com.gmail.pharaun.gregtania.misc.LogHelper;
-import com.gmail.pharaun.gregtania.misc.ModCraftingRecipes;
-import com.gmail.pharaun.gregtania.misc.ModFlowers;
+import com.gmail.pharaun.gregtania.misc.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -113,18 +109,22 @@ public class CommonProxy {
     }
 
     private static ItemStack convertStoneToGreg(ItemStack stack) {
-        if (stack.getItem() instanceof ItemBlock && ((ItemBlock)stack.getItem()).field_150939_a == ModFluffBlocks.stone) {
+        if (stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).field_150939_a == ModFluffBlocks.stone) {
             int meta = stack.getItemDamage();
             Block block;
-            switch(meta) {
+            switch (meta) {
                 case 0:
-                    block = CS.BlocksGT.Andesite; break;
+                    block = CS.BlocksGT.Andesite;
+                    break;
                 case 1:
-                    block = CS.BlocksGT.Basalt; break;
+                    block = CS.BlocksGT.Basalt;
+                    break;
                 case 2:
-                    block = CS.BlocksGT.Diorite; break;
+                    block = CS.BlocksGT.Diorite;
+                    break;
                 case 3:
-                    block = CS.BlocksGT.Granite; break;
+                    block = CS.BlocksGT.Granite;
+                    break;
                 default:
                     return stack;
             }
@@ -152,7 +152,7 @@ public class CommonProxy {
 
             // Also change the reverse recipe.
 
-            for (IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
+            for (IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
                 ItemStack output = recipe.getRecipeOutput();
                 if (recipe instanceof ShapelessOreRecipe
                         && output.getItem() == Items.blaze_powder
@@ -171,8 +171,8 @@ public class CommonProxy {
 
         // Log the available levels
         //LogHelper.info("Overworld Harvest Levels: " + BotaniaHelper.tieredOreWeightOverworld.keySet().toString());
-        LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet().toString());
-        LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet().toString());
+        LogHelper.info("Nether Harvest Levels: " + BotaniaHelper.tieredOreWeightNether.keySet());
+        LogHelper.info("End Harvest Levels: " + BotaniaHelper.tieredOreWeightEnd.keySet());
     }
 
     public void afterGregPostInit() {

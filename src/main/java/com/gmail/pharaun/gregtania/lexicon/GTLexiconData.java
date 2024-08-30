@@ -5,17 +5,13 @@ import gregapi.data.OP;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.lexicon.LexiconPage;
-import vazkii.botania.common.lexicon.page.PageCraftingRecipe;
-import vazkii.botania.common.lexicon.page.PageManaInfusionRecipe;
-import vazkii.botania.common.lexicon.page.PagePetalRecipe;
-import vazkii.botania.common.lexicon.page.PageRuneRecipe;
-import vazkii.botania.common.lexicon.page.PageText;
+import vazkii.botania.common.lexicon.page.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gmail.pharaun.gregtania.misc.ModFlowers.*;
 import static com.gmail.pharaun.gregtania.misc.ModCraftingRecipes.*;
+import static com.gmail.pharaun.gregtania.misc.ModFlowers.*;
 
 /**
  * Created by Rio on 7/12/2018.

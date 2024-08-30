@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import vazkii.botania.api.internal.IGuiLexiconEntry;
 import vazkii.botania.api.lexicon.LexiconPage;
@@ -20,8 +19,8 @@ import java.util.stream.Collectors;
 public class PageSmallOreTables extends LexiconPage {
 
     static int count = 0;
-    private int startLine;
-    private String flowerName;
+    private final int startLine;
+    private final String flowerName;
 
     public static List<PageSmallOreTables> createPages(String flowerName) {
         List<PageSmallOreTables> pages = new ArrayList<>();
@@ -84,7 +83,7 @@ public class PageSmallOreTables extends LexiconPage {
         //font.drawString("This flower will generate:", x, y, 0);
         //y += 20;
 
-        for(String word : entries) {
+        for (String word : entries) {
             font.drawString(word, x, y, 0);
             y += 10;
         }

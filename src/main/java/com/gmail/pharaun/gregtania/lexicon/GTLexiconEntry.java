@@ -22,10 +22,10 @@ public class GTLexiconEntry extends LexiconEntry {
     }
 
     public LexiconEntry setLexiconPages(LexiconPage... pages) {
-        for(LexiconPage page: pages) {
+        for (LexiconPage page : pages) {
             page.unlocalizedName = "gregtania.page." + this.getLazyUnlocalizedName() + page.unlocalizedName;
-            if(page instanceof ITwoNamedPage) {
-                ITwoNamedPage dou = (ITwoNamedPage)page;
+            if (page instanceof ITwoNamedPage) {
+                ITwoNamedPage dou = (ITwoNamedPage) page;
                 dou.setSecondUnlocalizedName("gregtania.page." + this.getLazyUnlocalizedName() + dou.getSecondUnlocalizedName());
             }
         }
@@ -46,6 +46,6 @@ public class GTLexiconEntry extends LexiconEntry {
     }
 
     public int compareTo(LexiconEntry o) {
-        return o instanceof WLexiconEntry ?1:super.compareTo(o);
+        return o instanceof WLexiconEntry ? 1 : super.compareTo(o);
     }
 }

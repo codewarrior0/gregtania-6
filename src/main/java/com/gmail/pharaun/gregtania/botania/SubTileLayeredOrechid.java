@@ -4,7 +4,6 @@ import com.gmail.pharaun.gregtania.lexicon.GTLexiconData;
 import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
-import gregapi.code.ItemStackMap;
 import gregapi.data.CS;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
@@ -12,26 +11,17 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.util.ST;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
-import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.handler.ConfigHandler;
-import vazkii.botania.common.lexicon.LexiconData;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Rio on 7/9/2018.
@@ -73,20 +63,20 @@ public class SubTileLayeredOrechid extends SubTileFunctional {
         List<ChunkCoordinates> possibleCoords = new ArrayList<>();
 
         Set<Block> sources = getSourceBlocks();
-        for(int i = -RANGE; i < RANGE + 1; i++)
-            for(int j = -RANGE_Y; j < RANGE_Y; j++)
-                for(int k = -RANGE; k < RANGE + 1; k++) {
+        for (int i = -RANGE; i < RANGE + 1; i++)
+            for (int j = -RANGE_Y; j < RANGE_Y; j++)
+                for (int k = -RANGE; k < RANGE + 1; k++) {
                     int x = supertile.xCoord + i;
                     int y = supertile.yCoord + j;
                     int z = supertile.zCoord + k;
                     Block block = supertile.getWorldObj().getBlock(x, y, z);
-                    for (Block source: sources) {
+                    for (Block source : sources) {
                         if (block != null && block.isReplaceableOreGen(supertile.getWorldObj(), x, y, z, source))
                             possibleCoords.add(new ChunkCoordinates(x, y, z));
                     }
                 }
 
-        if(possibleCoords.isEmpty())
+        if (possibleCoords.isEmpty())
             return null;
         return possibleCoords.get(supertile.getWorldObj().rand.nextInt(possibleCoords.size()));
     }
@@ -195,12 +185,12 @@ public class SubTileLayeredOrechid extends SubTileFunctional {
 
     public OreDictMaterial getMaterialToPut(int x, int y, int z) {
         Util.BlockType bt = new Util.BlockType(
-            supertile.getWorldObj().getBlock(x, y, z),
-            supertile.getWorldObj().getBlockMetadata(x, y, z)
+                supertile.getWorldObj().getBlock(x, y, z),
+                supertile.getWorldObj().getBlockMetadata(x, y, z)
         );
         List<BotaniaHelper.MaterialRandomItem> oreDicts = BotaniaHelper.wgLayerOres.get(bt);
         if (oreDicts != null && oreDicts.size() > 0) {
-            return ((BotaniaHelper.MaterialRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, oreDicts)).m;
+            return ((BotaniaHelper.MaterialRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, oreDicts)).m;
         }
         return null;
     }

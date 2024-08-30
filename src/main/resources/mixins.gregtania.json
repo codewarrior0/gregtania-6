@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.7.11",
+  "package": "com.gmail.pharaun.gregtania.mixins",
+  "refmap": "mixins.gregtania.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockMixin",
+    "ItemBlockSpecialFlowerMixin"
+  ]
+}

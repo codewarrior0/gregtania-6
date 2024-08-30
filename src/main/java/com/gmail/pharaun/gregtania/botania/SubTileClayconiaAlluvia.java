@@ -3,15 +3,12 @@ package com.gmail.pharaun.gregtania.botania;
  * This class was created by <Vazkii>. It's distributed as
  * part of the Botania Mod. Get the Source Code in github:
  * https://github.com/Vazkii/Botania
- *
+ * <p>
  * Botania is Open Source and distributed under the
  * Botania License: http://botaniamod.net/license.php
- *
+ * <p>
  * File Created @ [May 17, 2014, 12:05:37 AM (GMT)]
  */
-
-import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -22,7 +19,9 @@ import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
 import vazkii.botania.common.core.handler.ConfigHandler;
-import vazkii.botania.common.lexicon.LexiconData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubTileClayconiaAlluvia extends SubTileFunctional {
 
@@ -39,12 +38,12 @@ public class SubTileClayconiaAlluvia extends SubTileFunctional {
     public void onUpdate() {
         super.onUpdate();
 
-        if(!supertile.getWorldObj().isRemote && ticksExisted % 5 == 0) {
-            if(mana >= COST) {
+        if (!supertile.getWorldObj().isRemote && ticksExisted % 5 == 0) {
+            if (mana >= COST) {
                 ChunkCoordinates coords = getCoordsToPut();
-                if(coords != null) {
+                if (coords != null) {
                     supertile.getWorldObj().setBlockToAir(coords.posX, coords.posY, coords.posZ);
-                    if(ConfigHandler.blockBreakParticles)
+                    if (ConfigHandler.blockBreakParticles)
                         supertile.getWorldObj().playAuxSFX(2001, coords.posX, coords.posY, coords.posZ, Block.getIdFromBlock(Block.getBlockFromName("sand")));
                     EntityItem item = new EntityItem(supertile.getWorldObj(), coords.posX + 0.5, coords.posY + 0.5, coords.posZ + 0.5, new ItemStack(Items.clay_ball));
                     supertile.getWorldObj().spawnEntityInWorld(item);
@@ -60,18 +59,18 @@ public class SubTileClayconiaAlluvia extends SubTileFunctional {
         int range = getRange();
         int rangeY = getRangeY();
 
-        for(int i = -range; i < range + 1; i++)
-            for(int j = -rangeY; j < rangeY + 1; j++)
-                for(int k = -range; k < range + 1; k++) {
+        for (int i = -range; i < range + 1; i++)
+            for (int j = -rangeY; j < rangeY + 1; j++)
+                for (int k = -range; k < range + 1; k++) {
                     int x = supertile.xCoord + i;
                     int y = supertile.yCoord + j;
                     int z = supertile.zCoord + k;
                     Block block = supertile.getWorldObj().getBlock(x, y, z);
-                    if(block == Block.getBlockFromName("gravel"))
+                    if (block == Block.getBlockFromName("gravel"))
                         possibleCoords.add(new ChunkCoordinates(x, y, z));
                 }
 
-        if(possibleCoords.isEmpty())
+        if (possibleCoords.isEmpty())
             return null;
         return possibleCoords.get(supertile.getWorldObj().rand.nextInt(possibleCoords.size()));
     }
@@ -105,7 +104,14 @@ public class SubTileClayconiaAlluvia extends SubTileFunctional {
     }
 
     public static class Mini extends SubTileClayconiaAlluvia {
-        @Override public int getRange() { return RANGE_MINI; }
-        @Override public int getRangeY() { return RANGE_Y_MINI; }
+        @Override
+        public int getRange() {
+            return RANGE_MINI;
+        }
+
+        @Override
+        public int getRangeY() {
+            return RANGE_Y_MINI;
+        }
     }
 }

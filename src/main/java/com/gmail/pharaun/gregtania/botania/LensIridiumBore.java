@@ -4,16 +4,13 @@ package com.gmail.pharaun.gregtania.botania;
  * This class was created by <Vazkii>. It's distributed as
  * part of the Botania Mod. Get the Source Code in github:
  * https://github.com/Vazkii/Botania
- *
+ * <p>
  * Botania is Open Source and distributed under the
  * Botania License: http://botaniamod.net/license.php
- *
+ * <p>
  * File Created @ [Jan 24, 2015, 4:36:20 PM (GMT)]
  * Modified by Codewarrior0
  */
-
-import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -32,6 +29,9 @@ import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.lens.ItemLens;
 import vazkii.botania.common.item.lens.Lens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LensIridiumBore extends Lens {
 
     @Override
@@ -45,7 +45,7 @@ public class LensIridiumBore extends Lens {
         ItemStack composite = ((ItemLens) ModItems.lens).getCompositeLens(stack);
         boolean warp = composite != null && composite.getItem() == ModItems.lens && composite.getItemDamage() == ItemLens.WARP;
 
-        if(warp && (block == ModBlocks.pistonRelay || block == Blocks.piston || block == Blocks.piston_extension || block == Blocks.piston_head))
+        if (warp && (block == ModBlocks.pistonRelay || block == Blocks.piston || block == Blocks.piston_extension || block == Blocks.piston_head))
             return false;
 
         int harvestLevel = 999;
@@ -57,15 +57,15 @@ public class LensIridiumBore extends Lens {
         int mana = burst.getMana();
 
         ChunkCoordinates coords = burst.getBurstSourceChunkCoordinates();
-        if((coords.posX != x || coords.posY != y || coords.posZ != z) && !(tile instanceof IManaBlock) && neededHarvestLevel <= harvestLevel && hardness != -1 && (burst.isFake() || mana >= 24)) {
+        if ((coords.posX != x || coords.posY != y || coords.posZ != z) && !(tile instanceof IManaBlock) && neededHarvestLevel <= harvestLevel && hardness != -1 && (burst.isFake() || mana >= 24)) {
             List<ItemStack> items = new ArrayList();
 
             items.addAll(block.getDrops(world, x, y, z, meta, 0));
 
-            if(!burst.hasAlreadyCollidedAt(x, y, z)) {
-                if(!burst.isFake() && !entity.worldObj.isRemote) {
+            if (!burst.hasAlreadyCollidedAt(x, y, z)) {
+                if (!burst.isFake() && !entity.worldObj.isRemote) {
                     world.setBlockToAir(x, y, z);
-                    if(ConfigHandler.blockBreakParticles)
+                    if (ConfigHandler.blockBreakParticles)
                         entity.worldObj.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
 
                     boolean offBounds = coords.posY < 0;
@@ -74,7 +74,7 @@ public class LensIridiumBore extends Lens {
                     int dropY = doWarp ? coords.posY : y;
                     int dropZ = doWarp ? coords.posZ : z;
 
-                    for(ItemStack stack_ : items)
+                    for (ItemStack stack_ : items)
                         world.spawnEntityInWorld(new EntityItem(world, dropX + 0.5, dropY + 0.5, dropZ + 0.5, stack_));
 
                     burst.setMana(mana - 24);

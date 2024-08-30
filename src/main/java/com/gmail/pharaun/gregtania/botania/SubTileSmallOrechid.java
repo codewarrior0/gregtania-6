@@ -15,7 +15,6 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
@@ -65,20 +64,20 @@ public class SubTileSmallOrechid extends SubTileFunctional {
         List<ChunkCoordinates> possibleCoords = new ArrayList<>();
 
         Set<Block> sources = getSourceBlocks();
-        for(int i = -RANGE; i < RANGE + 1; i++)
-            for(int j = -RANGE_Y; j < RANGE_Y; j++)
-                for(int k = -RANGE; k < RANGE + 1; k++) {
+        for (int i = -RANGE; i < RANGE + 1; i++)
+            for (int j = -RANGE_Y; j < RANGE_Y; j++)
+                for (int k = -RANGE; k < RANGE + 1; k++) {
                     int x = supertile.xCoord + i;
                     int y = supertile.yCoord + j;
                     int z = supertile.zCoord + k;
                     Block block = supertile.getWorldObj().getBlock(x, y, z);
-                    for (Block source: sources) {
+                    for (Block source : sources) {
                         if (block != null && block.isReplaceableOreGen(supertile.getWorldObj(), x, y, z, source))
                             possibleCoords.add(new ChunkCoordinates(x, y, z));
                     }
                 }
 
-        if(possibleCoords.isEmpty())
+        if (possibleCoords.isEmpty())
             return null;
         return possibleCoords.get(supertile.getWorldObj().rand.nextInt(possibleCoords.size()));
     }
@@ -86,11 +85,11 @@ public class SubTileSmallOrechid extends SubTileFunctional {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if(supertile.getWorldObj().isRemote) return;
+        if (supertile.getWorldObj().isRemote) return;
 
-        if(ticksExisted > LIFESPAN) {
+        if (ticksExisted > LIFESPAN) {
             this.supertile.getWorldObj().playAuxSFX(2001, this.supertile.xCoord, this.supertile.yCoord, this.supertile.zCoord, Block.getIdFromBlock(this.supertile.getBlockType()));
-            if(this.supertile.getWorldObj().getBlock(this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord).isSideSolid(this.supertile.getWorldObj(), this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord, ForgeDirection.UP)) {
+            if (this.supertile.getWorldObj().getBlock(this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord).isSideSolid(this.supertile.getWorldObj(), this.supertile.xCoord, this.supertile.yCoord - 1, this.supertile.zCoord, ForgeDirection.UP)) {
                 this.supertile.getWorldObj().setBlock(this.supertile.xCoord, this.supertile.yCoord, this.supertile.zCoord, Blocks.deadbush);
             } else {
                 this.supertile.getWorldObj().setBlockToAir(this.supertile.xCoord, this.supertile.yCoord, this.supertile.zCoord);
@@ -135,7 +134,7 @@ public class SubTileSmallOrechid extends SubTileFunctional {
     }
 
     public OreDictMaterial getMaterialToPut(int x, int y, int z) {
-        return ((BotaniaHelper.MaterialRandomItem)WeightedRandom.getRandomItem(supertile.getWorldObj().rand, BotaniaHelper.wgSmallOres)).m;
+        return ((BotaniaHelper.MaterialRandomItem) WeightedRandom.getRandomItem(supertile.getWorldObj().rand, BotaniaHelper.wgSmallOres)).m;
     }
 
     @Override

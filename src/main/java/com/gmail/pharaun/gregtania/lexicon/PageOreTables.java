@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 public class PageOreTables extends LexiconPage {
 
     static int count = 0;
-    private int startLine;
-    private String flowerName;
+    private final int startLine;
+    private final String flowerName;
 
     public static List<PageOreTables> createPages(String flowerName) {
         List<PageOreTables> pages = new ArrayList<>();
@@ -87,7 +87,7 @@ public class PageOreTables extends LexiconPage {
         //font.drawString("This flower will generate:", x, y, 0);
         //y += 20;
 
-        for(String word : entries) {
+        for (String word : entries) {
             font.drawString(word, x, y, 0);
             y += 10;
         }

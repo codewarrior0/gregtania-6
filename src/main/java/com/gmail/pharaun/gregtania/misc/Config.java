@@ -15,7 +15,7 @@ public class Config {
     public static boolean overrideOrechidWeight;
 
     public static void preInit(File configFile) {
-        if(configFile != null) {
+        if (configFile != null) {
             config = new Configuration(configFile);
             config.load();
         }
@@ -37,7 +37,7 @@ public class Config {
         property.comment = "Do we want to generate and load a custom orechid weight json file?";
         overrideOrechidWeight = property.getBoolean();
 
-        if(overrideOrechidWeight) {
+        if (overrideOrechidWeight) {
             orechidConfigFile = new File(configFile.getAbsolutePath().substring(0, configFile.getAbsolutePath().length() - 4) + ".json");
             if (orechidConfigFile.exists()) {
                 orechidConfig.load(orechidConfigFile);

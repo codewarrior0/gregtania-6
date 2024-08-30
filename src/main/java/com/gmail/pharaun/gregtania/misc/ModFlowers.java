@@ -1,21 +1,7 @@
 package com.gmail.pharaun.gregtania.misc;
 
-import com.gmail.pharaun.gregtania.botania.SubTileBumblebiscus;
-import com.gmail.pharaun.gregtania.botania.SubTileClayconiaAlluvia;
-import com.gmail.pharaun.gregtania.botania.SubTileLayeredOrechid;
-import com.gmail.pharaun.gregtania.botania.SubTileSmallOrechid;
-import com.gmail.pharaun.gregtania.botania.Util;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumI;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumII;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumIII;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidEndiumIV;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidIgnemI;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidIgnemII;
-import com.gmail.pharaun.gregtania.botania.tiers.OrechidIgnemIII;
-import com.gmail.pharaun.gregtania.botania.tiers.StratodendronI;
-import com.gmail.pharaun.gregtania.botania.tiers.StratodendronII;
-import com.gmail.pharaun.gregtania.botania.tiers.StratodendronIII;
-import com.gmail.pharaun.gregtania.botania.tiers.StratodendronIV;
+import com.gmail.pharaun.gregtania.botania.*;
+import com.gmail.pharaun.gregtania.botania.tiers.*;
 import vazkii.botania.common.Botania;
 
 /**
@@ -51,6 +37,8 @@ public class ModFlowers {
         Util.registerFlower(SUBTILE_STRATODENDRON + "IV", StratodendronIV.class);
 
         Util.registerFlower(SUBTILE_BUMBLEBISCUS, SubTileBumblebiscus.class);
+
+        Util.registerFlower("autoclavicusVile", SubTileAutoclavicus.class);
 
         if (Botania.gardenOfGlassLoaded) {
             // Gravel Clayconia - because:

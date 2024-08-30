@@ -6,13 +6,11 @@ import gregapi.code.ItemStackContainer;
 import gregapi.data.CS;
 import gregapi.data.MT;
 import gregapi.data.OP;
-
 import gregapi.oredict.OreDictMaterial;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenOresLarge;
 import gregapi.worldgen.WorldgenOresSmall;
-import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
@@ -85,7 +83,7 @@ public class BotaniaHelper {
         Map<Util.BlockType, List<MaterialRandomItem>> oresByLayer = new HashMap<>();
         Map<Util.BlockType, Integer> stoneWeights = new HashMap<>();
 
-        for (StoneLayer layer: StoneLayer.LAYERS) {
+        for (StoneLayer layer : StoneLayer.LAYERS) {
             Util.BlockType stone = new Util.BlockType(layer.mStone, layer.mMetaStone);
             int weight = stoneWeights.getOrDefault(stone, 0);
             stoneWeights.put(stone, weight + 1);
@@ -96,8 +94,8 @@ public class BotaniaHelper {
 
             List<MaterialRandomItem> layerOreNames = oresByLayer.computeIfAbsent(stone, k -> new ArrayList<>());
 
-            for (StoneLayerOres layerOres: layer.mOres) {
-                int chance = (int)(layerOres.mChance / CS.U1440);
+            for (StoneLayerOres layerOres : layer.mOres) {
+                int chance = (int) (layerOres.mChance / CS.U1440);
                 if (!layerOres.mBiomes.isEmpty()) {
                     chance /= 10;
                     if (chance == 0) chance = 1;
@@ -112,7 +110,7 @@ public class BotaniaHelper {
 
         // Stack low tier stones into higher tiers, and stack all tiers above 3 into T3.
         wgWeightsStones = new HashMap<>();
-        for(int i=0; i<4; i++ ) {
+        for (int i = 0; i < 4; i++) {
             wgWeightsStones.put(i, new ArrayList<>());
         }
 
@@ -132,7 +130,7 @@ public class BotaniaHelper {
     public static void initWorldgenSmallOreWeights() {
         wgSmallOres = new ArrayList<>();
 
-        for (Object o:CS.GEN_GT) {
+        for (Object o : CS.GEN_GT) {
             if (!(o instanceof WorldgenOresSmall)) continue;
 
             WorldgenOresSmall wg = (WorldgenOresSmall) o;
@@ -149,9 +147,9 @@ public class BotaniaHelper {
     }
 
     public static void initWorldgenWeightsDim(List dimLayers, Map<String, Integer> weights) {
-        for (Object _layer: dimLayers) {
+        for (Object _layer : dimLayers) {
             if (!(_layer instanceof WorldgenOresLarge)) continue;
-            WorldgenOresLarge layer = (WorldgenOresLarge)_layer;
+            WorldgenOresLarge layer = (WorldgenOresLarge) _layer;
 
             if (!layer.mEnabled) continue;
 
@@ -161,8 +159,8 @@ public class BotaniaHelper {
             weight *= layer.mDensity;
             weight /= 80;
 
-            for (int i=0; i<4; i++) {
-                switch(i) {
+            for (int i = 0; i < 4; i++) {
+                switch (i) {
                     case 0:
                         mat = layer.mTop;
                         weight *= 3;
@@ -205,7 +203,7 @@ public class BotaniaHelper {
         for (int i = lower; i <= upper; i++) {
             ret.put(i, tieredOreWeight.getOrDefault(i, dummy));
         }
-        for (int i: tieredOreWeight.keySet()) {
+        for (int i : tieredOreWeight.keySet()) {
             if (i < lower) {
                 ret.get(lower).putAll(tieredOreWeight.get(i));
             }
@@ -250,8 +248,8 @@ public class BotaniaHelper {
                         e -> e.getValue().entrySet().stream()
                                 .map(we -> new StringRandomItem(we.getValue(), we.getKey()))
                                 .collect(
-                                Collectors.toList()
-                        )
+                                        Collectors.toList()
+                                )
                 ));
     }
 
@@ -312,6 +310,7 @@ public class BotaniaHelper {
         }
 
     }
+
     public static class StringRandomItem extends WeightedRandom.Item {
 
         public String s;

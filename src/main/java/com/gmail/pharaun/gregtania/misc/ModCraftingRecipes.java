@@ -5,7 +5,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.botania.api.BotaniaAPI;
-import vazkii.botania.api.recipe.RecipeManaInfusion;
 import vazkii.botania.api.recipe.RecipeMiniFlower;
 import vazkii.botania.api.recipe.RecipePetals;
 import vazkii.botania.api.recipe.RecipeRuneAltar;
@@ -164,7 +163,7 @@ public class ModCraftingRecipes {
                 'P', "plateIridium",
                 'S', "screwIridium",
                 'B', new ItemStack(ModItems.lens, 1, ItemLens.MINE)
-                );
+        );
         GameRegistry.addRecipe(recipeIridiumBoreLens);
     }
 }

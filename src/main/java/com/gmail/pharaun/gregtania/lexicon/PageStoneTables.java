@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 public class PageStoneTables extends LexiconPage {
 
     static int count = 0;
-    private int startLine, tier;
-    private String flowerName;
+    private final int startLine;
+    private final int tier;
+    private final String flowerName;
 
     public static List<PageStoneTables> createPages(int tier, String flowerName) {
         List<PageStoneTables> pages = new ArrayList<>();
@@ -55,7 +56,7 @@ public class PageStoneTables extends LexiconPage {
         List<String> lines = new ArrayList<>();
         int limit;
 
-        if(startLine == 0) {
+        if (startLine == 0) {
             lines.add(StatCollector.translateToLocal("tile.botania:flower.gregtania." + flowerName + ".name") + " will generate:");
             lines.add("");
             limit = 14;
@@ -87,7 +88,7 @@ public class PageStoneTables extends LexiconPage {
         //font.drawString("This flower will generate:", x, y, 0);
         //y += 20;
 
-        for(String word : entries) {
+        for (String word : entries) {
             font.drawString(word, x, y, 0);
             y += 10;
         }

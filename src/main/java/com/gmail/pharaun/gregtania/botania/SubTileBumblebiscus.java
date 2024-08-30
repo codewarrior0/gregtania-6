@@ -1,14 +1,10 @@
-
 package com.gmail.pharaun.gregtania.botania;
 
-import com.gmail.pharaun.gregtania.misc.BotaniaHelper;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.data.CS;
 import gregtech.worldgen.WorldgenHives;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.WeightedRandom;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
@@ -48,19 +44,19 @@ public class SubTileBumblebiscus extends SubTileFunctional {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if(redstoneSignal > 0)
+        if (redstoneSignal > 0)
             return;
 
-        if(!supertile.getWorldObj().isRemote && mana >= COST && ticksExisted % 2 == 0) {
+        if (!supertile.getWorldObj().isRemote && mana >= COST && ticksExisted % 2 == 0) {
             ChunkCoordinates coords = getCoordsToPut();
-            if(coords != null) {
+            if (coords != null) {
                 MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
                 int[] spec = species[supertile.getWorldObj().rand.nextInt(species.length)];
 
                 wgHives.placeHive(tRegistry, supertile.getWorldObj(), coords.posX, coords.posY, coords.posZ,
                         spec[0], spec[1], supertile.getWorldObj().rand);
 
-                if(ConfigHandler.blockBreakParticles) {
+                if (ConfigHandler.blockBreakParticles) {
                     Block block = supertile.getWorldObj().getBlock(coords.posX, coords.posY, coords.posZ);
                     int meta = supertile.getWorldObj().getBlockMetadata(coords.posX, coords.posY, coords.posZ);
 
@@ -81,19 +77,19 @@ public class SubTileBumblebiscus extends SubTileFunctional {
         int range = getRange();
         int rangeY = getRangeY();
 
-        for(int i = -range; i < range + 1; i++)
-            for(int j = -rangeY; j < rangeY; j++)
-                for(int k = -range; k < range + 1; k++) {
+        for (int i = -range; i < range + 1; i++)
+            for (int j = -rangeY; j < rangeY; j++)
+                for (int k = -range; k < range + 1; k++) {
                     int x = supertile.xCoord + i;
                     int y = supertile.yCoord + j;
                     int z = supertile.zCoord + k;
                     Block block = supertile.getWorldObj().getBlock(x, y, z);
                     int meta = supertile.getWorldObj().getBlockMetadata(x, y, z);
-                    if(block != null && block == CS.BlocksGT.BalesGrass && (meta & 1) == 1)
+                    if (block != null && block == CS.BlocksGT.BalesGrass && (meta & 1) == 1)
                         possibleCoords.add(new ChunkCoordinates(x, y, z));
                 }
 
-        if(possibleCoords.isEmpty())
+        if (possibleCoords.isEmpty())
             return null;
         return possibleCoords.get(supertile.getWorldObj().rand.nextInt(possibleCoords.size()));
     }

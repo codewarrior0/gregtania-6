@@ -17,6 +17,7 @@ public class LogHelper {
     public static void fatal(String format, Object... data) {
         log(Level.FATAL, format, data);
     }
+
     public static void fatal(Throwable throwable, String format, Object... data) {
         log(Level.FATAL, throwable, format, data);
     }
@@ -24,7 +25,8 @@ public class LogHelper {
     public static void error(String format, Object... data) {
         log(Level.ERROR, format, data);
     }
-    public static void error(Throwable throwable, String format,Object... data) {
+
+    public static void error(Throwable throwable, String format, Object... data) {
         log(Level.ERROR, throwable, format, data);
     }
 

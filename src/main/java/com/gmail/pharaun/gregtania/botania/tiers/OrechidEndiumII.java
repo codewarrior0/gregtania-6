@@ -2,10 +2,10 @@
  * This class was created by <Vazkii>. It's distributed as
  * part of the Botania Mod. Get the Source Code in github:
  * https://github.com/Vazkii/Botania
- * 
+ * <p>
  * Botania is Open Source and distributed under the
  * Botania License: http://botaniamod.net/license.php
- * 
+ * <p>
  * File Created @ [Apr 30, 2015, 3:27:20 PM (GMT)]
  */
 package com.gmail.pharaun.gregtania.botania.tiers;
@@ -16,11 +16,11 @@ import java.util.Collection;
 
 public class OrechidEndiumII extends OrechidEndiumI {
 
-	private static final int ORE_TIER = 2;
+    private static final int ORE_TIER = 2;
 
-	@Override
-	public Collection<BotaniaHelper.StringRandomItem> getOreWeights() {
-    	return BotaniaHelper.tieredOreWeightEnd.get(ORE_TIER);
-	}
+    @Override
+    public Collection<BotaniaHelper.StringRandomItem> getOreWeights() {
+        return BotaniaHelper.tieredOreWeightEnd.get(ORE_TIER);
+    }
 
 }
