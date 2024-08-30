@@ -2,6 +2,7 @@ package com.gmail.pharaun.gregtania.proxies;
 
 import com.gmail.pharaun.gregtania.botania.GTItemLens;
 import com.gmail.pharaun.gregtania.botania.Util;
+import com.gmail.pharaun.gregtania.events.GregtaniaEventListeners;
 import com.gmail.pharaun.gregtania.lexicon.GTLexiconData;
 import com.gmail.pharaun.gregtania.misc.*;
 import cpw.mods.fml.common.Loader;
@@ -9,6 +10,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import gregapi.data.CS;
+import gregapi.data.FL;
+import gregapi.data.RM;
+import gregapi.recipes.Recipe;
+import gregapi.util.ST;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,6 +21,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import team.chisel.carving.Carving;
@@ -30,13 +36,18 @@ import vazkii.botania.common.item.ModItems;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gregapi.data.CS.F;
+import static gregapi.data.CS.T;
+
 public class CommonProxy {
 
     public static GTItemLens iridiumBoreLens;
+    public static Recipe AUTOCLAVICUS_RECIPE;
 
     public void preInit(FMLPreInitializationEvent event) {
         CS.GT.mAfterPostInit.add(this::afterGregPostInit);
         iridiumBoreLens = new GTItemLens();
+        MinecraftForge.EVENT_BUS.register(new GregtaniaEventListeners());
     }
 
     public void init(FMLInitializationEvent event) {
@@ -95,6 +106,11 @@ public class CommonProxy {
             ModManaAlchemyRecipes.saplingRecipes.add(newRecipe);
             BotaniaAPI.manaInfusionRecipes.add(newRecipe);
         }
+
+        //autoclavicus
+        //todo invent some bullshit item
+        AUTOCLAVICUS_RECIPE = RM.Autoclave.addRecipe2(F, F, F, T, F, 0, 1800, ST.make(ModItems.vineBall, 0, 0), ST.make(ModItems.virus, 0, 0), FL.Steam.make(80_000), FL.array(FL.DistW.make(1750)));
+        //AUTOCLAVICUS_RECIPE = RM.Autoclave.addRecipe2(F, F, F, F, F, 0, 1, ST.make(ModItems.vineBall, 0, 0), ST.make(ModItems.virus, 0, 0), FL.Steam.make(80_000), FL.array(FL.DistW.make(1750)));
 
         // Chisel thinks all cobblestone is equal, but it is important that all GregTech cobblestone be distinct.
         // Disable oredict equivalence for chiseling cobblestone.

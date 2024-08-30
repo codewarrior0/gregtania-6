@@ -14,6 +14,9 @@ import vazkii.botania.common.block.BlockSpecialFlower;
 @Mixin(Block.class)
 public abstract class BlockMixin {
 
+    /**
+     * method is called every B^U so just assume best case scenario
+     */
     @SuppressWarnings("all")
     @Inject(method = "canSustainPlant", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockBush;canPlaceBlockOn(Lnet/minecraft/block/Block;)Z"), cancellable = true)
     public void goober(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable, CallbackInfoReturnable<Boolean> ctx) {
