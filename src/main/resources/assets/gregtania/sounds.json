@@ -1,0 +1,14 @@
+{
+  "autoclavicusVile": {
+    "category": "block",
+    "sounds": [
+      "autoclavicusVile"
+    ]
+  },
+  "autoclavicusBreak": {
+    "category": "block",
+    "sounds": [
+      "autoclavicusBreak"
+    ]
+  }
+}

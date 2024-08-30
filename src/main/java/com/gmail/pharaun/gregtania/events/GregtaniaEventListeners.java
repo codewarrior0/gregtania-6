@@ -36,11 +36,12 @@ public class GregtaniaEventListeners {
     @SubscribeEvent
     public void resetAutoclave(BlockEvent.BreakEvent event) {
         if (event.block == ModBlocks.specialFlower) {
-            TileEntity tile = event.world.getTileEntity(event.x, event.y-1, event.z);
+            TileEntity tile = event.world.getTileEntity(event.x, event.y - 1, event.z);
             if (tile instanceof MultiTileEntityBasicMachine) {
                 MultiTileEntityBasicMachine autoclave = (MultiTileEntityBasicMachine) tile;
                 TileSpecialFlower flower = (TileSpecialFlower) event.world.getTileEntity(event.x, event.y, event.z);
                 if (flower.getSubTile() instanceof SubTileAutoclavicus && autoclave.mRecipes == RM.Autoclave) {
+                    event.world.playSoundEffect(event.x, event.y, event.z, "gregtania:autoclavicusBreak", 0.4f, 0.6f);
                     autoclave.mProgress = autoclave.mMinEnergy = autoclave.mMaxProgress = autoclave.mOutputEnergy = autoclave.mChargeRequirement = 0;
                     autoclave.mOutputFluids = ZL_FS;
                     autoclave.mOutputItems = ZL_IS;

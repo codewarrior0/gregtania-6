@@ -82,6 +82,9 @@ gregtania.tagline.bumblebiscus=Bumble Hives from Silage
 gregtania.page.bumblebiscus0=Can't find any bumblebee hives? No problem! The &1Bumblebiscus&0 will turn any nearby &4Dry Grass Bales&0 into random &4Bumble Hives&0, at a hefty mana cost.
 gregtania.page.bumblebiscus1=&oMade by breeding HTNYCAEVIH with SUCSEEBIH&r.
 
+tile.botania:flower.gregtania.autoclavicusVile.name=Autoclavicus Vile
+tile.botania:flower.gregtania.autoclavicusVile.reference=An esteemed guest
+
 item.lensIridiumBore.name=Iridium-Plated Bore Lens
 
 gregtania.entry.lensIridiumBore=Iridium-Plated Bore Lens
